@@ -16,6 +16,7 @@ public:
     ~VBoard();
 
     void createNewObject();
+    void createNewObject(int id);
 
     bool editable() const;
     void setEditable(bool editable);

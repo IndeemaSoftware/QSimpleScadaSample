@@ -95,8 +95,6 @@ void VObject::mousePressEvent(QMouseEvent *event)
                 mPosition.setX(lX);
                 mPosition.setY(lY);
             }
-        } else if (event->button() == Qt::RightButton) {
-            qDebug() << "Right";
         }
     } else {
         QWidget::mousePressEvent(event);

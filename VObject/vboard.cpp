@@ -23,8 +23,13 @@ VBoard::~VBoard()
 
 void VBoard::createNewObject()
 {
+    createNewObject(mObjects->count());
+}
+
+void VBoard::createNewObject(int id)
+{
     VObject *lObject = new VObject(this);
-    lObject->info()->setId(mObjects->count());
+    lObject->info()->setId(id);
     lObject->setIsEditable(mEditable);
     connect(lObject, SIGNAL(objectSelected(int)), this , SLOT(newObjectSelected(int)));
     lObject->show();

@@ -20,14 +20,17 @@ VObjectInfoDialog::~VObjectInfoDialog()
 
 void VObjectInfoDialog::updateWithObjectInfo(VObjectInfo *info)
 {
+    if (mLatestObject != nullptr) {
+        disconnect(mLatestObject, SIGNAL(geometryChanged(VObjectInfo*)), this, SLOT(geometryUpdated(VObjectInfo *)));
+    }
     mLatestObject = info;
 
     if (mLatestObject != nullptr) {
-        //title
-        disconnect(mLatestObject, SIGNAL(geometryChanged(VObjectInfo*)), this, SLOT(geometryUpdated(VObjectInfo *)));
+        //General
         connect(mLatestObject, SIGNAL(geometryChanged(VObjectInfo*)), this, SLOT(geometryUpdated(VObjectInfo *)));
-
         ui->lineEditName->setText(mLatestObject->title());
+        ui->checkBoxDynamic->setChecked(info->isDynamic());
+        ui->spinBoxId->setValue(info->id());
 
         //axies
         VObjectInfoAxis lAxis = mLatestObject->axis();
@@ -92,6 +95,7 @@ void VObjectInfoDialog::on_pushButton_2_pressed()
         //general
         mLatestObject->setTitle(ui->lineEditName->text());
         mLatestObject->setIsDynamic(ui->checkBoxDynamic->isChecked());
+        mLatestObject->setId(ui->spinBoxId->value());
 
         //geometry
         int lX = ui->spinBoxX->value();
