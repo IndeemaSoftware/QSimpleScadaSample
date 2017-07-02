@@ -22,15 +22,35 @@ void VObjectInfoDialog::updateWithObjectInfo(VObjectInfo *info)
 {
     mLatestObject = info;
 
-    //title
-    ui->lineEditName->setText(info->title());
+    if (mLatestObject != nullptr) {
+        //title
+        disconnect(mLatestObject, SIGNAL(geometryChanged(VObjectInfo*)), this, SLOT(geometryUpdated(VObjectInfo *)));
+        connect(mLatestObject, SIGNAL(geometryChanged(VObjectInfo*)), this, SLOT(geometryUpdated(VObjectInfo *)));
 
-    //axies
-    VObjectInfoAxis lAxis = mLatestObject->axis();
-    enableAxis(info->axiesEnabled());
-    ui->comboBoxX->setCurrentText(lAxis.getStringX());
-    ui->comboBoxY->setCurrentText(lAxis.getStringY());
-    ui->comboBoxZ->setCurrentText(lAxis.getStringZ());
+        ui->lineEditName->setText(mLatestObject->title());
+
+        //axies
+        VObjectInfoAxis lAxis = mLatestObject->axis();
+        enableAxis(info->axiesEnabled());
+        ui->comboBoxX->setCurrentText(lAxis.getStringX());
+        ui->comboBoxY->setCurrentText(lAxis.getStringY());
+        ui->comboBoxZ->setCurrentText(lAxis.getStringZ());
+
+        //geometry
+        geometryUpdated(mLatestObject);
+    } else {
+        //clear title
+        ui->lineEditName->clear();
+
+        //clear axies
+        enableAxis(false);
+
+        //geometry
+        ui->spinBoxX->clear();
+        ui->spinBoxY->clear();
+        ui->spinBoxWidth->clear();
+        ui->spinBoxHeight->clear();
+    }
 }
 
 void VObjectInfoDialog::enableAxis(bool enable)
@@ -58,24 +78,41 @@ void VObjectInfoDialog::initAxiesList()
     ui->comboBoxZ->addItems(lList);
 }
 
+void VObjectInfoDialog::geometryUpdated(VObjectInfo *info)
+{
+    ui->spinBoxX->setValue(info->geometry().x());
+    ui->spinBoxY->setValue(info->geometry().y());
+    ui->spinBoxWidth->setValue(info->geometry().width());
+    ui->spinBoxHeight->setValue(info->geometry().height());
+}
+//save button pressed
 void VObjectInfoDialog::on_pushButton_2_pressed()
 {
-    //title
-    mLatestObject->setTitle(ui->lineEditName->text());
-
-    //axies
-    mLatestObject->setAxiesEnabled(ui->checkBox->isChecked());//status
-    VObjectInfoAxis lAxis;
-    lAxis.setX(lAxis.axisFromString(ui->comboBoxX->currentText()));
-    lAxis.setY(lAxis.axisFromString(ui->comboBoxY->currentText()));
-    lAxis.setZ(lAxis.axisFromString(ui->comboBoxZ->currentText()));
-    mLatestObject->setAxis(lAxis);
-
     if (mLatestObject != nullptr) {
-        emit savePressed(mLatestObject);
+        //title
+        mLatestObject->setTitle(ui->lineEditName->text());
+
+        //geometry
+        int lX = ui->spinBoxX->value();
+        int lY = ui->spinBoxY->value();
+        int lWidth = ui->spinBoxWidth->value();
+        int lHeight = ui->spinBoxHeight->value();
+
+        mLatestObject->setGeometry(QRect(lX, lY, lWidth, lHeight));
+        //axies
+        mLatestObject->setAxiesEnabled(ui->checkBox->isChecked());//status
+        VObjectInfoAxis lAxis;
+        lAxis.setX(lAxis.axisFromString(ui->comboBoxX->currentText()));
+        lAxis.setY(lAxis.axisFromString(ui->comboBoxY->currentText()));
+        lAxis.setZ(lAxis.axisFromString(ui->comboBoxZ->currentText()));
+        mLatestObject->setAxis(lAxis);
+
+        if (mLatestObject != nullptr) {
+            emit savePressed(mLatestObject);
+        }
     }
 }
-
+//delete button pressed
 void VObjectInfoDialog::on_pushButton_pressed()
 {
     if (mLatestObject != nullptr) {

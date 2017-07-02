@@ -42,6 +42,7 @@ void VBoard::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton) {
         newObjectSelected(-1);
+        emit objectSelected(nullptr);
     }
 }
 
@@ -95,6 +96,15 @@ void VBoard::deleteObjectWithId(int id)
             mObjects->removeOne(object);
             delete object;
             repaint();
+        }
+    }
+}
+
+void VBoard::updateObjectWithId(int id)
+{
+    for (VObject *object : *mObjects) {
+        if (id == object->info()->id()) {
+            object->update();
         }
     }
 }

@@ -97,16 +97,32 @@
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_2">
             <item>
-             <widget class="QSpinBox" name="spinBoxX"/>
+             <widget class="QSpinBox" name="spinBoxX">
+              <property name="maximum">
+               <number>9999999</number>
+              </property>
+             </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="spinBoxY"/>
+             <widget class="QSpinBox" name="spinBoxY">
+              <property name="maximum">
+               <number>9999999</number>
+              </property>
+             </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="spinBoxWidth"/>
+             <widget class="QSpinBox" name="spinBoxWidth">
+              <property name="maximum">
+               <number>999999999</number>
+              </property>
+             </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="spinBoxHeight"/>
+             <widget class="QSpinBox" name="spinBoxHeight">
+              <property name="maximum">
+               <number>99999999</number>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>

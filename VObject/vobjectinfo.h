@@ -25,6 +25,13 @@ public:
     bool axiesEnabled() const;
     void setAxiesEnabled(bool axiesEnabled);
 
+    QRect geometry() const;
+    void setGeometry(const QRect &geometry);
+
+signals:
+    void infoChanged(VObjectInfo *info);
+    void geometryChanged(VObjectInfo *info);
+
 private:
     QColor mColor;
     QRect mGeometry;

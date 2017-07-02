@@ -32,6 +32,22 @@ VObject::~VObject()
     delete mEffect;
 }
 
+void VObject::setGeometry(int x, int y, int width, int height)
+{
+    setGeometry(QRect(x, y, width, height));
+}
+
+void VObject::setGeometry(const QRect &r)
+{
+    info()->setGeometry(r);
+    QWidget::setGeometry(r);
+}
+
+QRect VObject::geometry()
+{
+    return info()->geometry();
+}
+
 void VObject::mouseMoveEvent(QMouseEvent *event)
 {
     if (mIsEditable) {
@@ -162,6 +178,12 @@ bool VObject::isEditable() const
 void VObject::setIsEditable(bool isEditable)
 {
     mIsEditable = isEditable;
+}
+
+void VObject::update()
+{
+    repaint();
+    setGeometry(info()->geometry());
 }
 
 bool VObject::selected() const

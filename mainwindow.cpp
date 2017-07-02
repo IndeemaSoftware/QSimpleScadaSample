@@ -45,15 +45,23 @@ void MainWindow::addNewObject()
 
 void MainWindow::updateObjectInfoDialog(VObject *object)
 {
-    mObjectInfoDialog->updateWithObjectInfo(object->info());
+    if (object != nullptr) {
+        mObjectInfoDialog->updateWithObjectInfo(object->info());
+    } else {
+        mObjectInfoDialog->updateWithObjectInfo(nullptr);
+    }
 }
 
 void MainWindow::deleteObject(VObjectInfo *info)
 {
-    mBoard->deleteObjectWithId(info->id());
+    if (info != nullptr) {
+        mBoard->deleteObjectWithId(info->id());
+    }
 }
 
-void MainWindow::updateSavedObject(VObjectInfo *)
+void MainWindow::updateSavedObject(VObjectInfo *info)
 {
-    mBoard->repaint();
+    if (info != nullptr) {
+        mBoard->updateObjectWithId(info->id());
+    }
 }

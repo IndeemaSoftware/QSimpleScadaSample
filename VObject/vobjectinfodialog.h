@@ -17,6 +17,7 @@ public:
     explicit VObjectInfoDialog(QWidget *parent = 0);
     ~VObjectInfoDialog();
 
+public slots:
     void updateWithObjectInfo(VObjectInfo *info);
 
 private:
@@ -24,6 +25,7 @@ private:
     void initAxiesList();
 
 private slots:
+    void geometryUpdated(VObjectInfo*);
     void on_pushButton_2_pressed();
 
     void on_pushButton_pressed();

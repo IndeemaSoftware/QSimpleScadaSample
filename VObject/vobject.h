@@ -21,6 +21,10 @@ public:
     explicit VObject(QWidget *parent = 0);
     ~VObject();
 
+    void setGeometry(int x, int y, int width, int height);
+    void setGeometry(const QRect &);
+    QRect geometry();
+
     VObjectInfo *info() const;
     void setInfo(VObjectInfo *info);
 
@@ -29,6 +33,8 @@ public:
 
     bool isEditable() const;
     void setIsEditable(bool isEditable);
+
+    void update();
 
 private:
     VObjectAction action() const;

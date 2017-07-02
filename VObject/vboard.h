@@ -5,6 +5,7 @@
 #include <QList>
 
 class VObject;
+class VObjectInfo;
 
 class VBoard : public QWidget
 {
@@ -25,6 +26,7 @@ public:
     void setGrid(int grid);
 
     void deleteObjectWithId(int);
+    void updateObjectWithId(int);
 
 protected:
     void mouseMoveEvent(QMouseEvent *event);

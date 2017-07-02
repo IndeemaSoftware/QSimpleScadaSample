@@ -1,5 +1,7 @@
 #include "vobjectinfo.h"
 
+#include <QDebug>
+
 VObjectInfo::VObjectInfo(QObject *parent) :
     QObject(parent),
     mTitle{"Noname"},
@@ -46,4 +48,15 @@ bool VObjectInfo::axiesEnabled() const
 void VObjectInfo::setAxiesEnabled(bool axiesEnabled)
 {
     mAxiesEnabled = axiesEnabled;
+}
+
+QRect VObjectInfo::geometry() const
+{
+    return mGeometry;
+}
+
+void VObjectInfo::setGeometry(const QRect &geometry)
+{
+    mGeometry = geometry;
+    emit geometryChanged(this);
 }
