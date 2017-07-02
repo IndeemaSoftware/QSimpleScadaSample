@@ -12,6 +12,13 @@ typedef enum {
     VObjectActionResize
 } VObjectAction;
 
+typedef enum {
+    VObjectStatusNone,
+    VObjectStatusRed,
+    VObjectStatusYellow,
+    VObjectStatusGreen
+} VObjectStatus;
+
 class QGraphicsDropShadowEffect;
 
 class VObject : public QWidget
@@ -36,6 +43,9 @@ public:
 
     void update();
 
+    VObjectStatus status() const;
+    void setStatus(const VObjectStatus &status);
+
 private:
     VObjectAction action() const;
     void setAction(const VObjectAction &action);
@@ -53,14 +63,19 @@ protected:
 signals:
     void objectSelected(int id);
 
+private slots:
+    void dynamicStatusChanged(VObjectInfo*);
+
 private:
     QPoint mPosition;
-    bool mIsEditable;
+    bool mIsEditable;//if tru object could be moveable, if false it's static
 
     VObjectAction mAction;
     VObjectInfo *mInfo;
     QGraphicsDropShadowEffect* mEffect;
     bool mSelected;
+
+    VObjectStatus mStatus;// default is VObjectStatusNone
 };
 
 #endif // VOBJECT_H

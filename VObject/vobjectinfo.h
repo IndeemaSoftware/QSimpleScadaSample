@@ -28,12 +28,17 @@ public:
     QRect geometry() const;
     void setGeometry(const QRect &geometry);
 
+    bool isDynamic() const;
+    void setIsDynamic(bool isDynamic);
+
 signals:
     void infoChanged(VObjectInfo *info);
     void geometryChanged(VObjectInfo *info);
+    void dynamicStatusChanged(VObjectInfo *info);
 
 private:
     QColor mColor;
+    bool mIsDynamic; //by default false
     QRect mGeometry;
     int mId;
     QString mTitle;

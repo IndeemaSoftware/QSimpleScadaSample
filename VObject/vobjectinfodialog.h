@@ -30,7 +30,7 @@ private slots:
 
     void on_pushButton_pressed();
 
-    void on_checkBox_stateChanged(int arg1);
+    void on_checkBoxAxis_stateChanged(int arg1);
 
 signals:
     void deletePressed(VObjectInfo*);

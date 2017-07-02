@@ -13,17 +13,22 @@
 VObject::VObject(QWidget *parent) :
     QWidget(parent),
     mInfo{new VObjectInfo},
-    mEffect{new QGraphicsDropShadowEffect}
+    mEffect{new QGraphicsDropShadowEffect},
+    mStatus{VObjectStatusNone}
 {
     setGeometry(100, 100, 100, 100);
-    setPalette(QPalette(Qt::red));
+    setPalette(QPalette(Qt::transparent));
     setAutoFillBackground(true);
 
     mEffect->setOffset(0);
     setGraphicsEffect(mEffect);
 
+    dynamicStatusChanged(mInfo);
+
     setAction(VObjectActionNone);
     setMouseTracking(true);//this not mouseMoveEven is called everytime mouse is moved
+
+    connect(mInfo, SIGNAL(dynamicStatusChanged(VObjectInfo *)), this, SLOT(dynamicStatusChanged(VObjectInfo *)));
 }
 
 VObject::~VObject()
@@ -167,7 +172,64 @@ void VObject::paintEvent(QPaintEvent *e)
                 lPainter.drawPoint(QPoint(lX + 2*i, lY - 2*j));
             }
         }
+        if (info()->isDynamic()) {
+            switch(mStatus) {
+            case VObjectStatusNone:
+                setPalette(QPalette(Qt::darkGray));
+                break;
+            case VObjectStatusRed:
+                lLinepen.setColor(QColor(171, 27, 227, 255));
+                break;
+            case VObjectStatusYellow:
+                lLinepen.setColor(QColor(228, 221, 29, 255));
+                break;
+            case VObjectStatusGreen:
+                lLinepen.setColor(QColor(14, 121, 7, 255));
+                break;
+            }
+        } else {
+            lLinepen.setColor(Qt::black);
+        }
+
+        lLinepen.setWidth(2);
+        lPainter.setPen(lLinepen);
+        lPainter.drawRoundedRect(0,0,width(), height(),3,3);
     }
+
+    QWidget::paintEvent(e);
+}
+
+void VObject::dynamicStatusChanged(VObjectInfo *info)
+{
+    if (info->isDynamic()) {
+        switch(mStatus) {
+        case VObjectStatusNone:
+            setPalette(QPalette(Qt::lightGray));
+            break;
+        case VObjectStatusRed:
+            setPalette(QPalette(Qt::red));
+            break;
+        case VObjectStatusYellow:
+            setPalette(QPalette(Qt::yellow));
+            break;
+        case VObjectStatusGreen:
+            setPalette(QPalette(Qt::green));
+            break;
+        }
+    } else {
+        setPalette(QPalette(Qt::white));
+    }
+    setAutoFillBackground(true);
+}
+
+VObjectStatus VObject::status() const
+{
+    return mStatus;
+}
+
+void VObject::setStatus(const VObjectStatus &status)
+{
+    mStatus = status;
 }
 
 bool VObject::isEditable() const
@@ -184,6 +246,7 @@ void VObject::update()
 {
     repaint();
     setGeometry(info()->geometry());
+    dynamicStatusChanged(info());
 }
 
 bool VObject::selected() const

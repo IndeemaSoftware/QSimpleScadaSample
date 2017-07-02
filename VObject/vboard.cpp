@@ -1,5 +1,4 @@
 #include "vboard.h"
-#include "vobject.h"
 
 #include <QApplication>
 #include <QPainter>
@@ -104,6 +103,16 @@ void VBoard::updateObjectWithId(int id)
 {
     for (VObject *object : *mObjects) {
         if (id == object->info()->id()) {
+            object->update();
+        }
+    }
+}
+
+void VBoard::updateStatusWithId(int id, VObjectStatus status)
+{
+    for (VObject *object : *mObjects) {
+        if (id == object->info()->id()) {
+            object->setStatus(status);
             object->update();
         }
     }

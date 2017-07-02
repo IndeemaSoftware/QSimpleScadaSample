@@ -1,10 +1,11 @@
 #ifndef VBOARD_H
 #define VBOARD_H
 
+#include "vobject.h"
+
 #include <QWidget>
 #include <QList>
 
-class VObject;
 class VObjectInfo;
 
 class VBoard : public QWidget
@@ -27,6 +28,7 @@ public:
 
     void deleteObjectWithId(int);
     void updateObjectWithId(int);
+    void updateStatusWithId(int, VObjectStatus);
 
 protected:
     void mouseMoveEvent(QMouseEvent *event);

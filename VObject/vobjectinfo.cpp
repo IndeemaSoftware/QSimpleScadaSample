@@ -4,6 +4,7 @@
 
 VObjectInfo::VObjectInfo(QObject *parent) :
     QObject(parent),
+    mIsDynamic{false},
     mTitle{"Noname"},
     mAxiesEnabled{false}
 {
@@ -59,4 +60,16 @@ void VObjectInfo::setGeometry(const QRect &geometry)
 {
     mGeometry = geometry;
     emit geometryChanged(this);
+}
+
+bool VObjectInfo::isDynamic() const
+{
+    return mIsDynamic;
+}
+
+void VObjectInfo::setIsDynamic(bool isDynamic)
+{
+    mIsDynamic = isDynamic;
+
+    emit dynamicStatusChanged(this);
 }

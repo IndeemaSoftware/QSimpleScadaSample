@@ -11,6 +11,7 @@ class VBoard;
 class VObjectInfo;
 class VObject;
 class VObjectInfoDialog;
+class QTimer;
 
 class MainWindow : public QMainWindow
 {
@@ -26,12 +27,14 @@ private slots:
     void updateObjectInfoDialog(VObject *);
     void deleteObject(VObjectInfo *);
     void updateSavedObject(VObjectInfo *);
+    void updateStatus();
 
 private:
     Ui::MainWindow *ui;
 
     VBoard *mBoard;
     VObjectInfoDialog *mObjectInfoDialog;
+    QTimer *mTimer;
 };
 
 #endif // MAINWINDOW_H

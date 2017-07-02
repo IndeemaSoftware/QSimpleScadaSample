@@ -55,7 +55,7 @@ void VObjectInfoDialog::updateWithObjectInfo(VObjectInfo *info)
 
 void VObjectInfoDialog::enableAxis(bool enable)
 {
-    ui->checkBox->setChecked(enable);
+    ui->checkBoxAxis->setChecked(enable);
 
     ui->comboBoxX->setEnabled(enable);
     ui->comboBoxY->setEnabled(enable);
@@ -89,8 +89,9 @@ void VObjectInfoDialog::geometryUpdated(VObjectInfo *info)
 void VObjectInfoDialog::on_pushButton_2_pressed()
 {
     if (mLatestObject != nullptr) {
-        //title
+        //general
         mLatestObject->setTitle(ui->lineEditName->text());
+        mLatestObject->setIsDynamic(ui->checkBoxDynamic->isChecked());
 
         //geometry
         int lX = ui->spinBoxX->value();
@@ -100,7 +101,7 @@ void VObjectInfoDialog::on_pushButton_2_pressed()
 
         mLatestObject->setGeometry(QRect(lX, lY, lWidth, lHeight));
         //axies
-        mLatestObject->setAxiesEnabled(ui->checkBox->isChecked());//status
+        mLatestObject->setAxiesEnabled(ui->checkBoxAxis->isChecked());//status
         VObjectInfoAxis lAxis;
         lAxis.setX(lAxis.axisFromString(ui->comboBoxX->currentText()));
         lAxis.setY(lAxis.axisFromString(ui->comboBoxY->currentText()));
@@ -121,7 +122,7 @@ void VObjectInfoDialog::on_pushButton_pressed()
     }
 }
 
-void VObjectInfoDialog::on_checkBox_stateChanged(int arg1)
+void VObjectInfoDialog::on_checkBoxAxis_stateChanged(int arg1)
 {
     bool lEnabled = false;
     switch(arg1) {

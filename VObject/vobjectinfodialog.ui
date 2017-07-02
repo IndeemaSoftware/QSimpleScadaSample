@@ -31,7 +31,7 @@
         <x>0</x>
         <y>0</y>
         <width>266</width>
-        <height>492</height>
+        <height>524</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -55,6 +55,13 @@
           </widget>
          </item>
         </layout>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBoxDynamic">
+         <property name="text">
+          <string>Dynamic</string>
+         </property>
+        </widget>
        </item>
        <item>
         <widget class="QGroupBox" name="groupBox">
@@ -138,7 +145,7 @@
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_8">
             <item>
-             <widget class="QCheckBox" name="checkBox">
+             <widget class="QCheckBox" name="checkBoxAxis">
               <property name="text">
                <string>Show Axies</string>
               </property>

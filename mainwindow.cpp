@@ -4,6 +4,7 @@
 #include "VObject/vobject.h"
 
 #include <QDebug>
+#include <QTimer>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -22,10 +23,15 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->centralWidget->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->centralWidget, SIGNAL(customContextMenuRequested(const QPoint&)),this, SLOT(showContextMenu(const QPoint&)));
+
+    mTimer = new QTimer(this);
+    connect(mTimer, SIGNAL(timeout()), this, SLOT(updateStatus()));
+    mTimer->start(1000);
 }
 
 MainWindow::~MainWindow()
 {
+    delete mTimer;
     delete ui;
 }
 
@@ -64,4 +70,14 @@ void MainWindow::updateSavedObject(VObjectInfo *info)
     if (info != nullptr) {
         mBoard->updateObjectWithId(info->id());
     }
+}
+
+void MainWindow::updateStatus()
+{
+    qDebug() << "update";
+    int lNumber = 3;
+    int lRandomValue = qrand() % lNumber;
+    mBoard->updateStatusWithId(0, (VObjectStatus)lRandomValue);
+    lRandomValue = qrand() % lNumber;
+    mBoard->updateStatusWithId(1, (VObjectStatus)lRandomValue);
 }
