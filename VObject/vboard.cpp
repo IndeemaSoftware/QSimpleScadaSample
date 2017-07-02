@@ -4,6 +4,7 @@
 #include <QApplication>
 #include <QPainter>
 #include <QPen>
+#include <QDebug>
 
 VBoard::VBoard(QWidget *parent) :
     QWidget(parent),
@@ -35,6 +36,13 @@ void VBoard::mouseMoveEvent(QMouseEvent *event)
 {
     (void)event;
     QApplication::setOverrideCursor(Qt::ArrowCursor);
+}
+
+void VBoard::mousePressEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton) {
+        newObjectSelected(-1);
+    }
 }
 
 void VBoard::paintEvent(QPaintEvent *e)

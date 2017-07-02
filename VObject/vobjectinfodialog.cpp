@@ -35,6 +35,8 @@ void VObjectInfoDialog::updateWithObjectInfo(VObjectInfo *info)
 
 void VObjectInfoDialog::enableAxis(bool enable)
 {
+    ui->checkBox->setChecked(enable);
+
     ui->comboBoxX->setEnabled(enable);
     ui->comboBoxY->setEnabled(enable);
     ui->comboBoxZ->setEnabled(enable);
