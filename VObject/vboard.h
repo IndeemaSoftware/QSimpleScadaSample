@@ -16,6 +16,7 @@ public:
     ~VBoard();
 
     void createNewObject();
+    void createNewObject(VObjectInfo *);
     void createNewObject(int id);
 
     bool editable() const;
@@ -30,6 +31,8 @@ public:
     void deleteObjectWithId(int);
     void updateObjectWithId(int);
     void updateStatusWithId(int, VObjectStatus);
+
+    QList<VObject *> *objects() const;
 
 protected:
     void mouseMoveEvent(QMouseEvent *event);

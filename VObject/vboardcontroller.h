@@ -4,6 +4,8 @@
 #include <QWidget>
 #include <QList>
 
+#include "vobject.h"
+
 class VBoard;
 class QGridLayout;
 class VObjectInfoDialog;
@@ -19,7 +21,16 @@ public:
     explicit VBoardController(QWidget *parent = 0);
     ~VBoardController();
 
+    void initConnectedDevices(const QString &projectConfigFilePath);
+
+    void initBoardForDeviceIp(QString);
     void updateBoardForDeviceIp(QString);
+    QList<VBoard*> getBoardList();
+    QList<VBoard*> getBoardListForDeviceIp(QString);
+
+    void updateStatus(QString device, int objectId, VObjectStatus status);
+
+    void setEditingMode(bool);
 
 private slots:
     void showContextMenu(const QPoint&);

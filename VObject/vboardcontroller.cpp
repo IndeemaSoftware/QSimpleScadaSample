@@ -4,6 +4,9 @@
 #include "../../3rdparty/VObject/vboard.h"
 #include "../../3rdparty/VObject/vobjectinfodialog.h"
 
+#include "../../trunk/Client/utils/preferencesutil.h"
+#include "../../trunk/Client/utils/entity/vconnecteddeviceinfo.h"
+
 #include <QGridLayout>
 #include <QMenu>
 #include <QDebug>
@@ -33,7 +36,34 @@ VBoardController::~VBoardController()
     delete mLayout;
 }
 
-void VBoardController::updateBoardForDeviceIp(QString ip)
+void VBoardController::initConnectedDevices(const QString &projectConfigFilePath)
+{
+    qDebug() << "- VDeviceManager::initConnectedDevices file path -> " << projectConfigFilePath;
+    PreferencesUtil preferences;
+    VConnectedDeviceInfo* connectedDevceInfo;
+
+    if (projectConfigFilePath.isEmpty()) {
+        connectedDevceInfo = preferences.GetConnectedDeviceAddress();
+    } else {
+        connectedDevceInfo = preferences.GetConnectedDeviceAddress(projectConfigFilePath);
+    }
+
+    for (int i = 0; i < connectedDevceInfo->connecteDeviceList.count(); ++i) {
+        initBoardForDeviceIp(connectedDevceInfo->connecteDeviceList.at(i)->ip.toString());
+        for (VBoardInfo *boardInfo : connectedDevceInfo->connecteDeviceList.at(i)->boardList) {
+            if (boardInfo != nullptr) {
+                mBoard->setEditable(false);
+                for (VObjectInfo *info : boardInfo->objectList()) {
+                    mBoard->createNewObject(info);
+                }
+            }
+            mBoard->update();
+        }
+    }
+    delete connectedDevceInfo;
+}
+
+void VBoardController::initBoardForDeviceIp(QString ip)
 {
     if (mBoard != nullptr
             && mBoard->isVisible()) {
@@ -43,6 +73,12 @@ void VBoardController::updateBoardForDeviceIp(QString ip)
 
     mBoard = mBoardManager->getBoardForDeviceWithIp(ip);
     connect(mBoard, SIGNAL(objectSelected(VObject *)), this, SLOT(updateObjectInfoDialog(VObject *)));
+}
+
+void VBoardController::updateBoardForDeviceIp(QString ip)
+{
+    initBoardForDeviceIp(ip);
+
     mBoard->setParent(this);
     mLayout->addWidget(mBoard);
     mBoard->show();
@@ -106,4 +142,33 @@ void VBoardController::updateStatus()
     mBoard->updateStatusWithId(0, (VObjectStatus)lRandomValue);
     lRandomValue = qrand() % lNumber;
     mBoard->updateStatusWithId(1, (VObjectStatus)lRandomValue);
+}
+
+QList<VBoard *> VBoardController::getBoardList()
+{
+    return mBoardManager->getBoardList();
+}
+
+QList<VBoard *> VBoardController::getBoardListForDeviceIp(QString ip)
+{
+    QList<VBoard *> rList;
+    rList.append(mBoardManager->getBoardForDeviceWithIp(ip));
+
+    return rList;
+}
+
+void VBoardController::updateStatus(QString id, int objectId, VObjectStatus status)
+{
+    VBoard *lBoard = mBoardManager->getBoardForDeviceWithIp(id);
+
+    for (VObject *object :*lBoard->objects()) {
+        if (object->info()->id() == objectId) {
+            object->setStatus(status);
+        }
+    }
+}
+
+void VBoardController::setEditingMode(bool editing)
+{
+    mBoard->setEditable(editing);
 }

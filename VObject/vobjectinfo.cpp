@@ -8,7 +8,7 @@ VObjectInfo::VObjectInfo(QObject *parent) :
     mTitle{"Noname"},
     mAxiesEnabled{false}
 {
-
+    setGeometry(QRect(100, 100, 100, 100));
 }
 
 int VObjectInfo::id() const

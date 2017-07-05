@@ -26,14 +26,22 @@ void VBoard::createNewObject()
     createNewObject(mObjects->count());
 }
 
-void VBoard::createNewObject(int id)
+void VBoard::createNewObject(VObjectInfo *info)
 {
     VObject *lObject = new VObject(this);
-    lObject->info()->setId(id);
+    lObject->setInfo(info);
     lObject->setIsEditable(mEditable);
     connect(lObject, SIGNAL(objectSelected(int)), this , SLOT(newObjectSelected(int)));
     lObject->show();
     mObjects->append(lObject);
+}
+
+void VBoard::createNewObject(int id)
+{
+    VObjectInfo *lInfo = new VObjectInfo();
+    lInfo->setId(id);
+
+    createNewObject(lInfo);
 }
 
 void VBoard::mouseMoveEvent(QMouseEvent *event)
@@ -81,6 +89,11 @@ void VBoard::newObjectSelected(int id)
             emit objectSelected(object);
         }
     }
+}
+
+QList<VObject *> *VBoard::objects() const
+{
+    return mObjects;
 }
 
 int VBoard::grid() const
@@ -145,6 +158,8 @@ void VBoard::setEditable(bool editable)
     mEditable = editable;
 
     for (VObject *object : *mObjects) {
-        object->setEnabled(editable);
+        object->setIsEditable(editable);
     }
+
+    update();
 }

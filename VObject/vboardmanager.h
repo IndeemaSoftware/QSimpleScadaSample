@@ -14,6 +14,8 @@ public:
 
     VBoard* getBoardForDeviceWithIp(QString);
 
+    QList<VBoard*> getBoardList();
+
 private:
     QMap<QString, VBoard*> mBoardMap;
 };

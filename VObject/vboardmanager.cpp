@@ -20,3 +20,8 @@ VBoard *VBoardManager::getBoardForDeviceWithIp(QString ip)
 
     return rBoard;
 }
+
+QList<VBoard *> VBoardManager::getBoardList()
+{
+    return mBoardMap.values();
+}

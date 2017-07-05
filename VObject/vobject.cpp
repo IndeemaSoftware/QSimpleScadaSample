@@ -40,6 +40,7 @@ VObject::~VObject()
 void VObject::setGeometry(int x, int y, int width, int height)
 {
     setGeometry(QRect(x, y, width, height));
+    QWidget::setGeometry(x, y, width, height);
 }
 
 void VObject::setGeometry(const QRect &r)
@@ -115,85 +116,84 @@ void VObject::mouseReleaseEvent(QMouseEvent *event)
 void VObject::paintEvent(QPaintEvent *e)
 {
     (void)e;
+    QPainter lPainter(this);
+    QPen lLinepen(Qt::black);
+    lLinepen.setCapStyle(Qt::RoundCap);
+    lPainter.setRenderHint(QPainter::Antialiasing,true);
+    lPainter.setPen(lLinepen);
+
+    //draw object title
+    lPainter.drawText(QPoint(10, 20), mInfo->title());
+    int lX;
+    int lY;
+
+    if (info()->axiesEnabled()) {
+        //draw axies
+        lX = 12;
+        lY = geometry().height() - 10;
+        int lWidth = 10;
+        int lInner = 4;
+
+        lPainter.drawEllipse(lX-lInner/2,
+                             lY-lInner/2,
+                             lInner,
+                             lInner);
+        lPainter.drawText(QPoint(2, geometry().height()-2), info()->axis().insideAxisString());//inside position
+
+        lPainter.drawLine(lX, lY,
+                          lX, lY -lWidth);
+        lPainter.drawLine(lX, lY -lWidth-1,
+                          lX-3, lY -lWidth+3);
+        lPainter.drawLine(lX, lY -lWidth-1,
+                          lX+3, lY -lWidth+3);
+        lPainter.drawText(QPoint(lX - 3, lY -lWidth-3), info()->axis().upsideAxisString());//up possibtion
+
+        lPainter.drawLine(lX, lY,
+                          lX + lWidth, lY);
+        lPainter.drawLine(lX + lWidth+1, lY,
+                          lX + lWidth-3, lY-3);
+        lPainter.drawLine(lX + lWidth+1, lY,
+                          lX + lWidth-3, lY+3);
+        lPainter.drawText(QPoint(lX + lWidth + 3, lY+3), info()->axis().asideAxisString());//aside position
+    }
+
+    //draw resize dots
+    lX = geometry().width()-RESIZE_FIELD_SIZE;
+    lY = geometry().height();
+
+    lLinepen.setColor(Qt::darkGray);
+    lLinepen.setWidth(1);
+    lPainter.setPen(lLinepen);
+
     if (mIsEditable) {
-        QPainter lPainter(this);
-        QPen lLinepen(Qt::black);
-        lLinepen.setCapStyle(Qt::RoundCap);
-        lPainter.setRenderHint(QPainter::Antialiasing,true);
-        lPainter.setPen(lLinepen);
-
-        //draw object title
-        lPainter.drawText(QPoint(10, 20), mInfo->title());
-        int lX;
-        int lY;
-
-        if (info()->axiesEnabled()) {
-            //draw axies
-            lX = 12;
-            lY = geometry().height() - 10;
-            int lWidth = 10;
-            int lInner = 4;
-
-            lPainter.drawEllipse(lX-lInner/2,
-                                 lY-lInner/2,
-                                 lInner,
-                                 lInner);
-            lPainter.drawText(QPoint(2, geometry().height()-2), info()->axis().insideAxisString());//inside position
-
-            lPainter.drawLine(lX, lY,
-                              lX, lY -lWidth);
-            lPainter.drawLine(lX, lY -lWidth-1,
-                              lX-3, lY -lWidth+3);
-            lPainter.drawLine(lX, lY -lWidth-1,
-                              lX+3, lY -lWidth+3);
-            lPainter.drawText(QPoint(lX - 3, lY -lWidth-3), info()->axis().upsideAxisString());//up possibtion
-
-            lPainter.drawLine(lX, lY,
-                              lX + lWidth, lY);
-            lPainter.drawLine(lX + lWidth+1, lY,
-                              lX + lWidth-3, lY-3);
-            lPainter.drawLine(lX + lWidth+1, lY,
-                              lX + lWidth-3, lY+3);
-            lPainter.drawText(QPoint(lX + lWidth + 3, lY+3), info()->axis().asideAxisString());//aside position
-        }
-
-        //draw resize dots
-        lX = geometry().width()-RESIZE_FIELD_SIZE;
-        lY = geometry().height();
-
-        lLinepen.setColor(Qt::darkGray);
-        lLinepen.setWidth(1);
-        lPainter.setPen(lLinepen);
-
         for (int i=1; i<=RESIZE_FIELD_SIZE; i++) {
             for (int j=1; j<=i; j++) {
                 lPainter.drawPoint(QPoint(lX + 2*i, lY - 2*j));
             }
         }
-        if (info()->isDynamic()) {
-            switch(mStatus) {
-            case VObjectStatusNone:
-                setPalette(QPalette(Qt::darkGray));
-                break;
-            case VObjectStatusRed:
-                lLinepen.setColor(QColor(171, 27, 227, 255));
-                break;
-            case VObjectStatusYellow:
-                lLinepen.setColor(QColor(228, 221, 29, 255));
-                break;
-            case VObjectStatusGreen:
-                lLinepen.setColor(QColor(14, 121, 7, 255));
-                break;
-            }
-        } else {
-            lLinepen.setColor(Qt::black);
+    }
+    if (info()->isDynamic()) {
+        switch(mStatus) {
+        case VObjectStatusNone:
+            setPalette(QPalette(Qt::darkGray));
+            break;
+        case VObjectStatusRed:
+            lLinepen.setColor(QColor(171, 27, 227, 255));
+            break;
+        case VObjectStatusYellow:
+            lLinepen.setColor(QColor(228, 221, 29, 255));
+            break;
+        case VObjectStatusGreen:
+            lLinepen.setColor(QColor(14, 121, 7, 255));
+            break;
         }
-
-        lLinepen.setWidth(2);
-        lPainter.setPen(lLinepen);
-        lPainter.drawRoundedRect(0,0,width(), height(),3,3);
+    } else {
+        lLinepen.setColor(Qt::black);
     }
 
+    lLinepen.setWidth(2);
+    lPainter.setPen(lLinepen);
+    lPainter.drawRoundedRect(0,0,width(), height(),3,3);
     QWidget::paintEvent(e);
 }
 
@@ -228,6 +228,7 @@ VObjectStatus VObject::status() const
 void VObject::setStatus(const VObjectStatus &status)
 {
     mStatus = status;
+    dynamicStatusChanged(mInfo);
 }
 
 bool VObject::isEditable() const
@@ -273,6 +274,7 @@ VObjectInfo *VObject::info() const
 
 void VObject::setInfo(VObjectInfo *info)
 {
+    setGeometry(info->geometry());
     mInfo = info;
 }
 

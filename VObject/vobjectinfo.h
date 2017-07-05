@@ -37,7 +37,6 @@ signals:
     void dynamicStatusChanged(VObjectInfo *info);
 
 private:
-    QColor mColor;
     bool mIsDynamic; //by default false
     QRect mGeometry;
     int mId;
