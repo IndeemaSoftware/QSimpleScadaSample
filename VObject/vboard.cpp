@@ -117,6 +117,11 @@ void VBoard::deleteObjectWithId(int id)
     }
 }
 
+void VBoard::deleteObject(VObject *object)
+{
+    deleteObjectWithId(object->info()->id());
+}
+
 void VBoard::updateObjectWithId(int id)
 {
     for (VObject *object : *mObjects) {

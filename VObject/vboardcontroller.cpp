@@ -1,11 +1,9 @@
 #include "vboardcontroller.h"
 #include "vboardmanager.h"
 
-#include "../../3rdparty/VObject/vboard.h"
-#include "../../3rdparty/VObject/vobjectinfodialog.h"
-
-#include "../../trunk/Client/utils/preferencesutil.h"
-#include "../../trunk/Client/utils/entity/vconnecteddeviceinfo.h"
+#include "vboard.h"
+#include "vboardinfo.h"
+#include "vobjectinfodialog.h"
 
 #include <QGridLayout>
 #include <QMenu>
@@ -36,31 +34,32 @@ VBoardController::~VBoardController()
     delete mLayout;
 }
 
-void VBoardController::initConnectedDevices(const QString &projectConfigFilePath)
+void VBoardController::initConnectedDevices(const QList<VBoardInfo *> list)
 {
-    qDebug() << "- VDeviceManager::initConnectedDevices file path -> " << projectConfigFilePath;
-    PreferencesUtil preferences;
-    VConnectedDeviceInfo* connectedDevceInfo;
-
-    if (projectConfigFilePath.isEmpty()) {
-        connectedDevceInfo = preferences.GetConnectedDeviceAddress();
-    } else {
-        connectedDevceInfo = preferences.GetConnectedDeviceAddress(projectConfigFilePath);
-    }
-
-    for (int i = 0; i < connectedDevceInfo->connecteDeviceList.count(); ++i) {
-        initBoardForDeviceIp(connectedDevceInfo->connecteDeviceList.at(i)->ip.toString());
-        for (VBoardInfo *boardInfo : connectedDevceInfo->connecteDeviceList.at(i)->boardList) {
-            if (boardInfo != nullptr) {
-                mBoard->setEditable(false);
-                for (VObjectInfo *info : boardInfo->objectList()) {
-                    mBoard->createNewObject(info);
-                }
+    for (VBoardInfo *boardInfo : list) {
+        if (boardInfo != nullptr) {
+            mBoard->setEditable(false);
+            for (VObjectInfo *info : boardInfo->objectList()) {
+                mBoard->createNewObject(info);
             }
-            mBoard->update();
         }
     }
-    delete connectedDevceInfo;
+    mBoard->update();
+}
+
+void VBoardController::clearBoard(VBoard* board)
+{
+    for (VObject *object : *board->objects()) {
+        board->deleteObject(object);
+    }
+    board->update();
+}
+
+void VBoardController::clearAllBoards()
+{
+    for (VBoard *board:mBoardManager->getBoardList()) {
+        clearBoard(board);
+    }
 }
 
 void VBoardController::initBoardForDeviceIp(QString ip)

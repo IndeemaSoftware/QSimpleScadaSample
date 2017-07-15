@@ -30,14 +30,19 @@ SOURCES += main.cpp\
     VObject/vobjectinfo.cpp \
     VObject/vboard.cpp \
     VObject/vobjectinfodialog.cpp \
-    VObject/vobjectinfoaxis.cpp
+    VObject/vobjectinfoaxis.cpp \
+    VObject/vboardcontroller.cpp \
+    VObject/vboardmanager.cpp
 
 HEADERS  += mainwindow.h \
     VObject/vobject.h \
     VObject/vobjectinfo.h \
     VObject/vboard.h \
     VObject/vobjectinfodialog.h \
-    VObject/vobjectinfoaxis.h
+    VObject/vobjectinfoaxis.h \
+    VObject/vboardcontroller.h \
+    VObject/vboardmanager.h \
+    VObject/vboardinfo.h
 
 FORMS    += mainwindow.ui \
     VObject/vobjectinfodialog.ui

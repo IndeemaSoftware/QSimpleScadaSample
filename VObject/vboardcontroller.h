@@ -13,6 +13,7 @@ class VObjectInfo;
 class VObject;
 class VUnitModel;
 class VBoardManager;
+class VBoardInfo;
 
 class VBoardController : public QWidget
 {
@@ -21,7 +22,10 @@ public:
     explicit VBoardController(QWidget *parent = 0);
     ~VBoardController();
 
-    void initConnectedDevices(const QString &projectConfigFilePath);
+    void initConnectedDevices(const QList<VBoardInfo*>list);
+
+    void clearBoard(VBoard*);
+    void clearAllBoards();
 
     void initBoardForDeviceIp(QString);
     void updateBoardForDeviceIp(QString);

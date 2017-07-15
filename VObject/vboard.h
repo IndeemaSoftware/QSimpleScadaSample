@@ -29,6 +29,7 @@ public:
     void setGrid(int grid);
 
     void deleteObjectWithId(int);
+    void deleteObject(VObject*);
     void updateObjectWithId(int);
     void updateStatusWithId(int, VObjectStatus);
 

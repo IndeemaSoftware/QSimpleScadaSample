@@ -74,7 +74,6 @@ void MainWindow::updateSavedObject(VObjectInfo *info)
 
 void MainWindow::updateStatus()
 {
-    qDebug() << "update";
     int lNumber = 3;
     int lRandomValue = qrand() % lNumber;
     mBoard->updateStatusWithId(0, (VObjectStatus)lRandomValue);
