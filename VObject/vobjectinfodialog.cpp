@@ -36,6 +36,8 @@ void VObjectInfoDialog::updateWithObjectInfo(VObjectInfo *info)
         ui->checkBoxShowBackground->setChecked(info->showBackground());
         ui->checkBoxShowMarkers->setChecked(info->showMarkers());
 
+        mMarkerImage = mLatestObject->imageName(VObjectStatusNone);
+
         //axies
         VObjectInfoAxis lAxis = mLatestObject->axis();
         enableAxis(info->axiesEnabled());
