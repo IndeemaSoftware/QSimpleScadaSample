@@ -2,6 +2,8 @@
 #include "ui_vobjectinfodialog.h"
 
 #include "vobjectinfo.h"
+#include "QFileDialog"
+#include "QDir"
 
 VObjectInfoDialog::VObjectInfoDialog(QWidget *parent) :
     QWidget(parent),
@@ -31,10 +33,13 @@ void VObjectInfoDialog::updateWithObjectInfo(VObjectInfo *info)
         ui->lineEditName->setText(mLatestObject->title());
         ui->checkBoxDynamic->setChecked(info->isDynamic());
         ui->spinBoxId->setValue(info->id());
+        ui->checkBoxShowBackground->setChecked(info->showBackground());
+        ui->checkBoxShowMarkers->setChecked(info->showMarkers());
 
         //axies
         VObjectInfoAxis lAxis = mLatestObject->axis();
         enableAxis(info->axiesEnabled());
+        ui->comboBoxAxisPosition->setCurrentText(info->axisPosition() == VObjectAxisPositionLeft? "Left" : "Right");
         ui->comboBoxX->setCurrentText(lAxis.getStringX());
         ui->comboBoxY->setCurrentText(lAxis.getStringY());
         ui->comboBoxZ->setCurrentText(lAxis.getStringZ());
@@ -59,6 +64,8 @@ void VObjectInfoDialog::updateWithObjectInfo(VObjectInfo *info)
 void VObjectInfoDialog::enableAxis(bool enable)
 {
     ui->checkBoxAxis->setChecked(enable);
+
+    ui->comboBoxAxisPosition->setEnabled(enable);
 
     ui->comboBoxX->setEnabled(enable);
     ui->comboBoxY->setEnabled(enable);
@@ -104,13 +111,20 @@ void VObjectInfoDialog::on_pushButton_2_pressed()
         int lHeight = ui->spinBoxHeight->value();
 
         mLatestObject->setGeometry(QRect(lX, lY, lWidth, lHeight));
+        mLatestObject->setShowBackground(ui->checkBoxShowBackground->isChecked());
+        mLatestObject->setShowMarkers(ui->checkBoxShowMarkers->isChecked());
         //axies
         mLatestObject->setAxiesEnabled(ui->checkBoxAxis->isChecked());//status
+        mLatestObject->setAxisPosition(ui->comboBoxX->currentText() == "Left" ? VObjectAxisPositionLeft : VObjectAxisPositionRight);
         VObjectInfoAxis lAxis;
         lAxis.setX(lAxis.axisFromString(ui->comboBoxX->currentText()));
         lAxis.setY(lAxis.axisFromString(ui->comboBoxY->currentText()));
         lAxis.setZ(lAxis.axisFromString(ui->comboBoxZ->currentText()));
         mLatestObject->setAxis(lAxis);
+
+        if (!mMarkerImage.isEmpty()) {
+            mLatestObject->setImageName(mMarkerImage, VObjectStatusNone);
+        }
 
         if (mLatestObject != nullptr) {
             emit savePressed(mLatestObject);
@@ -141,4 +155,10 @@ void VObjectInfoDialog::on_checkBoxAxis_stateChanged(int arg1)
     }
 
     enableAxis(lEnabled);
+}
+
+void VObjectInfoDialog::on_pushButton_3_clicked()
+{
+    mMarkerImage = QFileDialog::getOpenFileName(this,
+         tr("Open Image"), "/home/vshevchyk", tr("Image Files (*.png *.jpg *.bmp *.jpeg)"));
 }

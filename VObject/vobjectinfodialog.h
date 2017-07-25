@@ -32,12 +32,16 @@ private slots:
 
     void on_checkBoxAxis_stateChanged(int arg1);
 
+    void on_pushButton_3_clicked();
+
 signals:
     void deletePressed(VObjectInfo*);
     void savePressed(VObjectInfo*);
 
 private:
     Ui::VObjectInfoDialog *ui;
+
+    QString mMarkerImage;
 
     VObjectInfo *mLatestObject;
 };

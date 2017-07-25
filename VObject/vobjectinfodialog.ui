@@ -30,8 +30,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>374</width>
-        <height>664</height>
+        <width>360</width>
+        <height>695</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -92,6 +92,13 @@
         <widget class="QCheckBox" name="checkBoxDynamic">
          <property name="text">
           <string>Dynamic</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_3">
+         <property name="text">
+          <string>Select Background Image</string>
          </property>
         </widget>
        </item>
@@ -195,7 +202,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QComboBox" name="comboBox">
+             <widget class="QComboBox" name="comboBoxAxisPosition">
               <item>
                <property name="text">
                 <string>Left</string>

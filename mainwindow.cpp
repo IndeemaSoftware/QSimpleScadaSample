@@ -46,7 +46,15 @@ void MainWindow::showContextMenu(const QPoint &pos)
 
 void MainWindow::addNewObject()
 {
-    mBoard->createNewObject();
+    if (mBoard->objects()->count() == 2) {
+            VObjectInfo *lInfo = new VObjectInfo();
+            lInfo->setId(2);
+            lInfo->setImageName(":/resources/some_structure.png", VObjectStatusNone);
+
+            mBoard->createNewObject(lInfo);
+    } else {
+        mBoard->createNewObject();
+    }
 }
 
 void MainWindow::updateObjectInfoDialog(VObject *object)
@@ -74,9 +82,9 @@ void MainWindow::updateSavedObject(VObjectInfo *info)
 
 void MainWindow::updateStatus()
 {
-    int lNumber = 3;
-    int lRandomValue = qrand() % lNumber;
-    mBoard->updateStatusWithId(0, (VObjectStatus)lRandomValue);
-    lRandomValue = qrand() % lNumber;
-    mBoard->updateStatusWithId(1, (VObjectStatus)lRandomValue);
+//    int lNumber = 3;
+//    int lRandomValue = qrand() % lNumber;
+//    mBoard->updateStatusWithId(0, (VObjectStatus)lRandomValue);
+//    lRandomValue = qrand() % lNumber;
+//    mBoard->updateStatusWithId(1, (VObjectStatus)lRandomValue);
 }

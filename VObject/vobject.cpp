@@ -121,7 +121,7 @@ void VObject::paintEvent(QPaintEvent *e)
     (void)e;
     QPainter lPainter(this);
     QPixmap lPixmap(info()->imageName(mStatus));
-    ;
+    qDebug() << info()->imageName(mStatus);
     QPen lLinepen(Qt::black);
     lLinepen.setCapStyle(Qt::RoundCap);
     lPainter.setRenderHint(QPainter::Antialiasing,true);
@@ -186,36 +186,34 @@ void VObject::paintEvent(QPaintEvent *e)
         }
     }
 
+    if (info()->showMarkers()) {
+        QSize lSize = lPixmap.size();
+        lPainter.drawPixmap(QRect((width() - lSize.width()) /2,
+                                  (height() - lSize.height()) / 2,
+                                  lSize.width(),
+                                  lSize.height()),
+                            lPixmap);
+    }
+
     if (info()->isDynamic()) {
-
-        if (info()->showMarkers()) {
-            QSize lSize = lPixmap.size();
-            lPainter.drawPixmap(QRect((width() - lSize.width()) /2,
-                                      (height() - lSize.height()) / 2,
-                                      lSize.width(),
-                                      lSize.height()),
-                                lPixmap);
-        } else {
-            switch(mStatus) {
-            case VObjectStatusNone:
-                setPalette(QPalette(Qt::darkGray));
-                break;
-            case VObjectStatusRed:
-                lLinepen.setColor(QColor(171, 27, 227, 255));
-                break;
-            case VObjectStatusYellow:
-                lLinepen.setColor(QColor(228, 221, 29, 255));
-                break;
-            case VObjectStatusGreen:
-                lLinepen.setColor(QColor(14, 121, 7, 255));
-                break;
-            }
-
-            lLinepen.setWidth(2);
-            lPainter.setPen(lLinepen);
-            lPainter.drawRoundedRect(0,0,width(), height(),3,3);
+        switch(mStatus) {
+        case VObjectStatusNone:
+            setPalette(QPalette(Qt::darkGray));
+            break;
+        case VObjectStatusRed:
+            lLinepen.setColor(QColor(171, 27, 227, 255));
+            break;
+        case VObjectStatusYellow:
+            lLinepen.setColor(QColor(228, 221, 29, 255));
+            break;
+        case VObjectStatusGreen:
+            lLinepen.setColor(QColor(14, 121, 7, 255));
+            break;
         }
 
+        lLinepen.setWidth(2);
+        lPainter.setPen(lLinepen);
+        lPainter.drawRoundedRect(0,0,width(), height(),3,3);
     } else {
         lLinepen.setColor(Qt::black);
     }

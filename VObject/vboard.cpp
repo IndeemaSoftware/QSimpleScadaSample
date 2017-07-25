@@ -30,6 +30,10 @@ void VBoard::createNewObject(VObjectInfo *info)
 {
     VObject *lObject = new VObject(this);
     lObject->setInfo(info);
+    //rize object if it's dynamic so general image will be on background
+    if (info->isDynamic()) {
+        lObject->raise();
+    }
     lObject->setIsEditable(mEditable);
     connect(lObject, SIGNAL(objectSelected(int)), this , SLOT(newObjectSelected(int)));
     lObject->show();
