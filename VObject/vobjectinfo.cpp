@@ -8,6 +8,7 @@ VObjectInfo::VObjectInfo(QObject *parent) :
     mTitle{"Noname"},
     mAxiesEnabled{false},
     mAxisPosition{VObjectAxisPositionLeft},
+    mShowBackgroundImage{false},
     mShowBackground{true},
     mShowMarkers{true}
 {
@@ -117,12 +118,32 @@ void VObjectInfo::setAxisPosition(const VObjectAxisPosition &axisPosition)
     mAxisPosition = axisPosition;
 }
 
+QString VObjectInfo::backGroundImage() const
+{
+    return mBackGroundImage;
+}
+
+void VObjectInfo::setBackGroundImage(const QString &backGroundImage)
+{
+    mBackGroundImage = backGroundImage;
+}
+
+bool VObjectInfo::showBackgroundImage() const
+{
+    return mShowBackgroundImage;
+}
+
+void VObjectInfo::setShowBackgroundImage(bool showBackgroundImage)
+{
+    mShowBackgroundImage = showBackgroundImage;
+}
+
 //implementations for VObjectInfoImage
 
 QString VObjectInfoImage::getImageNameForStatus(VObjectStatus status)
 {
     QString rValue;
-
+    
     switch(status) {
     case VObjectStatusNone:
         rValue = normal;

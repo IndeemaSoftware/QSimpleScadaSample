@@ -35,8 +35,9 @@ void VObjectInfoDialog::updateWithObjectInfo(VObjectInfo *info)
         ui->spinBoxId->setValue(info->id());
         ui->checkBoxShowBackground->setChecked(info->showBackground());
         ui->checkBoxShowMarkers->setChecked(info->showMarkers());
+        ui->checkBoxShowBackGroundImage->setChecked(mLatestObject->showBackgroundImage());
 
-        mMarkerImage = mLatestObject->imageName(VObjectStatusNone);
+        mMarkerImage = mLatestObject->backGroundImage();
 
         //axies
         VObjectInfoAxis lAxis = mLatestObject->axis();
@@ -115,6 +116,7 @@ void VObjectInfoDialog::on_pushButton_2_pressed()
         mLatestObject->setGeometry(QRect(lX, lY, lWidth, lHeight));
         mLatestObject->setShowBackground(ui->checkBoxShowBackground->isChecked());
         mLatestObject->setShowMarkers(ui->checkBoxShowMarkers->isChecked());
+        mLatestObject->setShowBackgroundImage(ui->checkBoxShowBackGroundImage->isChecked());
         //axies
         mLatestObject->setAxiesEnabled(ui->checkBoxAxis->isChecked());//status
         mLatestObject->setAxisPosition(ui->comboBoxX->currentText() == "Left" ? VObjectAxisPositionLeft : VObjectAxisPositionRight);
@@ -125,7 +127,7 @@ void VObjectInfoDialog::on_pushButton_2_pressed()
         mLatestObject->setAxis(lAxis);
 
         if (!mMarkerImage.isEmpty()) {
-            mLatestObject->setImageName(mMarkerImage, VObjectStatusNone);
+            mLatestObject->setBackGroundImage(mMarkerImage);
         }
 
         if (mLatestObject != nullptr) {

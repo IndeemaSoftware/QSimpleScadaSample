@@ -16,6 +16,9 @@ VBoardController::VBoardController(QWidget *parent) :
 {
     mBoardManager = new VBoardManager();
 
+    setPalette(QPalette(Qt::transparent));
+    setAutoFillBackground(true);
+
     this->setLayout(mLayout);
 
     mParametersDialod = new VObjectInfoDialog();

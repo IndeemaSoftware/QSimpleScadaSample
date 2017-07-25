@@ -12,6 +12,9 @@ VBoard::VBoard(QWidget *parent) :
     mShowGrid{true},
     mGrid{10}
 {
+    setPalette(QPalette(Qt::transparent));
+    setAutoFillBackground(true);
+
     setMouseTracking(true);//this not mouseMoveEven is called everytime mouse is moved
 }
 
@@ -37,6 +40,7 @@ void VBoard::createNewObject(VObjectInfo *info)
     lObject->setIsEditable(mEditable);
     connect(lObject, SIGNAL(objectSelected(int)), this , SLOT(newObjectSelected(int)));
     lObject->show();
+    lObject->update();
     mObjects->append(lObject);
 }
 

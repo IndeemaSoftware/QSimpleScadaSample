@@ -31,7 +31,7 @@
         <x>0</x>
         <y>0</y>
         <width>360</width>
-        <height>695</height>
+        <height>727</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -92,6 +92,13 @@
         <widget class="QCheckBox" name="checkBoxDynamic">
          <property name="text">
           <string>Dynamic</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBoxShowBackGroundImage">
+         <property name="text">
+          <string>Show Background Image</string>
          </property>
         </widget>
        </item>

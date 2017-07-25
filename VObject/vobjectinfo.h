@@ -73,6 +73,12 @@ public:
     VObjectAxisPosition axisPosition() const;
     void setAxisPosition(const VObjectAxisPosition &axisPosition);
 
+    QString backGroundImage() const;
+    void setBackGroundImage(const QString &backGroundImage);
+
+    bool showBackgroundImage() const;
+    void setShowBackgroundImage(bool showBackgroundImage);
+
 signals:
     void infoChanged(VObjectInfo *info);
     void geometryChanged(VObjectInfo *info);
@@ -88,6 +94,8 @@ private:
     VObjectAxisPosition mAxisPosition;
 
     VObjectInfoImage mImageName;
+    QString mBackGroundImage;
+    bool mShowBackgroundImage;
     bool mShowBackground;
     bool mShowMarkers;
 };

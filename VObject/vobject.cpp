@@ -120,8 +120,9 @@ void VObject::paintEvent(QPaintEvent *e)
 {
     (void)e;
     QPainter lPainter(this);
-    QPixmap lPixmap(info()->imageName(mStatus));
-    qDebug() << info()->imageName(mStatus);
+    QPixmap lMarkerPixmap(info()->imageName(mStatus));
+    QPixmap lBackgroundPixmap(info()->backGroundImage());
+    qDebug() << "background image: " << info()->backGroundImage();
     QPen lLinepen(Qt::black);
     lLinepen.setCapStyle(Qt::RoundCap);
     lPainter.setRenderHint(QPainter::Antialiasing,true);
@@ -187,12 +188,23 @@ void VObject::paintEvent(QPaintEvent *e)
     }
 
     if (info()->showMarkers()) {
-        QSize lSize = lPixmap.size();
+        qDebug() << "Marker should be displayed";
+        qDebug() << info()->imageName(mStatus);
+        QSize lSize = lMarkerPixmap.size();
         lPainter.drawPixmap(QRect((width() - lSize.width()) /2,
                                   (height() - lSize.height()) / 2,
                                   lSize.width(),
                                   lSize.height()),
-                            lPixmap);
+                            lMarkerPixmap);
+    }
+
+    if (info()->showBackgroundImage()) {
+        QSize lSize = lBackgroundPixmap.size();
+        lPainter.drawPixmap(QRect((width() - lSize.width()) /2,
+                                  (height() - lSize.height()) / 2,
+                                  lSize.width(),
+                                  lSize.height()),
+                            lBackgroundPixmap);
     }
 
     if (info()->isDynamic()) {
@@ -210,12 +222,14 @@ void VObject::paintEvent(QPaintEvent *e)
             lLinepen.setColor(QColor(14, 121, 7, 255));
             break;
         }
+    } else {
+        lLinepen.setColor(Qt::black);
+    }
 
+    if (info()->showBackground()) {
         lLinepen.setWidth(2);
         lPainter.setPen(lLinepen);
         lPainter.drawRoundedRect(0,0,width(), height(),3,3);
-    } else {
-        lLinepen.setColor(Qt::black);
     }
 
     QWidget::paintEvent(e);
@@ -270,6 +284,12 @@ void VObject::setIsEditable(bool isEditable)
 
 void VObject::update()
 {
+    if (info()->showBackground()) {
+        setPalette(QPalette(Qt::transparent));
+        setPalette(QPalette(Qt::transparent));
+        setAutoFillBackground(true);
+    }
+
     repaint();
     setGeometry(info()->geometry());
     dynamicStatusChanged(info());
