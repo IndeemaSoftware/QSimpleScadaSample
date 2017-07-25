@@ -5,19 +5,7 @@
 
 #include <QWidget>
 #include <QLabel>
-
-typedef enum {
-    VObjectActionNone,
-    VObjectActionMove,
-    VObjectActionResize
-} VObjectAction;
-
-typedef enum {
-    VObjectStatusNone,
-    VObjectStatusRed,
-    VObjectStatusYellow,
-    VObjectStatusGreen
-} VObjectStatus;
+#include <QImage>
 
 class QGraphicsDropShadowEffect;
 

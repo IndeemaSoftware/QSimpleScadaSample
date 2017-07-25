@@ -17,8 +17,11 @@ VObject::VObject(QWidget *parent) :
     mStatus{VObjectStatusNone}
 {
     setGeometry(100, 100, 100, 100);
-    setPalette(QPalette(Qt::transparent));
-    setAutoFillBackground(true);
+    if (info()->showBackground()) {
+        setPalette(QPalette(Qt::transparent));
+        setPalette(QPalette(Qt::transparent));
+        setAutoFillBackground(true);
+    }
 
     mEffect->setOffset(0);
     setGraphicsEffect(mEffect);
@@ -117,6 +120,8 @@ void VObject::paintEvent(QPaintEvent *e)
 {
     (void)e;
     QPainter lPainter(this);
+    QPixmap lPixmap(info()->imageName(mStatus));
+    ;
     QPen lLinepen(Qt::black);
     lLinepen.setCapStyle(Qt::RoundCap);
     lPainter.setRenderHint(QPainter::Antialiasing,true);
@@ -129,7 +134,15 @@ void VObject::paintEvent(QPaintEvent *e)
 
     if (info()->axiesEnabled()) {
         //draw axies
-        lX = 12;
+
+        switch(info()->axisPosition()) {
+        case VObjectAxisPositionLeft:
+            lX = 12;
+            break;
+        case VObjectAxisPositionRight:
+            lX = geometry().width() - 30;
+            break;
+        }
         lY = geometry().height() - 10;
         int lWidth = 10;
         int lInner = 4;
@@ -138,7 +151,7 @@ void VObject::paintEvent(QPaintEvent *e)
                              lY-lInner/2,
                              lInner,
                              lInner);
-        lPainter.drawText(QPoint(2, geometry().height()-2), info()->axis().insideAxisString());//inside position
+        lPainter.drawText(QPoint(lX - 10, geometry().height()-2), info()->axis().insideAxisString());//inside position
 
         lPainter.drawLine(lX, lY,
                           lX, lY -lWidth);
@@ -172,28 +185,41 @@ void VObject::paintEvent(QPaintEvent *e)
             }
         }
     }
+
     if (info()->isDynamic()) {
-        switch(mStatus) {
-        case VObjectStatusNone:
-            setPalette(QPalette(Qt::darkGray));
-            break;
-        case VObjectStatusRed:
-            lLinepen.setColor(QColor(171, 27, 227, 255));
-            break;
-        case VObjectStatusYellow:
-            lLinepen.setColor(QColor(228, 221, 29, 255));
-            break;
-        case VObjectStatusGreen:
-            lLinepen.setColor(QColor(14, 121, 7, 255));
-            break;
+
+        if (info()->showMarkers()) {
+            QSize lSize = lPixmap.size();
+            lPainter.drawPixmap(QRect((width() - lSize.width()) /2,
+                                      (height() - lSize.height()) / 2,
+                                      lSize.width(),
+                                      lSize.height()),
+                                lPixmap);
+        } else {
+            switch(mStatus) {
+            case VObjectStatusNone:
+                setPalette(QPalette(Qt::darkGray));
+                break;
+            case VObjectStatusRed:
+                lLinepen.setColor(QColor(171, 27, 227, 255));
+                break;
+            case VObjectStatusYellow:
+                lLinepen.setColor(QColor(228, 221, 29, 255));
+                break;
+            case VObjectStatusGreen:
+                lLinepen.setColor(QColor(14, 121, 7, 255));
+                break;
+            }
+
+            lLinepen.setWidth(2);
+            lPainter.setPen(lLinepen);
+            lPainter.drawRoundedRect(0,0,width(), height(),3,3);
         }
+
     } else {
         lLinepen.setColor(Qt::black);
     }
 
-    lLinepen.setWidth(2);
-    lPainter.setPen(lLinepen);
-    lPainter.drawRoundedRect(0,0,width(), height(),3,3);
     QWidget::paintEvent(e);
 }
 
@@ -217,7 +243,10 @@ void VObject::dynamicStatusChanged(VObjectInfo *info)
     } else {
         setPalette(QPalette(Qt::white));
     }
-    setAutoFillBackground(true);
+
+    if (!info->showBackground()) {
+        setPalette(QPalette(Qt::transparent));
+    }
 }
 
 VObjectStatus VObject::status() const

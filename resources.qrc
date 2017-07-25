@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>VObject/resources/grey_marker.png</file>
+        <file>VObject/resources/red_marker.png</file>
+        <file>VObject/resources/yellow_marker.png</file>
+        <file>VObject/resources/green_marker.png</file>
+        <file>resources/some_structure.png</file>
+    </qresource>
+</RCC>

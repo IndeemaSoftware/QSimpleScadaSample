@@ -46,3 +46,6 @@ HEADERS  += mainwindow.h \
 
 FORMS    += mainwindow.ui \
     VObject/vobjectinfodialog.ui
+
+RESOURCES += \
+    resources.qrc

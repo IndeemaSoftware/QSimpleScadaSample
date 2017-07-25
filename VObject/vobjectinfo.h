@@ -7,6 +7,36 @@
 #include <QColor>
 #include <QRect>
 
+
+typedef enum {
+    VObjectActionNone,
+    VObjectActionMove,
+    VObjectActionResize
+} VObjectAction;
+
+typedef enum {
+    VObjectStatusNone,
+    VObjectStatusRed,
+    VObjectStatusYellow,
+    VObjectStatusGreen
+} VObjectStatus;
+
+
+typedef enum {
+    VObjectAxisPositionLeft,
+    VObjectAxisPositionRight
+} VObjectAxisPosition;
+
+struct VObjectInfoImage {
+    QString normal = ":/VObject/resources/grey_marker.png";
+    QString green = ":/VObject/resources/green_marker.png";
+    QString yellow = ":/VObject/resources/yellow_marker.png";
+    QString red = ":/VObject/resources/red_marker.png";
+
+    QString getImageNameForStatus(VObjectStatus);
+    void setImageNameForState(QString, VObjectStatus);
+};
+
 class VObjectInfo : public QObject
 {
     Q_OBJECT
@@ -31,6 +61,18 @@ public:
     bool isDynamic() const;
     void setIsDynamic(bool isDynamic);
 
+    QString imageName(VObjectStatus);
+    void setImageName(QString imageName, VObjectStatus);
+
+    bool showBackground() const;
+    void setShowBackground(bool showBackground);
+
+    bool showMarkers() const;
+    void setShowMarkers(bool showMarkers);
+
+    VObjectAxisPosition axisPosition() const;
+    void setAxisPosition(const VObjectAxisPosition &axisPosition);
+
 signals:
     void infoChanged(VObjectInfo *info);
     void geometryChanged(VObjectInfo *info);
@@ -43,6 +85,11 @@ private:
     QString mTitle;
     VObjectInfoAxis mAxis;
     bool mAxiesEnabled;
+    VObjectAxisPosition mAxisPosition;
+
+    VObjectInfoImage mImageName;
+    bool mShowBackground;
+    bool mShowMarkers;
 };
 
 #endif // VOBJECTINFO_H

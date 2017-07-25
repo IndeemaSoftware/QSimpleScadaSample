@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>300</width>
-    <height>525</height>
+    <width>394</width>
+    <height>684</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -30,8 +30,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>266</width>
-        <height>561</height>
+        <width>374</width>
+        <height>664</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -73,6 +73,20 @@
           </widget>
          </item>
         </layout>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBoxShowBackground">
+         <property name="text">
+          <string>Show Backgound</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBoxShowMarkers">
+         <property name="text">
+          <string>Show Markers</string>
+         </property>
+        </widget>
        </item>
        <item>
         <widget class="QCheckBox" name="checkBoxDynamic">
@@ -159,8 +173,8 @@
          <property name="title">
           <string>Axies</string>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout_6">
-          <item>
+         <layout class="QGridLayout" name="gridLayout_2">
+          <item row="0" column="0">
            <layout class="QHBoxLayout" name="horizontalLayout_8">
             <item>
              <widget class="QCheckBox" name="checkBoxAxis">
@@ -171,7 +185,32 @@
             </item>
            </layout>
           </item>
-          <item>
+          <item row="1" column="0">
+           <layout class="QHBoxLayout" name="horizontalLayout_4">
+            <item>
+             <widget class="QLabel" name="label_10">
+              <property name="text">
+               <string>Axis Position</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="comboBox">
+              <item>
+               <property name="text">
+                <string>Left</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Right</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="2" column="0">
            <layout class="QHBoxLayout" name="horizontalLayout_7">
             <item>
              <layout class="QVBoxLayout" name="verticalLayout_3">
