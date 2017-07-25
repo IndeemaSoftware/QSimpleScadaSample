@@ -3,7 +3,7 @@
 
 #include "vobjectinfo.h"
 #include "QFileDialog"
-#include "QDir"
+#include "QDebug"
 
 VObjectInfoDialog::VObjectInfoDialog(QWidget *parent) :
     QWidget(parent),
@@ -118,8 +118,9 @@ void VObjectInfoDialog::on_pushButton_2_pressed()
         mLatestObject->setShowMarkers(ui->checkBoxShowMarkers->isChecked());
         mLatestObject->setShowBackgroundImage(ui->checkBoxShowBackGroundImage->isChecked());
         //axies
+
         mLatestObject->setAxiesEnabled(ui->checkBoxAxis->isChecked());//status
-        mLatestObject->setAxisPosition(ui->comboBoxX->currentText() == "Left" ? VObjectAxisPositionLeft : VObjectAxisPositionRight);
+        mLatestObject->setAxisPosition(ui->comboBoxAxisPosition->currentText() == "Left" ? VObjectAxisPositionLeft : VObjectAxisPositionRight);
         VObjectInfoAxis lAxis;
         lAxis.setX(lAxis.axisFromString(ui->comboBoxX->currentText()));
         lAxis.setY(lAxis.axisFromString(ui->comboBoxY->currentText()));
