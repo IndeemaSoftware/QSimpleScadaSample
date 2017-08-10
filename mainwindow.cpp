@@ -2,9 +2,13 @@
 #include "ui_mainwindow.h"
 
 #include "VSimpleScada/vobject.h"
+#include "VSimpleScada/vboardinfo.h"
+#include "VSimpleScada/ventity/vconnecteddeviceinfo.h"
 
 #include <QDebug>
+#include <QFileDialog>
 #include <QTimer>
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -27,6 +31,10 @@ MainWindow::MainWindow(QWidget *parent) :
     mTimer = new QTimer(this);
     connect(mTimer, SIGNAL(timeout()), this, SLOT(updateStatus()));
     mTimer->start(1000);
+
+    connect(ui->actionQuit, SIGNAL(toggled(bool)), this, SLOT(close()));
+    connect(ui->actionSave, SIGNAL(toggled(bool)), this, SLOT(save()));
+    connect(ui->actionOpen, SIGNAL(toggled(bool)), this, SLOT(open()));
 }
 
 MainWindow::~MainWindow()
@@ -82,9 +90,71 @@ void MainWindow::updateSavedObject(VObjectInfo *info)
 
 void MainWindow::updateStatus()
 {
-    int lNumber = 3;
-    int lRandomValue = qrand() % lNumber;
-    mBoard->updateStatusWithId(0, (VObjectStatus)lRandomValue);
-    lRandomValue = qrand() % lNumber;
-    mBoard->updateStatusWithId(1, (VObjectStatus)lRandomValue);
+//    int lNumber = 3;
+//    int lRandomValue = qrand() % lNumber;
+//    mBoard->updateStatusWithId(0, (VObjectStatus)lRandomValue);
+//    lRandomValue = qrand() % lNumber;
+//    mBoard->updateStatusWithId(1, (VObjectStatus)lRandomValue);
+}
+
+void MainWindow::save()
+{
+    QFileDialog lDialog(this);
+    lDialog.setFileMode(QFileDialog::AnyFile);
+    lDialog.setAcceptMode(QFileDialog::AcceptSave);
+    lDialog.setDirectory(QDir::currentPath());
+    lDialog.setWindowTitle(tr("Save Project"));
+    lDialog.setNameFilter(tr("iReDS Project (*.irp)"));
+
+    VBoardInfo *lBoardInfo = new VBoardInfo();
+    VBoardController *lController = new VBoardController();
+    VDeviceInfo lDeviceInfo;
+
+    if (lDialog.exec() == QDialog::Accepted) {
+        QStringList lFiles = lDialog.selectedFiles();
+        if (lFiles.count() > 0) {
+            QString lFileName = lFiles.at(0);
+            if (!lFileName.contains(".irp")) {
+                lFileName.append(".irp");
+            }
+            QStringList lIps;
+            for (VObject *object :*mBoard->objects()) {
+                lBoardInfo->appendObjectInfo(object->info());
+            }
+            QList<VBoardInfo*> lBoardInfoList;
+            lBoardInfoList.append(lBoardInfo);
+
+            lController->initConnectedDevices(lBoardInfoList);
+
+            lDeviceInfo.setName("Test Device");
+            QList<VDeviceInfo> lList;
+            lList.append(lDeviceInfo);
+            QString lDevices = VConnectedDeviceInfo::XMLFromDeviceInfo(lList, lController);   //<----;
+
+            //create xml for boards of each device
+
+            QFile lFile(lFileName);
+            if (lFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
+                QTextStream lOut(&lFile);
+                lOut.setCodec("UTF-8");
+                lOut << lDevices;
+            } else {
+                QString lMessage(tr("Something went wrong while trying to create file"));
+                lMessage.append(" ").append(lFileName);
+
+                QMessageBox lMsgBox;
+                lMsgBox.setText(lMessage);
+                lMsgBox.exec();
+            }
+            lFile.close();
+        }
+    }
+
+    delete lBoardInfo;
+    delete lController;
+}
+
+void MainWindow::open()
+{
+
 }

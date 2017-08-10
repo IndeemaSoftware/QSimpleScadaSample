@@ -29,6 +29,9 @@ private slots:
     void updateSavedObject(VObjectInfo *);
     void updateStatus();
 
+    void save();
+    void open();
+
 private:
     Ui::MainWindow *ui;
 
