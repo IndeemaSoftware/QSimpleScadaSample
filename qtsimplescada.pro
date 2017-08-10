@@ -26,26 +26,26 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    VObject/vobject.cpp \
-    VObject/vobjectinfo.cpp \
-    VObject/vboard.cpp \
-    VObject/vobjectinfodialog.cpp \
-    VObject/vobjectinfoaxis.cpp \
-    VObject/vboardcontroller.cpp \
-    VObject/vboardmanager.cpp
+    VSimpleScada/vobject.cpp \
+    VSimpleScada/vobjectinfo.cpp \
+    VSimpleScada/vboard.cpp \
+    VSimpleScada/vobjectinfodialog.cpp \
+    VSimpleScada/vobjectinfoaxis.cpp \
+    VSimpleScada/vboardcontroller.cpp \
+    VSimpleScada/vboardmanager.cpp
 
 HEADERS  += mainwindow.h \
-    VObject/vobject.h \
-    VObject/vobjectinfo.h \
-    VObject/vboard.h \
-    VObject/vobjectinfodialog.h \
-    VObject/vobjectinfoaxis.h \
-    VObject/vboardcontroller.h \
-    VObject/vboardmanager.h \
-    VObject/vboardinfo.h
+    VSimpleScada/vobject.h \
+    VSimpleScada/vobjectinfo.h \
+    VSimpleScada/vboard.h \
+    VSimpleScada/vobjectinfodialog.h \
+    VSimpleScada/vobjectinfoaxis.h \
+    VSimpleScada/vboardcontroller.h \
+    VSimpleScada/vboardmanager.h \
+    VSimpleScada/vboardinfo.h
 
 FORMS    += mainwindow.ui \
-    VObject/vobjectinfodialog.ui
+    VSimpleScada/vobjectinfodialog.ui
 
 RESOURCES += \
     resources.qrc
