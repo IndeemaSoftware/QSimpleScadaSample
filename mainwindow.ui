@@ -45,13 +45,13 @@
   <customwidget>
    <class>VBoard</class>
    <extends>QWidget</extends>
-   <header>VObject/vboard.h</header>
+   <header>VSimpleScada/vboard.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>VObjectInfoDialog</class>
    <extends>QWidget</extends>
-   <header>VObject/vobjectinfodialog.h</header>
+   <header>VSimpleScada/vobjectinfodialog.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

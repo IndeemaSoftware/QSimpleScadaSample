@@ -7,7 +7,8 @@ VObjectInfoAxis::VObjectInfoAxis()
     mZ = VObjectInfoAxisDirrectionInside;
 }
 
-QString VObjectInfoAxis::stringFromAxis(VObjectInfoAxisDirrection dirr){
+QString VObjectInfoAxis::stringFromAxis(VObjectInfoAxisDirrection dirr)
+{
     switch (dirr) {
     case VObjectInfoAxisDirrectionUpside:
         return AXIS_UP;
@@ -20,7 +21,8 @@ QString VObjectInfoAxis::stringFromAxis(VObjectInfoAxisDirrection dirr){
     }
 }
 
-VObjectInfoAxisDirrection VObjectInfoAxis::axisFromString(QString string){
+VObjectInfoAxisDirrection VObjectInfoAxis::axisFromString(QString string)
+{
     if (string == QString(AXIS_UP)) {
         return VObjectInfoAxisDirrectionUpside;
     } else if (string == AXIS_ASIDE) {

@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -32,7 +32,10 @@ SOURCES += main.cpp\
     VSimpleScada/vobjectinfodialog.cpp \
     VSimpleScada/vobjectinfoaxis.cpp \
     VSimpleScada/vboardcontroller.cpp \
-    VSimpleScada/vboardmanager.cpp
+    VSimpleScada/vboardmanager.cpp \
+    VSimpleScada/ventity/vconnecteddeviceinfo.cpp \
+    VSimpleScada/ventity/vbaseprefentity.cpp \
+    VSimpleScada/vdevice/vdeviceinfo.cpp
 
 HEADERS  += mainwindow.h \
     VSimpleScada/vobject.h \
@@ -42,10 +45,13 @@ HEADERS  += mainwindow.h \
     VSimpleScada/vobjectinfoaxis.h \
     VSimpleScada/vboardcontroller.h \
     VSimpleScada/vboardmanager.h \
-    VSimpleScada/vboardinfo.h
+    VSimpleScada/vboardinfo.h \
+    VSimpleScada/ventity/vconnecteddeviceinfo.h \
+    VSimpleScada/ventity/vbaseprefentity.h \
+    VSimpleScada/vdevice/vdeviceinfo.h \
+    VSimpleScada/config.h
 
 FORMS    += mainwindow.ui \
     VSimpleScada/vobjectinfodialog.ui
 
-RESOURCES += \
-    resources.qrc
+RESOURCES += resources.qrc

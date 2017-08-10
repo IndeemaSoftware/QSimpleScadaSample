@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include "VObject/vobject.h"
+#include "VSimpleScada/vobject.h"
 
 #include <QDebug>
 #include <QTimer>
