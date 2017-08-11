@@ -33,7 +33,6 @@ VBoardController::~VBoardController()
 {
     delete mBoardManager;
     delete mParametersDialod;
-    delete mBoard;
     delete mLayout;
 }
 
@@ -41,6 +40,10 @@ void VBoardController::initConnectedDevices(const QList<VBoardInfo *> list)
 {
     for (VBoardInfo *boardInfo : list) {
         if (boardInfo != nullptr) {
+            if (mBoard == nullptr) {
+                initBoardForDeviceIp("127.0.0.0");
+            }
+
             mBoard->setEditable(false);
             for (VObjectInfo *info : boardInfo->objectList()) {
                 mBoard->createNewObject(info);

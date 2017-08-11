@@ -32,9 +32,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(mTimer, SIGNAL(timeout()), this, SLOT(updateStatus()));
     mTimer->start(1000);
 
-    connect(ui->actionQuit, SIGNAL(toggled(bool)), this, SLOT(close()));
-    connect(ui->actionSave, SIGNAL(toggled(bool)), this, SLOT(save()));
-    connect(ui->actionOpen, SIGNAL(toggled(bool)), this, SLOT(open()));
+    connect(ui->actionQuit, SIGNAL(triggered(bool)), this, SLOT(close()));
+    connect(ui->actionSave, SIGNAL(triggered(bool)), this, SLOT(save()));
+    connect(ui->actionOpen, SIGNAL(triggered(bool)), this, SLOT(open()));
 }
 
 MainWindow::~MainWindow()
@@ -127,6 +127,7 @@ void MainWindow::save()
             lController->initConnectedDevices(lBoardInfoList);
 
             lDeviceInfo.setName("Test Device");
+            lDeviceInfo.setIp(QHostAddress("127.0.0.0"));
             QList<VDeviceInfo> lList;
             lList.append(lDeviceInfo);
             QString lDevices = VConnectedDeviceInfo::XMLFromDeviceInfo(lList, lController);   //<----;
@@ -147,11 +148,11 @@ void MainWindow::save()
                 lMsgBox.exec();
             }
             lFile.close();
+            qDeleteAll(lBoardInfoList);
         }
     }
-
-    delete lBoardInfo;
     delete lController;
+    mBoard->setEditable(true);
 }
 
 void MainWindow::open()
