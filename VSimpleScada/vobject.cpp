@@ -122,7 +122,6 @@ void VObject::paintEvent(QPaintEvent *e)
     QPainter lPainter(this);
     QPixmap lMarkerPixmap(info()->imageName(mStatus));
     QPixmap lBackgroundPixmap(info()->backGroundImage());
-    qDebug() << "background image: " << info()->backGroundImage();
     QPen lLinepen(Qt::black);
     lLinepen.setCapStyle(Qt::RoundCap);
     lPainter.setRenderHint(QPainter::Antialiasing,true);
@@ -188,8 +187,6 @@ void VObject::paintEvent(QPaintEvent *e)
     }
 
     if (info()->showMarkers()) {
-        qDebug() << "Marker should be displayed";
-        qDebug() << info()->imageName(mStatus);
         QSize lSize = lMarkerPixmap.size();
         lPainter.drawPixmap(QRect((width() - lSize.width()) /2,
                                   (height() - lSize.height()) / 2,

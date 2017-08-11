@@ -254,39 +254,6 @@ QString VConnectedDeviceInfo::XMLFromDeviceInfo(QList<VDeviceInfo> deviceList, V
         rDevices += i.formTag(tag_boards, true, true, 1);//"\t</boards>\n";
     }
     rDevices += i.formTag(tag_devices, true, true, 0);//"</devices>";
-//    QString rDevices = "<devices>\n";
-//    for (VDeviceInfo info: deviceList) {
-//        rDevices += "\t<device>\n";
-//        rDevices += "\t\t<name>" + info.name() + "</name>\n";
-//        rDevices += "\t\t<ip>" + info.ip().toString() + "</ip>\n";
-//        rDevices += "\t\t<ip_v6>" + info.ipv6().toString() + "</ip_v6>\n";
-//        rDevices += "\t\t<host>" + info.host() + "</host>\n";
-//        rDevices += "\t\t<domain>" + info.domain() + "</domain>\n";
-//        rDevices += "\t</device>\n";
-
-//        rDevices += "\t<boards>\n";
-//        for(VBoard *board : boardController->getBoardListForDeviceIp(info.ip().toString())) {
-//            rDevices += "\t\t<board>\n";
-//            for (VObject *object : *board->objects()) {
-//                rDevices += "\t\t\t<object>\n";
-//                rDevices += "\t\t\t\t<title>"+ object->info()->title() + "</title>\n";
-//                rDevices += "\t\t\t\t<id>"+ QString::number(object->info()->id()) + "</id>\n";
-//                rDevices += "\t\t\t\t<is_dynamic>"+ QString::number(object->info()->isDynamic()) + "</is_dynamic>\n";
-//                rDevices += "\t\t\t\t<geometry_x>"+ QString::number(object->info()->geometry().x()) + "</geometry_x>\n";
-//                rDevices += "\t\t\t\t<geometry_y>"+ QString::number(object->info()->geometry().y()) + "</geometry_y>\n";
-//                rDevices += "\t\t\t\t<geometry_width>"+ QString::number(object->info()->geometry().width()) + "</geometry_width>\n";
-//                rDevices += "\t\t\t\t<geometry_height>"+ QString::number(object->info()->geometry().height()) + "</geometry_height>\n";
-//                rDevices += "\t\t\t\t<axis_enabled>"+ QString::number(object->info()->axiesEnabled()) + "</axis_enabled>\n";
-//                rDevices += "\t\t\t\t<axis_x>"+ QString::number(object->info()->axis().getX()) + "</axis_x>\n";
-//                rDevices += "\t\t\t\t<axis_y>"+ QString::number(object->info()->axis().getY()) + "</axis_y>\n";
-//                rDevices += "\t\t\t\t<axis_z>"+ QString::number(object->info()->axis().getZ()) + "</axis_z>\n";
-//                rDevices += "\t\t\t</object>\n";
-//            }
-//            rDevices += "\t\t</board>\n";
-//        }
-//        rDevices += "\t</boards>\n";
-//    }
-//    rDevices += "</devices>";
 
     return rDevices;
 }
