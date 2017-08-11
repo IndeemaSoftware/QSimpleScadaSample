@@ -157,5 +157,41 @@ void MainWindow::save()
 
 void MainWindow::open()
 {
+    QString lFileName = QFileDialog::getOpenFileName(this,
+        tr("Open Project"), QDir::currentPath(), tr("iReDS Project (*.irp)"));
 
+    mObjectInfoDialog->updateWithObjectInfo(nullptr);
+
+    for (VObject *object : *mBoard->objects()) {
+            mBoard->deleteObject(object);
+    }
+
+    VConnectedDeviceInfo* lConnectedDevceInfo = new VConnectedDeviceInfo();
+    QByteArray lRawData;
+    QFile prefFile(lFileName);
+    if (prefFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QTextStream streamFileOut(&prefFile);
+        streamFileOut.setCodec("UTF-8");
+        lRawData = streamFileOut.readAll().toUtf8();
+        prefFile.close();
+    } else {
+        qDebug() << "       - Error open preferences file -> " << prefFile.fileName();
+    }
+
+    lConnectedDevceInfo->initFromXml(lRawData);
+
+    for (int i = 0; i < lConnectedDevceInfo->connecteDeviceList.count(); ++i) {
+        for (VBoardInfo *boardInfo : lConnectedDevceInfo->connecteDeviceList.at(i)->boardList) {
+            if (boardInfo != nullptr) {
+                mBoard->setEditable(false);
+                for (VObjectInfo *info : boardInfo->objectList()) {
+                    mBoard->createNewObject(info);
+                }
+            }
+        }
+        mBoard->update();
+    }
+
+    mBoard->setEditable(true);
+    delete lConnectedDevceInfo;
 }
