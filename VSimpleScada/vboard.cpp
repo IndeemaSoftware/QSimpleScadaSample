@@ -20,17 +20,20 @@ VBoard::VBoard(QWidget *parent) :
 
 VBoard::~VBoard()
 {
+    qDebug() << __FUNCTION__;
     qDeleteAll(*mObjects);
     delete mObjects;
 }
 
 void VBoard::createNewObject()
 {
+    qDebug() << __FUNCTION__;
     createNewObject(mObjects->count());
 }
 
 void VBoard::createNewObject(VObjectInfo *info)
 {
+    qDebug() << __FUNCTION__;
     VObject *lObject = new VObject(this);
     lObject->setInfo(info);
     //rize object if it's dynamic so general image will be on background
@@ -46,6 +49,7 @@ void VBoard::createNewObject(VObjectInfo *info)
 
 void VBoard::createNewObject(int id)
 {
+    qDebug() << __FUNCTION__;
     VObjectInfo *lInfo = new VObjectInfo();
     lInfo->setId(id);
 
@@ -54,12 +58,14 @@ void VBoard::createNewObject(int id)
 
 void VBoard::mouseMoveEvent(QMouseEvent *event)
 {
+    qDebug() << __FUNCTION__;
     (void)event;
     QApplication::setOverrideCursor(Qt::ArrowCursor);
 }
 
 void VBoard::mousePressEvent(QMouseEvent *event)
 {
+    qDebug() << __FUNCTION__;
     if (event->button() == Qt::LeftButton) {
         newObjectSelected(-1);
         emit objectSelected(nullptr);
@@ -68,6 +74,7 @@ void VBoard::mousePressEvent(QMouseEvent *event)
 
 void VBoard::paintEvent(QPaintEvent *e)
 {
+    qDebug() << __FUNCTION__ << " Board";
     (void)e;
     if (mEditable && mShowGrid) {
         QPainter lPainter(this);
@@ -86,10 +93,13 @@ void VBoard::paintEvent(QPaintEvent *e)
             }
         }
     }
+
+    QWidget::paintEvent(e);
 }
 
 void VBoard::newObjectSelected(int id)
 {
+    qDebug() << __FUNCTION__;
     for(VObject *object : *mObjects) {
         if (id != object->info()->id()) {
             object->setSelected(false);
@@ -101,21 +111,25 @@ void VBoard::newObjectSelected(int id)
 
 QList<VObject *> *VBoard::objects() const
 {
+    qDebug() << __FUNCTION__;
     return mObjects;
 }
 
 int VBoard::grid() const
 {
+    qDebug() << __FUNCTION__;
     return mGrid;
 }
 
 void VBoard::setGrid(int grid)
 {
+    qDebug() << __FUNCTION__;
     mGrid = grid;
 }
 
 void VBoard::deleteObjectWithId(int id)
 {
+    qDebug() << __FUNCTION__;
     for (VObject *object : *mObjects) {
         if (id == object->info()->id()) {
             mObjects->removeOne(object);
@@ -127,11 +141,13 @@ void VBoard::deleteObjectWithId(int id)
 
 void VBoard::deleteObject(VObject *object)
 {
+    qDebug() << __FUNCTION__;
     deleteObjectWithId(object->info()->id());
 }
 
 void VBoard::updateObjectWithId(int id)
 {
+    qDebug() << __FUNCTION__;
     for (VObject *object : *mObjects) {
         if (id == object->info()->id()) {
             object->update();
@@ -141,6 +157,7 @@ void VBoard::updateObjectWithId(int id)
 
 void VBoard::updateStatusWithId(int id, VObjectStatus status)
 {
+    qDebug() << __FUNCTION__;
     for (VObject *object : *mObjects) {
         if (id == object->info()->id()) {
             object->setStatus(status);
@@ -151,11 +168,13 @@ void VBoard::updateStatusWithId(int id, VObjectStatus status)
 
 bool VBoard::showGrid() const
 {
+    qDebug() << __FUNCTION__;
     return mShowGrid;
 }
 
 void VBoard::setShowGrid(bool showGrid)
 {
+    qDebug() << __FUNCTION__;
     mShowGrid = showGrid;
 
     repaint();
@@ -163,11 +182,13 @@ void VBoard::setShowGrid(bool showGrid)
 
 bool VBoard::editable() const
 {
+    qDebug() << __FUNCTION__;
     return mEditable;
 }
 
 void VBoard::setEditable(bool editable)
 {
+    qDebug() << __FUNCTION__;
     mEditable = editable;
 
     for (VObject *object : *mObjects) {

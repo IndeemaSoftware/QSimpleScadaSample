@@ -89,7 +89,6 @@ void VConnectedDeviceInfo::initFromXml(const QByteArray &xmlData) {
         if (tokenType == QXmlStreamReader::StartDocument) {
             continue;
         } else if (tokenType == QXmlStreamReader::StartElement){
-            qDebug() << lXmlStreamReader.name();
             if (lXmlStreamReader.name() == tag_device) {
                 lDeviceConfig = new VDeviceConfig();
             } else if (lXmlStreamReader.name() == tag_device_name) {
@@ -109,7 +108,6 @@ void VConnectedDeviceInfo::initFromXml(const QByteArray &xmlData) {
                 lDeviceConfig->boardList.append(lBoard);
             } else if (lXmlStreamReader.name() == tag_object) {
                 lObjectInfo = new VObjectInfo();
-                qDebug() <<"Created!";
                 lBoard->appendObjectInfo(lObjectInfo);
             } else if (lXmlStreamReader.name() == tag_title) {
                 lObjectInfo->setTitle(lXmlStreamReader.readElementText());

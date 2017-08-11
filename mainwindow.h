@@ -32,6 +32,9 @@ private slots:
     void save();
     void open();
 
+protected:
+    void paintEvent(QPaintEvent *e);
+
 private:
     Ui::MainWindow *ui;
 

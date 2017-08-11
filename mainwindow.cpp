@@ -29,8 +29,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->centralWidget, SIGNAL(customContextMenuRequested(const QPoint&)),this, SLOT(showContextMenu(const QPoint&)));
 
     mTimer = new QTimer(this);
-    connect(mTimer, SIGNAL(timeout()), this, SLOT(updateStatus()));
-    mTimer->start(1000);
+//    connect(mTimer, SIGNAL(timeout()), this, SLOT(updateStatus()));
+//    mTimer->start(1000);
 
     connect(ui->actionQuit, SIGNAL(triggered(bool)), this, SLOT(close()));
     connect(ui->actionSave, SIGNAL(triggered(bool)), this, SLOT(save()));
@@ -87,7 +87,8 @@ void MainWindow::updateSavedObject(VObjectInfo *info)
         mBoard->updateObjectWithId(info->id());
     }
 }
-
+//this method is called with timer
+//You can use it to update statuses ok markers.
 void MainWindow::updateStatus()
 {
 //    int lNumber = 3;
@@ -160,38 +161,47 @@ void MainWindow::open()
     QString lFileName = QFileDialog::getOpenFileName(this,
         tr("Open Project"), QDir::currentPath(), tr("iReDS Project (*.irp)"));
 
-    mObjectInfoDialog->updateWithObjectInfo(nullptr);
+    if (!lFileName.isEmpty()) {
+        mObjectInfoDialog->updateWithObjectInfo(nullptr);
 
-    for (VObject *object : *mBoard->objects()) {
-            mBoard->deleteObject(object);
-    }
+        for (VObject *object : *mBoard->objects()) {
+                mBoard->deleteObject(object);
+        }
 
-    VConnectedDeviceInfo* lConnectedDevceInfo = new VConnectedDeviceInfo();
-    QByteArray lRawData;
-    QFile prefFile(lFileName);
-    if (prefFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        QTextStream streamFileOut(&prefFile);
-        streamFileOut.setCodec("UTF-8");
-        lRawData = streamFileOut.readAll().toUtf8();
-        prefFile.close();
-    } else {
-        qDebug() << "       - Error open preferences file -> " << prefFile.fileName();
-    }
+        VConnectedDeviceInfo* lConnectedDevceInfo = new VConnectedDeviceInfo();
+        QByteArray lRawData;
+        QFile lFile(lFileName);
+        if (lFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            QTextStream lStreamFileOut(&lFile);
+            lStreamFileOut.setCodec("UTF-8");
+            lRawData = lStreamFileOut.readAll().toUtf8();
+            lFile.close();
 
-    lConnectedDevceInfo->initFromXml(lRawData);
+            lConnectedDevceInfo->initFromXml(lRawData);
 
-    for (int i = 0; i < lConnectedDevceInfo->connecteDeviceList.count(); ++i) {
-        for (VBoardInfo *boardInfo : lConnectedDevceInfo->connecteDeviceList.at(i)->boardList) {
-            if (boardInfo != nullptr) {
-                mBoard->setEditable(false);
-                for (VObjectInfo *info : boardInfo->objectList()) {
-                    mBoard->createNewObject(info);
+            for (int i = 0; i < lConnectedDevceInfo->connecteDeviceList.count(); ++i) {
+                for (VBoardInfo *boardInfo : lConnectedDevceInfo->connecteDeviceList.at(i)->boardList) {
+                    if (boardInfo != nullptr) {
+                        mBoard->setEditable(false);
+                        for (VObjectInfo *info : boardInfo->objectList()) {
+                            mBoard->createNewObject(info);
+                        }
+                    }
                 }
             }
-        }
-        mBoard->update();
-    }
 
-    mBoard->setEditable(true);
-    delete lConnectedDevceInfo;
+            mBoard->update();
+            mBoard->setEditable(true);
+        } else {
+            qDebug() << "       - Error open preferences file -> " << lFile.fileName();
+        }
+
+        delete lConnectedDevceInfo;
+    }
+}
+
+void MainWindow::paintEvent(QPaintEvent *e)
+{
+    qDebug() << __FUNCTION__ << " Main Window";
+    QWidget::paintEvent(e);
 }
