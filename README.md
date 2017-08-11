@@ -23,3 +23,4 @@ As a sample first two objects are created as dynamic with visible marker and the
 <br>
 VObject class is used to display marker or background view. It can be managed by updating setInfo, using container VObjectInfo.
 <br>
+In resources path you can find sample.irp file. Open it with QSampleScada app to see sample
