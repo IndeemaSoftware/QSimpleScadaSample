@@ -230,6 +230,9 @@ void VObject::paintEvent(QPaintEvent *e)
         lLinepen.setWidth(2);
         lPainter.setPen(lLinepen);
         lPainter.drawRoundedRect(0,0,width(), height(),3,3);
+    } else {
+        setPalette(QPalette(Qt::transparent));
+        setAutoFillBackground(true);
     }
 
     QWidget::paintEvent(e);
