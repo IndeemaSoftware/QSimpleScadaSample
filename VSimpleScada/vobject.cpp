@@ -19,7 +19,6 @@ VObject::VObject(QWidget *parent) :
     setGeometry(100, 100, 100, 100);
     if (info()->showBackground()) {
         setPalette(QPalette(Qt::transparent));
-        setPalette(QPalette(Qt::transparent));
         setAutoFillBackground(true);
     }
 
@@ -232,9 +231,6 @@ void VObject::paintEvent(QPaintEvent *e)
         lLinepen.setWidth(2);
         lPainter.setPen(lLinepen);
         lPainter.drawRoundedRect(0,0,width(), height(),3,3);
-    } else {
-        setPalette(QPalette(Qt::transparent));
-        setAutoFillBackground(true);
     }
 
     QWidget::paintEvent(e);
@@ -296,7 +292,6 @@ void VObject::update()
 {
     qDebug() << __FUNCTION__;
     if (info()->showBackground()) {
-        setPalette(QPalette(Qt::transparent));
         setPalette(QPalette(Qt::transparent));
         setAutoFillBackground(true);
     }

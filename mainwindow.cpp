@@ -29,8 +29,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->centralWidget, SIGNAL(customContextMenuRequested(const QPoint&)),this, SLOT(showContextMenu(const QPoint&)));
 
     mTimer = new QTimer(this);
-//    connect(mTimer, SIGNAL(timeout()), this, SLOT(updateStatus()));
-//    mTimer->start(1000);
+    connect(mTimer, SIGNAL(timeout()), this, SLOT(updateStatus()));
+    mTimer->start(1000);
 
     connect(ui->actionQuit, SIGNAL(triggered(bool)), this, SLOT(close()));
     connect(ui->actionSave, SIGNAL(triggered(bool)), this, SLOT(save()));
@@ -91,11 +91,11 @@ void MainWindow::updateSavedObject(VObjectInfo *info)
 //You can use it to update statuses ok markers.
 void MainWindow::updateStatus()
 {
-//    int lNumber = 3;
-//    int lRandomValue = qrand() % lNumber;
-//    mBoard->updateStatusWithId(0, (VObjectStatus)lRandomValue);
-//    lRandomValue = qrand() % lNumber;
-//    mBoard->updateStatusWithId(1, (VObjectStatus)lRandomValue);
+    int lNumber = 3;
+    int lRandomValue = qrand() % lNumber;
+    mBoard->updateStatusWithId(0, (VObjectStatus)lRandomValue);
+    lRandomValue = qrand() % lNumber;
+    mBoard->updateStatusWithId(1, (VObjectStatus)lRandomValue);
 }
 
 void MainWindow::save()
