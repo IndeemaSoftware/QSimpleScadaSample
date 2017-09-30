@@ -11,15 +11,12 @@
 
 VBoardController::VBoardController(QWidget *parent) :
     QWidget(parent),
-    mLayout{new QGridLayout},
     mBoard{nullptr}
 {
     mBoardManager = new VBoardManager();
 
     setPalette(QPalette(Qt::transparent));
     setAutoFillBackground(true);
-
-    this->setLayout(mLayout);
 
     mParametersDialod = new VObjectInfoDialog();
     connect(mParametersDialod, SIGNAL(deletePressed(VObjectInfo*)), this, SLOT(deleteObject(VObjectInfo *)));
@@ -33,17 +30,14 @@ VBoardController::~VBoardController()
 {
     delete mBoardManager;
     delete mParametersDialod;
-    delete mLayout;
+    delete mBoard;
 }
 
 void VBoardController::initConnectedDevices(const QList<VBoardInfo *> list)
 {
+    qDebug() << __FUNCTION__;
     for (VBoardInfo *boardInfo : list) {
         if (boardInfo != nullptr) {
-            if (mBoard == nullptr) {
-                initBoardForDeviceIp("127.0.0.0");
-            }
-
             mBoard->setEditable(false);
             for (VObjectInfo *info : boardInfo->objectList()) {
                 mBoard->createNewObject(info);
@@ -55,6 +49,8 @@ void VBoardController::initConnectedDevices(const QList<VBoardInfo *> list)
 
 void VBoardController::clearBoard(VBoard* board)
 {
+    qDebug() << __FUNCTION__;
+
     for (VObject *object : *board->objects()) {
         board->deleteObject(object);
     }
@@ -63,6 +59,7 @@ void VBoardController::clearBoard(VBoard* board)
 
 void VBoardController::clearAllBoards()
 {
+    qDebug() << __FUNCTION__;
     for (VBoard *board:mBoardManager->getBoardList()) {
         clearBoard(board);
     }
@@ -70,6 +67,7 @@ void VBoardController::clearAllBoards()
 
 void VBoardController::initBoardForDeviceIp(QString ip)
 {
+    qDebug() << __FUNCTION__;
     if (mBoard != nullptr
             && mBoard->isVisible()) {
         mBoard->hide();
@@ -77,7 +75,9 @@ void VBoardController::initBoardForDeviceIp(QString ip)
     }
 
     mBoard = mBoardManager->getBoardForDeviceWithIp(ip);
+    mBoard->setGeometry(QRect(0, 0, this->geometry().width(), this->geometry().height()));
     connect(mBoard, SIGNAL(objectSelected(VObject *)), this, SLOT(updateObjectInfoDialog(VObject *)));
+    connect(mBoard, SIGNAL(objectDoubleClicked(VObject*)), this, SLOT(objectDoubleClickedHandler(VObject*)));
 }
 
 void VBoardController::updateBoardForDeviceIp(QString ip)
@@ -85,18 +85,26 @@ void VBoardController::updateBoardForDeviceIp(QString ip)
     initBoardForDeviceIp(ip);
 
     mBoard->setParent(this);
-    mLayout->addWidget(mBoard);
     mBoard->show();
 }
 
 void VBoardController::showContextMenu(const QPoint &pos)
 {
     if (mBoard != nullptr
-            && mBoard->isVisible()) { //show context menu if only VBoard is visible
+            && mBoard->isVisible()
+            && mBoard->editable()) { //show context menu if only VBoard is visible
+        bool lSelectedObject = (mBoard->getSeletedObjects().count()>0);
         QMenu lContextMenu{this};
 
         lContextMenu.addAction(tr("Add Object"), this, SLOT(addNewObject()));
-        lContextMenu.addAction(tr("Show Parameters"), this, SLOT(showParameters()));
+        lContextMenu.addAction(tr("Show Parameters"), this, SLOT(showParameters()))->setEnabled(lSelectedObject);
+        QMenu *lOrderMenu = lContextMenu.addMenu(tr("Order"));
+        lOrderMenu->setEnabled(lSelectedObject);
+
+        if (lSelectedObject) {
+            lOrderMenu->addAction(tr("Bring to front"), this, SLOT(bringToFront()));
+            lOrderMenu->addAction(tr("Send to back"), this, SLOT(sendToBack()));
+        }
 
         lContextMenu.exec(mapToGlobal(pos));
     }
@@ -105,6 +113,22 @@ void VBoardController::showContextMenu(const QPoint &pos)
 void VBoardController::addNewObject()
 {
     mBoard->createNewObject();
+}
+
+void VBoardController::bringToFront()
+{
+    if (!mBoard->getSeletedObjects().isEmpty()) {
+        VObject *lObject = mBoard->getSeletedObjects().first();
+        mBoard->bringToFront(lObject);
+    }
+}
+
+void VBoardController::sendToBack()
+{
+    if (!mBoard->getSeletedObjects().isEmpty()) {
+        VObject *lObject = mBoard->getSeletedObjects().first();
+        mBoard->sendToBack(lObject);
+    }
 }
 
 void VBoardController::showParameters()
@@ -127,6 +151,8 @@ void VBoardController::updateObjectInfoDialog(VObject *object)
 
 void VBoardController::deleteObject(VObjectInfo *info)
 {
+    qDebug() << __FUNCTION__;
+
     if (info != nullptr) {
         mBoard->deleteObjectWithId(info->id());
     }
@@ -134,6 +160,8 @@ void VBoardController::deleteObject(VObjectInfo *info)
 
 void VBoardController::updateSavedObject(VObjectInfo *info)
 {
+    qDebug() << __FUNCTION__;
+
     if (info != nullptr) {
         mBoard->updateObjectWithId(info->id());
     }
@@ -141,12 +169,27 @@ void VBoardController::updateSavedObject(VObjectInfo *info)
 
 void VBoardController::updateStatus()
 {
-    qDebug() << "update";
+    qDebug() << __FUNCTION__;
+
     int lNumber = 3;
     int lRandomValue = qrand() % lNumber;
     mBoard->updateStatusWithId(0, (VObjectStatus)lRandomValue);
     lRandomValue = qrand() % lNumber;
     mBoard->updateStatusWithId(1, (VObjectStatus)lRandomValue);
+}
+
+void VBoardController::objectDoubleClickedHandler(VObject *o)
+{
+    emit objectDoubleClicked(o);
+}
+
+void VBoardController::resizeEvent(QResizeEvent*)
+{
+    qDebug() << __FUNCTION__;
+
+    if (mBoard != nullptr) {
+        mBoard->setGeometry(QRect(0, 0, this->geometry().width(), this->geometry().height()));
+    }
 }
 
 QList<VBoard *> VBoardController::getBoardList()
@@ -164,12 +207,21 @@ QList<VBoard *> VBoardController::getBoardListForDeviceIp(QString ip)
 
 void VBoardController::updateStatus(QString id, int objectId, VObjectStatus status)
 {
+    qDebug() << __FUNCTION__;
+
     VBoard *lBoard = mBoardManager->getBoardForDeviceWithIp(id);
 
     for (VObject *object :*lBoard->objects()) {
         if (object->info()->id() == objectId) {
             object->setStatus(status);
         }
+    }
+}
+
+void VBoardController::updateStatus(QStringList device, QList<int> objectId, QList<VObjectStatus> status)
+{
+    for (int i=0; i< device.count(); i++) {
+        updateStatus(device.at(i), objectId.at(i), status.at(i));
     }
 }
 

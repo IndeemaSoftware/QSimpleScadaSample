@@ -38,6 +38,7 @@ void VBoard::createNewObject(VObjectInfo *info)
         bringToFront(lObject);
     }
     lObject->setIsEditable(mEditable);
+    connect(lObject, SIGNAL(objectDoubleClicked(VObject*)), this , SIGNAL(objectDoubleClicked(VObject*)));
     connect(lObject, SIGNAL(objectSelected(int)), this , SLOT(newObjectSelected(int)));
     lObject->show();
     lObject->update();

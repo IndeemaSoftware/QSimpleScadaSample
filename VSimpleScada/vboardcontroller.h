@@ -7,7 +7,6 @@
 #include "vobject.h"
 
 class VBoard;
-class QGridLayout;
 class VObjectInfoDialog;
 class VObjectInfo;
 class VObject;
@@ -33,20 +32,29 @@ public:
     QList<VBoard*> getBoardListForDeviceIp(QString);
 
     void updateStatus(QString device, int objectId, VObjectStatus status);
+    void updateStatus(QStringList device, QList<int> objectId, QList<VObjectStatus> status);
 
     void setEditingMode(bool);
+
+signals:
+    void objectDoubleClicked(VObject*);
 
 private slots:
     void showContextMenu(const QPoint&);
     void addNewObject();
+    void bringToFront();
+    void sendToBack();
     void showParameters();
     void updateObjectInfoDialog(VObject *);
     void deleteObject(VObjectInfo *);
     void updateSavedObject(VObjectInfo *);
     void updateStatus();
+    void objectDoubleClickedHandler(VObject*);
+
+protected:
+    void resizeEvent(QResizeEvent *event);
 
 private:
-    QGridLayout *mLayout;
     VBoardManager *mBoardManager;
     VBoard *mBoard;
     VObjectInfoDialog *mParametersDialod;

@@ -45,11 +45,13 @@ protected:
     void mouseMoveEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
+    void mouseDoubleClickEvent(QMouseEvent*);
 
     void paintEvent(QPaintEvent *e);
 
 signals:
     void objectSelected(int id);
+    void objectDoubleClicked(VObject*);
 
 private slots:
     void dynamicStatusChanged(VObjectInfo*);

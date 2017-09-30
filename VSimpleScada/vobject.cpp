@@ -12,7 +12,7 @@
 
 VObject::VObject(QWidget *parent) :
     QWidget(parent),
-    mInfo{new VObjectInfo},
+    mInfo{new VObjectInfo(this)},
     mEffect{new QGraphicsDropShadowEffect},
     mStatus{VObjectStatusNone}
 {
@@ -111,6 +111,13 @@ void VObject::mouseReleaseEvent(QMouseEvent *event)
         QApplication::setOverrideCursor(Qt::ArrowCursor);
     } else {
         QWidget::mouseReleaseEvent(event);
+    }
+}
+
+void VObject::mouseDoubleClickEvent(QMouseEvent *e)
+{
+    if (e->button() == Qt::LeftButton) {
+        emit objectDoubleClicked(this);
     }
 }
 
@@ -229,9 +236,9 @@ void VObject::paintEvent(QPaintEvent *e)
     QWidget::paintEvent(e);
 }
 
-void VObject::dynamicStatusChanged(VObjectInfo *info)
+void VObject::dynamicStatusChanged(VObjectInfo*)
 {
-    if (info->isDynamic()) {
+    if (info()->isDynamic()) {
         switch(mStatus) {
         case VObjectStatusNone:
             setPalette(QPalette(Qt::lightGray));
@@ -250,7 +257,7 @@ void VObject::dynamicStatusChanged(VObjectInfo *info)
         setPalette(QPalette(Qt::white));
     }
 
-    if (!info->showBackground()) {
+    if (!info()->showBackground()) {
         setPalette(QPalette(Qt::transparent));
     }
 }

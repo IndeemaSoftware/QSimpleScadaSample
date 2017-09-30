@@ -48,6 +48,7 @@ protected:
     void paintEvent(QPaintEvent *e);
 
 signals:
+    void objectDoubleClicked(VObject*);
     void objectSelected(VObject *);
 
 private slots:
