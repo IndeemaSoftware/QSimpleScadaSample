@@ -35,6 +35,13 @@ public:
 
     QList<VObject *> *objects() const;
 
+    QList<VObject*> getSeletedObjects();
+
+public slots:
+    //objects order
+    void bringToFront(VObject*);
+    void sendToBack(VObject*);
+
 protected:
     void mouseMoveEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);

@@ -45,9 +45,17 @@ MainWindow::~MainWindow()
 
 void MainWindow::showContextMenu(const QPoint &pos)
 {
+    bool lShowOrder = (mBoard->getSeletedObjects().count() > 0);
     QMenu lContextMenu{this};
 
     lContextMenu.addAction(tr("Add Object"), this, SLOT(addNewObject()));
+    QMenu *lOrder = lContextMenu.addMenu("Order");
+    lOrder->setEnabled(lShowOrder);
+
+    if (lShowOrder) {
+        lOrder->addAction(tr("Bring to front"), this, SLOT(bringToFront()));
+        lOrder->addAction(tr("Send to back"), this, SLOT(sendToBack()));
+    }
 
     lContextMenu.exec(ui->centralWidget->mapToGlobal(pos));
 }
@@ -64,6 +72,22 @@ void MainWindow::addNewObject()
             mBoard->createNewObject(lInfo);
     } else {
         mBoard->createNewObject();
+    }
+}
+
+void MainWindow::bringToFront()
+{
+    if (!mBoard->getSeletedObjects().isEmpty()) {
+        VObject *lObject = mBoard->getSeletedObjects().first();
+        mBoard->bringToFront(lObject);
+    }
+}
+
+void MainWindow::sendToBack()
+{
+    if (!mBoard->getSeletedObjects().isEmpty()) {
+        VObject *lObject = mBoard->getSeletedObjects().first();
+        mBoard->sendToBack(lObject);
     }
 }
 
@@ -200,10 +224,4 @@ void MainWindow::open()
 
         delete lConnectedDevceInfo;
     }
-}
-
-void MainWindow::paintEvent(QPaintEvent *e)
-{
-    qDebug() << __FUNCTION__ << " Main Window";
-    QWidget::paintEvent(e);
 }

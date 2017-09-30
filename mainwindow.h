@@ -24,6 +24,8 @@ public:
 private slots:
     void showContextMenu(const QPoint&);
     void addNewObject();
+    void bringToFront();
+    void sendToBack();
     void updateObjectInfoDialog(VObject *);
     void deleteObject(VObjectInfo *);
     void updateSavedObject(VObjectInfo *);
@@ -31,9 +33,6 @@ private slots:
 
     void save();
     void open();
-
-protected:
-    void paintEvent(QPaintEvent *e);
 
 private:
     Ui::MainWindow *ui;

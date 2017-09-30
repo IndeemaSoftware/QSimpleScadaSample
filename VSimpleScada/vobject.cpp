@@ -41,26 +41,22 @@ VObject::~VObject()
 
 void VObject::setGeometry(int x, int y, int width, int height)
 {
-    qDebug() << __FUNCTION__;
     setGeometry(QRect(x, y, width, height));
 }
 
 void VObject::setGeometry(const QRect &r)
 {
-    qDebug() << __FUNCTION__ << " " << "Rect";
     info()->setGeometry(r);
     QWidget::setGeometry(r);
 }
 
 QRect VObject::geometry()
 {
-    qDebug() << __FUNCTION__;
     return info()->geometry();
 }
 
 void VObject::mouseMoveEvent(QMouseEvent *event)
 {
-    qDebug() << __FUNCTION__;
     if (mIsEditable) {
         switch (action()) {
         case VObjectActionMove:{
@@ -86,7 +82,6 @@ void VObject::mouseMoveEvent(QMouseEvent *event)
 
 void VObject::mousePressEvent(QMouseEvent *event)
 {
-    qDebug() << __FUNCTION__;
     if (mIsEditable) {
         if (event->button() == Qt::LeftButton) {
             int lX = event->x();
@@ -110,7 +105,6 @@ void VObject::mousePressEvent(QMouseEvent *event)
 
 void VObject::mouseReleaseEvent(QMouseEvent *event)
 {
-    qDebug() << __FUNCTION__;
     if (mIsEditable) {
         (void)event;
         setAction(VObjectActionNone);
@@ -122,7 +116,6 @@ void VObject::mouseReleaseEvent(QMouseEvent *event)
 
 void VObject::paintEvent(QPaintEvent *e)
 {
-    qDebug() << __FUNCTION__ << " " << this;
     QPainter lPainter(this);
     QPixmap lMarkerPixmap(info()->imageName(mStatus));
     QPixmap lBackgroundPixmap(info()->backGroundImage());
@@ -238,7 +231,6 @@ void VObject::paintEvent(QPaintEvent *e)
 
 void VObject::dynamicStatusChanged(VObjectInfo *info)
 {
-    qDebug() << __FUNCTION__;
     if (info->isDynamic()) {
         switch(mStatus) {
         case VObjectStatusNone:
@@ -265,32 +257,27 @@ void VObject::dynamicStatusChanged(VObjectInfo *info)
 
 VObjectStatus VObject::status() const
 {
-    qDebug() << __FUNCTION__;
     return mStatus;
 }
 
 void VObject::setStatus(const VObjectStatus &status)
 {
-    qDebug() << __FUNCTION__;
     mStatus = status;
     dynamicStatusChanged(mInfo);
 }
 
 bool VObject::isEditable() const
 {
-    qDebug() << __FUNCTION__;
     return mIsEditable;
 }
 
 void VObject::setIsEditable(bool isEditable)
 {
-    qDebug() << __FUNCTION__;
     mIsEditable = isEditable;
 }
 
 void VObject::update()
 {
-    qDebug() << __FUNCTION__;
     if (info()->showBackground()) {
         setPalette(QPalette(Qt::transparent));
         setAutoFillBackground(true);
@@ -304,13 +291,11 @@ void VObject::update()
 
 bool VObject::selected() const
 {
-    qDebug() << __FUNCTION__;
     return mSelected;
 }
 
 void VObject::setSelected(bool selected)
 {
-    qDebug() << __FUNCTION__;
     mSelected = selected;
 
     if (mSelected) {
@@ -325,32 +310,27 @@ void VObject::setSelected(bool selected)
 
 VObjectInfo *VObject::info() const
 {
-    qDebug() << __FUNCTION__;
     return mInfo;
 }
 
 void VObject::setInfo(VObjectInfo *info)
 {
-    qDebug() << __FUNCTION__;
     setGeometry(info->geometry());
     mInfo = info;
 }
 
 VObjectAction VObject::action() const
 {
-    qDebug() << __FUNCTION__;
     return mAction;
 }
 
 void VObject::setAction(const VObjectAction &action)
 {
-    qDebug() << __FUNCTION__;
     mAction = action;
 }
 
 void VObject::move(int x, int y)
 {
-    qDebug() << __FUNCTION__;
     int lX = geometry().x() + x - mPosition.x();
     int lY = geometry().y() + y - mPosition.y();
 
@@ -362,7 +342,6 @@ void VObject::move(int x, int y)
 
 void VObject::resize(int x, int y)
 {
-    qDebug() << __FUNCTION__;
     int lX = x - geometry().width();
     int lY = y - geometry().height();
 
@@ -371,5 +350,5 @@ void VObject::resize(int x, int y)
                 geometry().width() + lX,
                 geometry().height() + lY);
 
-//    repaint();
+    repaint();
 }
