@@ -28,10 +28,10 @@ typedef enum {
 } VObjectAxisPosition;
 
 struct VObjectInfoImage {
-    QString normal = ":/VSimpleScada/resources/grey_marker.png";
-    QString green = ":/VSimpleScada/resources/green_marker.png";
-    QString yellow = ":/VSimpleScada/resources/yellow_marker.png";
-    QString red = ":/VSimpleScada/resources/red_marker.png";
+    QString normal = ":/VObject/resources/grey_marker.png";
+    QString green = ":/VObject/resources/green_marker.png";
+    QString yellow = ":/VObject/resources/yellow_marker.png";
+    QString red = ":/VObject/resources/red_marker.png";
 
     QString getImageNameForStatus(VObjectStatus);
     void setImageNameForState(QString, VObjectStatus);
@@ -42,6 +42,7 @@ class VObjectInfo : public QObject
     Q_OBJECT
 public:
     explicit VObjectInfo(QObject *parent = 0);
+    VObjectInfo(VObjectInfo*);
 
     int id() const;
     void setId(int id);
@@ -49,7 +50,7 @@ public:
     QString title() const;
     void setTitle(const QString &title);
 
-    VObjectInfoAxis axis() const;
+    VObjectInfoAxis axis();
     void setAxis(const VObjectInfoAxis &axis);
 
     bool axiesEnabled() const;
@@ -61,6 +62,7 @@ public:
     bool isDynamic() const;
     void setIsDynamic(bool isDynamic);
 
+    VObjectInfoImage infoImage();
     QString imageName(VObjectStatus);
     void setImageName(QString imageName, VObjectStatus);
 

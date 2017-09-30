@@ -15,6 +15,22 @@ VObjectInfo::VObjectInfo(QObject *parent) :
     setGeometry(QRect(100, 100, 100, 100));
 }
 
+VObjectInfo::VObjectInfo(VObjectInfo *o):
+    mIsDynamic{o->isDynamic()},
+    mGeometry{o->geometry()},
+    mId{o->id()},
+    mTitle{o->title()},
+    mAxiesEnabled{o->axiesEnabled()},
+    mAxisPosition{o->axisPosition()},
+    mImageName{o->infoImage()},
+    mBackGroundImage{o->backGroundImage()},
+    mShowBackgroundImage{o->showBackgroundImage()},
+    mShowBackground{o->showBackground()},
+    mShowMarkers{o->showMarkers()}
+{
+
+}
+
 int VObjectInfo::id() const
 {
     return mId;
@@ -35,7 +51,7 @@ void VObjectInfo::setTitle(const QString &title)
     mTitle = title;
 }
 
-VObjectInfoAxis VObjectInfo::axis() const
+VObjectInfoAxis VObjectInfo::axis()
 {
     return mAxis;
 }
@@ -76,6 +92,11 @@ void VObjectInfo::setIsDynamic(bool isDynamic)
     mIsDynamic = isDynamic;
 
     emit dynamicStatusChanged(this);
+}
+
+VObjectInfoImage VObjectInfo::infoImage()
+{
+    return mImageName;
 }
 
 QString VObjectInfo::imageName(VObjectStatus status)

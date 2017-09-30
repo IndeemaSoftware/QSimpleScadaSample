@@ -40,7 +40,8 @@ void VBoardController::initConnectedDevices(const QList<VBoardInfo *> list)
         if (boardInfo != nullptr) {
             mBoard->setEditable(false);
             for (VObjectInfo *info : boardInfo->objectList()) {
-                mBoard->createNewObject(info);
+                VObjectInfo *lInfo = new VObjectInfo(info);
+                mBoard->createNewObject(lInfo);
             }
         }
     }
