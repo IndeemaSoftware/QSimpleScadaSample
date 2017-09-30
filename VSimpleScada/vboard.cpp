@@ -52,6 +52,10 @@ void VBoard::createNewObject(int id)
     qDebug() << __FUNCTION__;
     VObjectInfo *lInfo = new VObjectInfo();
     lInfo->setId(id);
+    lInfo->setShowMarkers(true);
+    lInfo->setShowBackground(true);
+    lInfo->setShowBackgroundImage(false);
+    lInfo->setIsDynamic(true);
 
     createNewObject(lInfo);
 }

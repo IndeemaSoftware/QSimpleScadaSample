@@ -57,7 +57,9 @@ void MainWindow::addNewObject()
     if (mBoard->objects()->count() == 2) {
             VObjectInfo *lInfo = new VObjectInfo();
             lInfo->setId(2);
-            lInfo->setImageName(":/resources/some_structure.png", VObjectStatusNone);
+            lInfo->setBackGroundImage(":/resources/some_structure.png");
+            lInfo->setShowBackgroundImage(true);
+            lInfo->setShowMarkers(false);
 
             mBoard->createNewObject(lInfo);
     } else {

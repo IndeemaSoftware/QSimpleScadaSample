@@ -200,12 +200,12 @@ void VObject::paintEvent(QPaintEvent *e)
     }
 
     if (info()->showBackgroundImage()) {
-        QSize lSize = lBackgroundPixmap.size();
-        lPainter.drawPixmap(QRect((width() - lSize.width()) /2,
-                                  (height() - lSize.height()) / 2,
-                                  lSize.width(),
-                                  lSize.height()),
-                            lBackgroundPixmap);
+        lPainter.drawPixmap(QRect(0,
+                                  0,
+                                  width(),
+                                  height()),
+                            lBackgroundPixmap.scaled(width(), height(),
+                                                     Qt::KeepAspectRatioByExpanding));
     }
 
     if (info()->isDynamic()) {
