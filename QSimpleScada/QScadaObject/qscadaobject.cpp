@@ -311,7 +311,7 @@ void QScadaObject::setSelected(bool selected)
         mEffect->setBlurRadius(50);
         raise();
     } else {
-        mEffect->setBlurRadius(0);
+        mEffect->setBlurRadius(10);
     }
 }
 
