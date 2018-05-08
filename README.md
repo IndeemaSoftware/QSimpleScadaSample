@@ -17,10 +17,10 @@ Preview
 <br>
   <img src="/resources/SampleScada.png" alt="Floating menu" width="800" height="410" />
 <br>
-In MainWindow class we have realisation on VSimpleScada usage. With window in edit mode and config panel at the left side.
+In MainWindow class we have realisation on QSimpleScada usage. With window in edit mode and config panel at the left side.
 <br>
 As a sample first two objects are created as dynamic with visible marker and the third object is background object on which you cah locate your markers
 <br>
-VObject class is used to display marker or background view. It can be managed by updating setInfo, using container VObjectInfo.
+QScadaObject class is used to display marker or background view. It can be managed by updating setInfo, using container QScadaObjectInfo.
 <br>
 In resources path you can find sample.irp file. Open it with QSampleScada app to see sample
