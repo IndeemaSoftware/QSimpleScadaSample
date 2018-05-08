@@ -52,6 +52,8 @@ protected:
 signals:
     void objectSelected(int id);
     void objectDoubleClicked(QScadaObject*);
+    void objectMove(int x, int y);
+    void objectResize(int x, int y);
 
 private slots:
     void dynamicStatusChanged(QScadaObjectInfo*);

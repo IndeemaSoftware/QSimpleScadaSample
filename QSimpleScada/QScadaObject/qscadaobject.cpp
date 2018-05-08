@@ -123,6 +123,7 @@ void QScadaObject::mouseDoubleClickEvent(QMouseEvent *e)
 
 void QScadaObject::paintEvent(QPaintEvent *e)
 {
+    qDebug() << "QScadaObject:" << __FUNCTION__;
     QPainter lPainter(this);
     QPixmap lMarkerPixmap(info()->imageName(mStatus));
     QPixmap lBackgroundPixmap(info()->backGroundImage());
@@ -345,6 +346,10 @@ void QScadaObject::move(int x, int y)
                 lY,
                 geometry().width(),
                 geometry().height());
+
+    if (x != 0 && x != 0) {
+        emit objectMove(lX, lY);
+    }
 }
 
 void QScadaObject::resize(int x, int y)
@@ -358,4 +363,8 @@ void QScadaObject::resize(int x, int y)
                 geometry().height() + lY);
 
     repaint();
+
+    if (x != 0 && y != 0) {
+        emit objectResize(lX, lY);
+    }
 }

@@ -40,6 +40,8 @@ void QScadaBoard::createNewObject(QScadaObjectInfo *info)
     lObject->setIsEditable(mEditable);
     connect(lObject, SIGNAL(objectDoubleClicked(QScadaObject*)), this , SIGNAL(objectDoubleClicked(QScadaObject*)));
     connect(lObject, SIGNAL(objectSelected(int)), this , SLOT(newObjectSelected(int)));
+    connect(lObject, SIGNAL(objectMove(int,int)), this , SLOT(objectMove(int,int)));
+    connect(lObject, SIGNAL(objectResize(int,int)), this , SLOT(objectResize(int,int)));
     lObject->show();
     lObject->update();
     mObjects->append(lObject);
@@ -73,6 +75,7 @@ void QScadaBoard::mousePressEvent(QMouseEvent *event)
 
 void QScadaBoard::paintEvent(QPaintEvent *e)
 {
+    qDebug() << "QScadaBoard:" << __FUNCTION__;
     if (mEditable && mShowGrid) {
         QPainter lPainter(this);
         QPen lLinepen(Qt::darkGray);
@@ -103,6 +106,16 @@ void QScadaBoard::newObjectSelected(int id)
             emit objectSelected(object);
         }
     }
+}
+
+void QScadaBoard::objectMove(int x, int y)
+{
+    update();
+}
+
+void QScadaBoard::objectResize(int x, int y)
+{
+    update();
 }
 
 QList<QScadaObject *> *QScadaBoard::objects() const

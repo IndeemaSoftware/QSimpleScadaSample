@@ -53,6 +53,9 @@ signals:
 
 private slots:
     void newObjectSelected(int id);
+    void objectMove(int x, int y);
+    void objectResize(int x, int y);
+
 
 private:
     QList<QScadaObject*> *mObjects;
