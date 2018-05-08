@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>VObjectInfoDialog</class>
- <widget class="QWidget" name="VObjectInfoDialog">
+ <class>QScadaObjectInfoDialog</class>
+ <widget class="QWidget" name="QScadaObjectInfoDialog">
   <property name="geometry">
    <rect>
     <x>0</x>

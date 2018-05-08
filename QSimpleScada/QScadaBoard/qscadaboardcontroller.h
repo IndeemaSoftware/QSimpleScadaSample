@@ -4,10 +4,10 @@
 #include <QWidget>
 #include <QList>
 
-#include "vobject.h"
+#include "../QScadaObject/qscadaobject.h"
 
 class VBoard;
-class VObjectInfoDialog;
+class QScadaObjectInfoDialog;
 class VObjectInfo;
 class VObject;
 class VUnitModel;
@@ -57,7 +57,7 @@ protected:
 private:
     VBoardManager *mBoardManager;
     VBoard *mBoard;
-    VObjectInfoDialog *mParametersDialod;
+    QScadaObjectInfoDialog *mParametersDialod;
     QList<int> mObjectIds;
 };
 

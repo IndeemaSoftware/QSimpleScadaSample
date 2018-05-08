@@ -6,8 +6,9 @@
 
 class VObjectInfo;
 
-struct VBoardInfo
+class VBoardInfo
 {
+public:
     void appendObjectInfo(VObjectInfo* object){
         mObjectList.append(object);
     }

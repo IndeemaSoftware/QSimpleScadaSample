@@ -1,11 +1,11 @@
 #ifndef CONNECTEDDEVICEINFO_H
 #define CONNECTEDDEVICEINFO_H
 
-#include "vbaseprefentity.h"
+#include "qscadabaseprefentity.h"
 
-#include "../vboardinfo.h"
-#include "../vboardcontroller.h"
-#include "../vdevice/vdeviceinfo.h"
+#include "../QScadaBoard/qscadaboardinfo.h"
+#include "../QScadaBoard/qscadaboardcontroller.h"
+#include "../QScadaDevice/qscadadeviceinfo.h"
 
 #include <QList>
 #include <QHostAddress>

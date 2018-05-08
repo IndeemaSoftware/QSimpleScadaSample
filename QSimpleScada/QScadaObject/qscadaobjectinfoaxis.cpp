@@ -1,4 +1,4 @@
-#include "vobjectinfoaxis.h"
+#include "qscadaobjectinfoaxis.h"
 
 VObjectInfoAxis::VObjectInfoAxis()
 {

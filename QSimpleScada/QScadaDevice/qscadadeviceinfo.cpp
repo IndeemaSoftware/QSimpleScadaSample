@@ -1,5 +1,4 @@
-#include "vdeviceinfo.h"
-
+#include "qscadadeviceinfo.h"
 
 void VDeviceInfo::init(VDeviceInfo *deviceInfo)
 {

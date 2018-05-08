@@ -24,34 +24,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 
+include (./QSimpleScada/QSimpleScada.pri)
+
 SOURCES += main.cpp\
-        mainwindow.cpp \
-    VSimpleScada/vobject.cpp \
-    VSimpleScada/vobjectinfo.cpp \
-    VSimpleScada/vboard.cpp \
-    VSimpleScada/vobjectinfodialog.cpp \
-    VSimpleScada/vobjectinfoaxis.cpp \
-    VSimpleScada/vboardcontroller.cpp \
-    VSimpleScada/vboardmanager.cpp \
-    VSimpleScada/ventity/vconnecteddeviceinfo.cpp \
-    VSimpleScada/ventity/vbaseprefentity.cpp \
-    VSimpleScada/vdevice/vdeviceinfo.cpp
+        mainwindow.cpp
 
-HEADERS  += mainwindow.h \
-    VSimpleScada/vobject.h \
-    VSimpleScada/vobjectinfo.h \
-    VSimpleScada/vboard.h \
-    VSimpleScada/vobjectinfodialog.h \
-    VSimpleScada/vobjectinfoaxis.h \
-    VSimpleScada/vboardcontroller.h \
-    VSimpleScada/vboardmanager.h \
-    VSimpleScada/vboardinfo.h \
-    VSimpleScada/ventity/vconnecteddeviceinfo.h \
-    VSimpleScada/ventity/vbaseprefentity.h \
-    VSimpleScada/vdevice/vdeviceinfo.h \
-    VSimpleScada/config.h
-
-FORMS    += mainwindow.ui \
-    VSimpleScada/vobjectinfodialog.ui
+HEADERS  += mainwindow.h
 
 RESOURCES += resources.qrc
+
+FORMS += mainwindow.ui

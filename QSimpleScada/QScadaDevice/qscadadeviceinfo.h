@@ -3,7 +3,7 @@
 
 #include <QHostAddress>
 
-#include "../config.h"
+#include "../qscadaconfig.h"
 
 class QZeroConfService;
 

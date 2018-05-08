@@ -4,18 +4,18 @@
 #include <QWidget>
 
 namespace Ui {
-class VObjectInfoDialog;
+class QScadaObjectInfoDialog;
 }
 
 class VObjectInfo;
 
-class VObjectInfoDialog : public QWidget
+class QScadaObjectInfoDialog : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit VObjectInfoDialog(QWidget *parent = 0);
-    ~VObjectInfoDialog();
+    explicit QScadaObjectInfoDialog(QWidget *parent = 0);
+    ~QScadaObjectInfoDialog();
 
 public slots:
     void updateWithObjectInfo(VObjectInfo *info);
@@ -39,7 +39,7 @@ signals:
     void savePressed(VObjectInfo*);
 
 private:
-    Ui::VObjectInfoDialog *ui;
+    Ui::QScadaObjectInfoDialog *ui;
 
     QString mMarkerImage;
 

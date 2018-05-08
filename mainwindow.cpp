@@ -1,9 +1,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include "VSimpleScada/vobject.h"
-#include "VSimpleScada/vboardinfo.h"
-#include "VSimpleScada/ventity/vconnecteddeviceinfo.h"
+#include "QScadaObject/qscadaobject.h"
+#include "QScadaBoard/qscadaboardinfo.h"
+#include "QScadaEntity/qscadaconnecteddeviceinfo.h"
 
 #include <QDebug>
 #include <QFileDialog>

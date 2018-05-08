@@ -10,7 +10,7 @@ class MainWindow;
 class VBoard;
 class VObjectInfo;
 class VObject;
-class VObjectInfoDialog;
+class QScadaObjectInfoDialog;
 class QTimer;
 
 class MainWindow : public QMainWindow
@@ -38,7 +38,7 @@ private:
     Ui::MainWindow *ui;
 
     VBoard *mBoard;
-    VObjectInfoDialog *mObjectInfoDialog;
+    QScadaObjectInfoDialog *mObjectInfoDialog;
     QTimer *mTimer;
 };
 

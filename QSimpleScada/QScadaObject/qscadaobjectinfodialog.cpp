@@ -1,13 +1,13 @@
-#include "vobjectinfodialog.h"
-#include "ui_vobjectinfodialog.h"
+#include "qscadaobjectinfodialog.h"
+#include "ui_qscadaobjectinfodialog.h"
 
-#include "vobjectinfo.h"
+#include "qscadaobjectinfo.h"
 #include "QFileDialog"
 #include "QDebug"
 
-VObjectInfoDialog::VObjectInfoDialog(QWidget *parent) :
+QScadaObjectInfoDialog::QScadaObjectInfoDialog(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::VObjectInfoDialog),
+    ui(new Ui::QScadaObjectInfoDialog),
     mLatestObject{nullptr}
 {
     ui->setupUi(this);
@@ -15,12 +15,12 @@ VObjectInfoDialog::VObjectInfoDialog(QWidget *parent) :
     initAxiesList();
 }
 
-VObjectInfoDialog::~VObjectInfoDialog()
+QScadaObjectInfoDialog::~QScadaObjectInfoDialog()
 {
     delete ui;
 }
 
-void VObjectInfoDialog::updateWithObjectInfo(VObjectInfo *info)
+void QScadaObjectInfoDialog::updateWithObjectInfo(VObjectInfo *info)
 {
     if (mLatestObject != nullptr) {
         disconnect(mLatestObject, SIGNAL(geometryChanged(VObjectInfo*)), this, SLOT(geometryUpdated(VObjectInfo *)));
@@ -64,7 +64,7 @@ void VObjectInfoDialog::updateWithObjectInfo(VObjectInfo *info)
     }
 }
 
-void VObjectInfoDialog::enableAxis(bool enable)
+void QScadaObjectInfoDialog::enableAxis(bool enable)
 {
     ui->checkBoxAxis->setChecked(enable);
 
@@ -75,7 +75,7 @@ void VObjectInfoDialog::enableAxis(bool enable)
     ui->comboBoxZ->setEnabled(enable);
 }
 
-void VObjectInfoDialog::initAxiesList()
+void QScadaObjectInfoDialog::initAxiesList()
 {
     ui->comboBoxX->clear();
     ui->comboBoxY->clear();
@@ -91,7 +91,7 @@ void VObjectInfoDialog::initAxiesList()
     ui->comboBoxZ->addItems(lList);
 }
 
-void VObjectInfoDialog::geometryUpdated(VObjectInfo *info)
+void QScadaObjectInfoDialog::geometryUpdated(VObjectInfo *info)
 {
     ui->spinBoxX->setValue(info->geometry().x());
     ui->spinBoxY->setValue(info->geometry().y());
@@ -99,7 +99,7 @@ void VObjectInfoDialog::geometryUpdated(VObjectInfo *info)
     ui->spinBoxHeight->setValue(info->geometry().height());
 }
 //save button pressed
-void VObjectInfoDialog::on_pushButton_2_pressed()
+void QScadaObjectInfoDialog::on_pushButton_2_pressed()
 {
     if (mLatestObject != nullptr) {
         //general
@@ -137,7 +137,7 @@ void VObjectInfoDialog::on_pushButton_2_pressed()
     }
 }
 //delete button pressed
-void VObjectInfoDialog::on_pushButton_pressed()
+void QScadaObjectInfoDialog::on_pushButton_pressed()
 {
     if (mLatestObject != nullptr) {
         emit deletePressed(mLatestObject);
@@ -145,7 +145,7 @@ void VObjectInfoDialog::on_pushButton_pressed()
     }
 }
 
-void VObjectInfoDialog::on_checkBoxAxis_stateChanged(int arg1)
+void QScadaObjectInfoDialog::on_checkBoxAxis_stateChanged(int arg1)
 {
     bool lEnabled = false;
     switch(arg1) {
@@ -162,7 +162,7 @@ void VObjectInfoDialog::on_checkBoxAxis_stateChanged(int arg1)
     enableAxis(lEnabled);
 }
 
-void VObjectInfoDialog::on_pushButton_3_clicked()
+void QScadaObjectInfoDialog::on_pushButton_3_clicked()
 {
     mMarkerImage = QFileDialog::getOpenFileName(this,
          tr("Open Image"), "/home/vshevchyk", tr("Image Files (*.png *.jpg *.bmp *.jpeg)"));

@@ -1,7 +1,7 @@
 #ifndef VBOARD_H
 #define VBOARD_H
 
-#include "vobject.h"
+#include "../QScadaObject/qscadaobject.h"
 
 #include <QWidget>
 #include <QList>

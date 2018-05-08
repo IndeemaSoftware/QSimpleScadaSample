@@ -1,4 +1,4 @@
-#include "vobject.h"
+#include "qscadaobject.h"
 
 #include <QMouseEvent>
 #include <QDebug>

@@ -1,9 +1,9 @@
-#include "../vobjectinfo.h"
+#include "../QScadaObject/qscadaobjectinfo.h"
 
-#include "vconnecteddeviceinfo.h"
+#include "qscadaconnecteddeviceinfo.h"
 
-#include "../vobject.h"
-#include "../vboard.h"
+#include "../QScadaObject/qscadaobject.h"
+#include "../QScadaBoard/qscadaboard.h"
 
 #include <QByteArray>
 #include <QDebug>
@@ -94,9 +94,9 @@ void VConnectedDeviceInfo::initFromXml(const QByteArray &xmlData) {
             } else if (lXmlStreamReader.name() == tag_device_name) {
                 lDeviceConfig->name = lXmlStreamReader.readElementText();
             } else if (lXmlStreamReader.name() == tag_device_ip) {
-                lDeviceConfig->ip = lXmlStreamReader.readElementText();
+                lDeviceConfig->ip = QHostAddress(lXmlStreamReader.readElementText());
             } else if (lXmlStreamReader.name() == tag_device_ip_v6) {
-                lDeviceConfig->ipv6 = lXmlStreamReader.readElementText();
+                lDeviceConfig->ipv6 = QHostAddress(lXmlStreamReader.readElementText());
             } else if (lXmlStreamReader.name()== tag_device_host) {
                 lDeviceConfig->host = lXmlStreamReader.readElementText();
             } else if (lXmlStreamReader.name() == tag_device_domain) {

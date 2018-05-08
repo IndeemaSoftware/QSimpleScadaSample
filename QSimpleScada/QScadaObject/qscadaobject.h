@@ -1,7 +1,7 @@
 #ifndef VOBJECT_H
 #define VOBJECT_H
 
-#include "vobjectinfo.h"
+#include "qscadaobjectinfo.h"
 
 #include <QWidget>
 #include <QLabel>

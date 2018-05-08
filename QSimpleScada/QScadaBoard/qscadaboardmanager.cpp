@@ -1,5 +1,5 @@
-#include "vboardmanager.h"
-#include "vboard.h"
+#include "qscadaboardmanager.h"
+#include "qscadaboard.h"
 
 VBoardManager::VBoardManager(QObject *parent) : QObject(parent)
 {

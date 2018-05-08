@@ -1,4 +1,4 @@
-#include "vobjectinfo.h"
+#include "qscadaobjectinfo.h"
 
 #include <QDebug>
 

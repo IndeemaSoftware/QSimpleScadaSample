@@ -1,4 +1,4 @@
-#include "vboard.h"
+#include "qscadaboard.h"
 
 #include <QApplication>
 #include <QPainter>

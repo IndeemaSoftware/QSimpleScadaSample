@@ -1,9 +1,9 @@
-#include "vboardcontroller.h"
-#include "vboardmanager.h"
+#include "qscadaboardcontroller.h"
+#include "qscadaboardmanager.h"
 
-#include "vboard.h"
-#include "vboardinfo.h"
-#include "vobjectinfodialog.h"
+#include "qscadaboard.h"
+#include "qscadaboardinfo.h"
+#include "../QScadaObject/qscadaobjectinfodialog.h"
 
 #include <QGridLayout>
 #include <QMenu>
@@ -18,7 +18,7 @@ VBoardController::VBoardController(QWidget *parent) :
     setPalette(QPalette(Qt::transparent));
     setAutoFillBackground(true);
 
-    mParametersDialod = new VObjectInfoDialog();
+    mParametersDialod = new QScadaObjectInfoDialog();
     connect(mParametersDialod, SIGNAL(deletePressed(VObjectInfo*)), this, SLOT(deleteObject(VObjectInfo *)));
     connect(mParametersDialod, SIGNAL(savePressed(VObjectInfo*)), this, SLOT(updateSavedObject(VObjectInfo *)));
 

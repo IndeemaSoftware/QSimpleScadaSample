@@ -20,7 +20,7 @@
      <x>0</x>
      <y>0</y>
      <width>400</width>
-     <height>25</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -47,7 +47,7 @@
    <attribute name="dockWidgetArea">
     <number>2</number>
    </attribute>
-   <widget class="VObjectInfoDialog" name="widgetObjectParametrs"/>
+   <widget class="QScadaObjectInfoDialog" name="widgetObjectParametrs"/>
   </widget>
   <action name="actionSave">
    <property name="text">
@@ -70,13 +70,13 @@
   <customwidget>
    <class>VBoard</class>
    <extends>QWidget</extends>
-   <header>VSimpleScada/vboard.h</header>
+   <header>QScadaBoard/qscadaboard.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>VObjectInfoDialog</class>
+   <class>QScadaObjectInfoDialog</class>
    <extends>QWidget</extends>
-   <header>VSimpleScada/vobjectinfodialog.h</header>
+   <header>QScadaObject/qscadaobjectinfodialog.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
