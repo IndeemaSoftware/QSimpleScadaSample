@@ -7,7 +7,7 @@ namespace Ui {
 class QScadaObjectInfoDialog;
 }
 
-class VObjectInfo;
+class QScadaObjectInfo;
 
 class QScadaObjectInfoDialog : public QWidget
 {
@@ -18,14 +18,14 @@ public:
     ~QScadaObjectInfoDialog();
 
 public slots:
-    void updateWithObjectInfo(VObjectInfo *info);
+    void updateWithObjectInfo(QScadaObjectInfo *info);
 
 private:
     void enableAxis(bool);
     void initAxiesList();
 
 private slots:
-    void geometryUpdated(VObjectInfo*);
+    void geometryUpdated(QScadaObjectInfo*);
     void on_pushButton_2_pressed();
 
     void on_pushButton_pressed();
@@ -35,15 +35,15 @@ private slots:
     void on_pushButton_3_clicked();
 
 signals:
-    void deletePressed(VObjectInfo*);
-    void savePressed(VObjectInfo*);
+    void deletePressed(QScadaObjectInfo*);
+    void savePressed(QScadaObjectInfo*);
 
 private:
     Ui::QScadaObjectInfoDialog *ui;
 
     QString mMarkerImage;
 
-    VObjectInfo *mLatestObject;
+    QScadaObjectInfo *mLatestObject;
 };
 
 #endif // VOBJECTINFODIALOG_H

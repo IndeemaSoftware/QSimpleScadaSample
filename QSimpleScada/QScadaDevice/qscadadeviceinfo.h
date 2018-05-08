@@ -7,10 +7,10 @@
 
 class QZeroConfService;
 
-class VDeviceInfo
+class QScadaDeviceInfo
 {
 public:
-    void init(VDeviceInfo *);
+    void init(QScadaDeviceInfo *);
 
     QString name() const;
     void setName(const QString &name);
@@ -36,15 +36,15 @@ public:
     quint16 port() const;
     void setPort(const quint16 &port);
 
-    bool operator ==(const VDeviceInfo& other);
+    bool operator ==(const QScadaDeviceInfo& other);
 
-    VStatus deviceStatus() const;
-    void setDeviceStatus(const VStatus &deviceStatus);
+    QScadaStatus deviceStatus() const;
+    void setDeviceStatus(const QScadaStatus &deviceStatus);
 
     int unitCount() const;
     void setUnitCount(int unitCount);
 
-    bool operator<(const VDeviceInfo &deviceInfo);
+    bool operator<(const QScadaDeviceInfo &deviceInfo);
 
 private:
     QString mName;
@@ -55,7 +55,7 @@ private:
     QHostAddress mIpv6;
     quint32 mInterfaceIndex;
     quint16	mPort;
-    VStatus mDeviceStatus;
+    QScadaStatus mDeviceStatus;
     int mUnitCount;
 };
 

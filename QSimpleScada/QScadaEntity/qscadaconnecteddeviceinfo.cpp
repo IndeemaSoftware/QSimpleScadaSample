@@ -38,7 +38,7 @@ const QString VConnectedDeviceInfo::tag_axis_y = QString("axis_y");
 const QString VConnectedDeviceInfo::tag_axis_z = QString("axis_z");
 
 VConnectedDeviceInfo::VConnectedDeviceInfo(QObject *parent):
-    VBasePrefEntity(parent) {
+    QScadaBasePrefEntity(parent) {
 }
 
 QString VConnectedDeviceInfo::formTag(QString tag, bool isClosing, bool newLine, int numOfTabs)
@@ -78,10 +78,10 @@ QString VConnectedDeviceInfo::formTagValue(QString tag, QString value, bool newL
 void VConnectedDeviceInfo::initFromXml(const QByteArray &xmlData) {
     QXmlStreamReader lXmlStreamReader(QString::fromStdString(xmlData.toStdString()));
 
-    VDeviceConfig *lDeviceConfig = nullptr;
-    VBoardInfo *lBoard = nullptr;
-    VObjectInfo *lObjectInfo = nullptr;
-    VObjectInfoAxis lAxis;
+    QScadaDeviceConfig *lDeviceConfig = nullptr;
+    QScadaBoardInfo *lBoard = nullptr;
+    QScadaObjectInfo *lObjectInfo = nullptr;
+    QScadaObjectInfoAxis lAxis;
 
     while (!lXmlStreamReader.atEnd() && !lXmlStreamReader.hasError()) {
         QXmlStreamReader::TokenType tokenType = lXmlStreamReader.readNext();
@@ -90,7 +90,7 @@ void VConnectedDeviceInfo::initFromXml(const QByteArray &xmlData) {
             continue;
         } else if (tokenType == QXmlStreamReader::StartElement){
             if (lXmlStreamReader.name() == tag_device) {
-                lDeviceConfig = new VDeviceConfig();
+                lDeviceConfig = new QScadaDeviceConfig();
             } else if (lXmlStreamReader.name() == tag_device_name) {
                 lDeviceConfig->name = lXmlStreamReader.readElementText();
             } else if (lXmlStreamReader.name() == tag_device_ip) {
@@ -104,10 +104,10 @@ void VConnectedDeviceInfo::initFromXml(const QByteArray &xmlData) {
             }
             //parsing boards data
             else if (lXmlStreamReader.name() == tag_board) {
-                lBoard = new VBoardInfo();
+                lBoard = new QScadaBoardInfo();
                 lDeviceConfig->boardList.append(lBoard);
             } else if (lXmlStreamReader.name() == tag_object) {
-                lObjectInfo = new VObjectInfo();
+                lObjectInfo = new QScadaObjectInfo();
                 lBoard->appendObjectInfo(lObjectInfo);
             } else if (lXmlStreamReader.name() == tag_title) {
                 lObjectInfo->setTitle(lXmlStreamReader.readElementText());
@@ -158,15 +158,15 @@ void VConnectedDeviceInfo::initFromXml(const QByteArray &xmlData) {
             } else if (lXmlStreamReader.name() == tag_axis_enabled) {
                 lObjectInfo->setAxiesEnabled((bool)lXmlStreamReader.readElementText().toInt());//-----------------
             } else if (lXmlStreamReader.name() == tag_axis_position) {
-                lObjectInfo->setAxisPosition((VObjectAxisPosition)lXmlStreamReader.readElementText().toInt());//new
+                lObjectInfo->setAxisPosition((QScadaObjectAxisPosition)lXmlStreamReader.readElementText().toInt());//new
             } else if (lXmlStreamReader.name() == tag_axis_x) {
-                lAxis.setX((VObjectInfoAxisDirrection)lXmlStreamReader.readElementText().toInt());//-----------
+                lAxis.setX((QScadaObjectInfoAxisDirrection)lXmlStreamReader.readElementText().toInt());//-----------
                 lObjectInfo->setAxis(lAxis);
             } else if (lXmlStreamReader.name() == tag_axis_y) {
-                lAxis.setY((VObjectInfoAxisDirrection)lXmlStreamReader.readElementText().toInt());
+                lAxis.setY((QScadaObjectInfoAxisDirrection)lXmlStreamReader.readElementText().toInt());
                 lObjectInfo->setAxis(lAxis);
             } else if (lXmlStreamReader.name() == tag_axis_z) {
-                lAxis.setZ((VObjectInfoAxisDirrection)lXmlStreamReader.readElementText().toInt());
+                lAxis.setZ((QScadaObjectInfoAxisDirrection)lXmlStreamReader.readElementText().toInt());
                 lObjectInfo->setAxis(lAxis);
             }
 
@@ -189,7 +189,7 @@ void VConnectedDeviceInfo::saveXmlToFile(const QString &filePath)
         QString lDevices;
 
         lDevices = "<devices>\n";
-        for (VDeviceConfig *deviceConfig : connecteDeviceList) {
+        for (QScadaDeviceConfig *deviceConfig : connecteDeviceList) {
             lDevices += "<device>\n";
             lDevices += "\t<name>" + deviceConfig->name + "</name>\n";
             lDevices += "\t<ip>" + deviceConfig->ip.toString() + "</ip>\n";
@@ -210,12 +210,12 @@ void VConnectedDeviceInfo::saveXmlToFile(const QString &filePath)
     }
 }
 
-QString VConnectedDeviceInfo::XMLFromDeviceInfo(QList<VDeviceInfo> deviceList, VBoardController *boardController)
+QString VConnectedDeviceInfo::XMLFromDeviceInfo(QList<QScadaDeviceInfo> deviceList, QScadaBoardController *boardController)
 {
     //create xml for devices
     VConnectedDeviceInfo i;
     QString rDevices = i.formTag(tag_devices, false, true, 0);//"<devices>\n";
-    for (VDeviceInfo info: deviceList) {
+    for (QScadaDeviceInfo info: deviceList) {
         rDevices += i.formTag(tag_device, false, true, 1);//"\t<device>\n";
         rDevices += i.formTagValue(tag_device_name, info.name(), true, 2);//"\t\t<name>" + info.name() + "</name>\n";
         rDevices += i.formTagValue(tag_device_ip, info.ip().toString(), true, 2);//"\t\t<ip>" + info.ip().toString() + "</ip>\n";
@@ -225,9 +225,9 @@ QString VConnectedDeviceInfo::XMLFromDeviceInfo(QList<VDeviceInfo> deviceList, V
         rDevices += i.formTag(tag_device, true, true, 1);//"\t</device>\n";
 
         rDevices += i.formTag(tag_boards, false, true, 1);//"\t<boards>\n";
-        for(VBoard *board : boardController->getBoardListForDeviceIp(info.ip().toString())) {
+        for(QScadaBoard *board : boardController->getBoardListForDeviceIp(info.ip().toString())) {
             rDevices += i.formTag(tag_board, false, true, 2);//"\t\t<board>\n";
-            for (VObject *object : *board->objects()) {
+            for (QScadaObject *object : *board->objects()) {
                 rDevices += i.formTag(tag_object, false, true, 3);//"\t\t\t<object>\n";
                 rDevices += i.formTagValue(tag_title, object->info()->title(), true, 4);//"\t\t\t\t<title>"+ object->info()->title() + "</title>\n";
                 rDevices += i.formTagValue(tag_id, QString::number(object->info()->id()), true, 4);//"\t\t\t\t<id>"+ QString::number(object->info()->id()) + "</id>\n";

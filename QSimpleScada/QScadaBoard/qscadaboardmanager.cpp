@@ -1,19 +1,19 @@
 #include "qscadaboardmanager.h"
 #include "qscadaboard.h"
 
-VBoardManager::VBoardManager(QObject *parent) : QObject(parent)
+QScadaBoardManager::QScadaBoardManager(QObject *parent) : QObject(parent)
 {
 
 }
 
-VBoard *VBoardManager::getBoardForDeviceWithIp(QString ip)
+QScadaBoard *QScadaBoardManager::getBoardForDeviceWithIp(QString ip)
 {
-    VBoard *rBoard = nullptr;
+    QScadaBoard *rBoard = nullptr;
 
     if (mBoardMap.contains(ip)) {
         rBoard = mBoardMap.value(ip);
     } else {
-        rBoard = new VBoard();
+        rBoard = new QScadaBoard();
         rBoard->setEditable(true);
         mBoardMap.insert(ip, rBoard);
     }
@@ -21,7 +21,7 @@ VBoard *VBoardManager::getBoardForDeviceWithIp(QString ip)
     return rBoard;
 }
 
-QList<VBoard *> VBoardManager::getBoardList()
+QList<QScadaBoard *> QScadaBoardManager::getBoardList()
 {
     return mBoardMap.values();
 }

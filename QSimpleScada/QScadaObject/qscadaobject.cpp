@@ -10,9 +10,9 @@
 #define RESIZE_FIELD_SIZE 10
 #define RESIZE_AREA(x, y) ((geometry().width() - RESIZE_FIELD_SIZE) < x) && ((geometry().height() - RESIZE_FIELD_SIZE) < y)
 
-VObject::VObject(QWidget *parent) :
+QScadaObject::QScadaObject(QWidget *parent) :
     QWidget(parent),
-    mInfo{new VObjectInfo(this)},
+    mInfo{new QScadaObjectInfo(this)},
     mEffect{new QGraphicsDropShadowEffect},
     mStatus{VObjectStatusNone}
 {
@@ -30,32 +30,32 @@ VObject::VObject(QWidget *parent) :
     setAction(VObjectActionNone);
     setMouseTracking(true);//this not mouseMoveEven is called everytime mouse is moved
 
-    connect(mInfo, SIGNAL(dynamicStatusChanged(VObjectInfo *)), this, SLOT(dynamicStatusChanged(VObjectInfo *)));
+    connect(mInfo, SIGNAL(dynamicStatusChanged(QScadaObjectInfo *)), this, SLOT(dynamicStatusChanged(QScadaObjectInfo *)));
 }
 
-VObject::~VObject()
+QScadaObject::~QScadaObject()
 {
     delete mInfo;
     delete mEffect;
 }
 
-void VObject::setGeometry(int x, int y, int width, int height)
+void QScadaObject::setGeometry(int x, int y, int width, int height)
 {
     setGeometry(QRect(x, y, width, height));
 }
 
-void VObject::setGeometry(const QRect &r)
+void QScadaObject::setGeometry(const QRect &r)
 {
     info()->setGeometry(r);
     QWidget::setGeometry(r);
 }
 
-QRect VObject::geometry()
+QRect QScadaObject::geometry()
 {
     return info()->geometry();
 }
 
-void VObject::mouseMoveEvent(QMouseEvent *event)
+void QScadaObject::mouseMoveEvent(QMouseEvent *event)
 {
     if (mIsEditable) {
         switch (action()) {
@@ -80,7 +80,7 @@ void VObject::mouseMoveEvent(QMouseEvent *event)
     }
 }
 
-void VObject::mousePressEvent(QMouseEvent *event)
+void QScadaObject::mousePressEvent(QMouseEvent *event)
 {
     if (mIsEditable) {
         if (event->button() == Qt::LeftButton) {
@@ -103,7 +103,7 @@ void VObject::mousePressEvent(QMouseEvent *event)
     }
 }
 
-void VObject::mouseReleaseEvent(QMouseEvent *event)
+void QScadaObject::mouseReleaseEvent(QMouseEvent *event)
 {
     if (mIsEditable) {
         (void)event;
@@ -114,14 +114,14 @@ void VObject::mouseReleaseEvent(QMouseEvent *event)
     }
 }
 
-void VObject::mouseDoubleClickEvent(QMouseEvent *e)
+void QScadaObject::mouseDoubleClickEvent(QMouseEvent *e)
 {
     if (e->button() == Qt::LeftButton) {
         emit objectDoubleClicked(this);
     }
 }
 
-void VObject::paintEvent(QPaintEvent *e)
+void QScadaObject::paintEvent(QPaintEvent *e)
 {
     QPainter lPainter(this);
     QPixmap lMarkerPixmap(info()->imageName(mStatus));
@@ -236,7 +236,7 @@ void VObject::paintEvent(QPaintEvent *e)
     QWidget::paintEvent(e);
 }
 
-void VObject::dynamicStatusChanged(VObjectInfo*)
+void QScadaObject::dynamicStatusChanged(QScadaObjectInfo*)
 {
     if (info()->isDynamic()) {
         switch(mStatus) {
@@ -262,28 +262,28 @@ void VObject::dynamicStatusChanged(VObjectInfo*)
     }
 }
 
-VObjectStatus VObject::status() const
+QScadaObjectStatus QScadaObject::status() const
 {
     return mStatus;
 }
 
-void VObject::setStatus(const VObjectStatus &status)
+void QScadaObject::setStatus(const QScadaObjectStatus &status)
 {
     mStatus = status;
     dynamicStatusChanged(mInfo);
 }
 
-bool VObject::isEditable() const
+bool QScadaObject::isEditable() const
 {
     return mIsEditable;
 }
 
-void VObject::setIsEditable(bool isEditable)
+void QScadaObject::setIsEditable(bool isEditable)
 {
     mIsEditable = isEditable;
 }
 
-void VObject::update()
+void QScadaObject::update()
 {
     if (info()->showBackground()) {
         setPalette(QPalette(Qt::transparent));
@@ -296,12 +296,12 @@ void VObject::update()
     dynamicStatusChanged(info());
 }
 
-bool VObject::selected() const
+bool QScadaObject::selected() const
 {
     return mSelected;
 }
 
-void VObject::setSelected(bool selected)
+void QScadaObject::setSelected(bool selected)
 {
     mSelected = selected;
 
@@ -315,28 +315,28 @@ void VObject::setSelected(bool selected)
     }
 }
 
-VObjectInfo *VObject::info() const
+QScadaObjectInfo *QScadaObject::info() const
 {
     return mInfo;
 }
 
-void VObject::setInfo(VObjectInfo *info)
+void QScadaObject::setInfo(QScadaObjectInfo *info)
 {
     setGeometry(info->geometry());
     mInfo = info;
 }
 
-VObjectAction VObject::action() const
+QScadaObjectAction QScadaObject::action() const
 {
     return mAction;
 }
 
-void VObject::setAction(const VObjectAction &action)
+void QScadaObject::setAction(const QScadaObjectAction &action)
 {
     mAction = action;
 }
 
-void VObject::move(int x, int y)
+void QScadaObject::move(int x, int y)
 {
     int lX = geometry().x() + x - mPosition.x();
     int lY = geometry().y() + y - mPosition.y();
@@ -347,7 +347,7 @@ void VObject::move(int x, int y)
                 geometry().height());
 }
 
-void VObject::resize(int x, int y)
+void QScadaObject::resize(int x, int y)
 {
     int lX = x - geometry().width();
     int lY = y - geometry().height();

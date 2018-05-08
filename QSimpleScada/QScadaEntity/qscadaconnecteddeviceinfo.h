@@ -12,16 +12,16 @@
 
 class VConnectedDeviceInfo;
 
-struct VDeviceConfig {
+struct QScadaDeviceConfig {
     QString			name;
     QString			domain;
     QString			host;
     QHostAddress	ip;
     QHostAddress	ipv6;
-    QList<VBoardInfo*> boardList;
+    QList<QScadaBoardInfo*> boardList;
 };
 
-class VConnectedDeviceInfo : public VBasePrefEntity
+class VConnectedDeviceInfo : public QScadaBasePrefEntity
 {
 public:
     static const QString tag_devices;
@@ -59,12 +59,12 @@ public:
     static QString formTagValue(QString tag, QString value, bool newLine, int numOfTabs);
 
 
-    QList<VDeviceConfig *> connecteDeviceList;
+    QList<QScadaDeviceConfig *> connecteDeviceList;
 
     void initFromXml(const QByteArray &xmlData);
 
     void saveXmlToFile(const QString &filePath);
-    static QString XMLFromDeviceInfo(QList<VDeviceInfo> deviceList, VBoardController *);
+    static QString XMLFromDeviceInfo(QList<QScadaDeviceInfo> deviceList, QScadaBoardController *);
 };
 
 #endif // CONNECTEDDEVICEINFO_H

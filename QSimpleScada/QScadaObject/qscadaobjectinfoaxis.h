@@ -18,37 +18,37 @@ typedef enum {
     VObjectInfoAxisDirrectionUpside,
     VObjectInfoAxisDirrectionAside,
     VObjectInfoAxisDirrectionInside
-} VObjectInfoAxisDirrection;
+} QScadaObjectInfoAxisDirrection;
 
-class VObjectInfoAxis
+class QScadaObjectInfoAxis
 {
 public:
-    explicit VObjectInfoAxis();
+    explicit QScadaObjectInfoAxis();
 
-    QString stringFromAxis(VObjectInfoAxisDirrection dirr);
+    QString stringFromAxis(QScadaObjectInfoAxisDirrection dirr);
 
-    VObjectInfoAxisDirrection axisFromString(QString string);
+    QScadaObjectInfoAxisDirrection axisFromString(QString string);
 
     QString upsideAxisString();
     QString asideAxisString();
     QString insideAxisString();
 
     QString getStringX();
-    VObjectInfoAxisDirrection getX() const;
-    void setX(const VObjectInfoAxisDirrection &value);
+    QScadaObjectInfoAxisDirrection getX() const;
+    void setX(const QScadaObjectInfoAxisDirrection &value);
 
     QString getStringY();
-    VObjectInfoAxisDirrection getY() const;
-    void setY(const VObjectInfoAxisDirrection &value);
+    QScadaObjectInfoAxisDirrection getY() const;
+    void setY(const QScadaObjectInfoAxisDirrection &value);
 
     QString getStringZ();
-    VObjectInfoAxisDirrection getZ() const;
-    void setZ(const VObjectInfoAxisDirrection &value);
+    QScadaObjectInfoAxisDirrection getZ() const;
+    void setZ(const QScadaObjectInfoAxisDirrection &value);
 
 private:
-    VObjectInfoAxisDirrection mX;
-    VObjectInfoAxisDirrection mY;
-    VObjectInfoAxisDirrection mZ;
+    QScadaObjectInfoAxisDirrection mX;
+    QScadaObjectInfoAxisDirrection mY;
+    QScadaObjectInfoAxisDirrection mZ;
 };
 
 #endif // VOBJECTINFOAXIS_H

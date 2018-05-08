@@ -1,13 +1,13 @@
 #include "qscadaobjectinfoaxis.h"
 
-VObjectInfoAxis::VObjectInfoAxis()
+QScadaObjectInfoAxis::QScadaObjectInfoAxis()
 {
     mX = VObjectInfoAxisDirrectionUpside;
     mY = VObjectInfoAxisDirrectionAside;
     mZ = VObjectInfoAxisDirrectionInside;
 }
 
-QString VObjectInfoAxis::stringFromAxis(VObjectInfoAxisDirrection dirr)
+QString QScadaObjectInfoAxis::stringFromAxis(QScadaObjectInfoAxisDirrection dirr)
 {
     switch (dirr) {
     case VObjectInfoAxisDirrectionUpside:
@@ -21,7 +21,7 @@ QString VObjectInfoAxis::stringFromAxis(VObjectInfoAxisDirrection dirr)
     }
 }
 
-VObjectInfoAxisDirrection VObjectInfoAxis::axisFromString(QString string)
+QScadaObjectInfoAxisDirrection QScadaObjectInfoAxis::axisFromString(QString string)
 {
     if (string == QString(AXIS_UP)) {
         return VObjectInfoAxisDirrectionUpside;
@@ -34,7 +34,7 @@ VObjectInfoAxisDirrection VObjectInfoAxis::axisFromString(QString string)
     }
 }
 
-QString VObjectInfoAxis::upsideAxisString()
+QString QScadaObjectInfoAxis::upsideAxisString()
 {
     if (getX() == VObjectInfoAxisDirrectionUpside) {
         return ZXIS_X;
@@ -47,7 +47,7 @@ QString VObjectInfoAxis::upsideAxisString()
     }
 }
 
-QString VObjectInfoAxis::asideAxisString()
+QString QScadaObjectInfoAxis::asideAxisString()
 {
     if (getX() == VObjectInfoAxisDirrectionAside) {
         return ZXIS_X;
@@ -60,7 +60,7 @@ QString VObjectInfoAxis::asideAxisString()
     }
 }
 
-QString VObjectInfoAxis::insideAxisString()
+QString QScadaObjectInfoAxis::insideAxisString()
 {
     if (getX() == VObjectInfoAxisDirrectionInside) {
         return ZXIS_X;
@@ -73,47 +73,47 @@ QString VObjectInfoAxis::insideAxisString()
     }
 }
 
-QString VObjectInfoAxis::getStringX()
+QString QScadaObjectInfoAxis::getStringX()
 {
     return stringFromAxis(getX());
 }
 
-VObjectInfoAxisDirrection VObjectInfoAxis::getX() const
+QScadaObjectInfoAxisDirrection QScadaObjectInfoAxis::getX() const
 {
     return mX;
 }
 
-void VObjectInfoAxis::setX(const VObjectInfoAxisDirrection &value)
+void QScadaObjectInfoAxis::setX(const QScadaObjectInfoAxisDirrection &value)
 {
     mX = value;
 }
 
-QString VObjectInfoAxis::getStringY()
+QString QScadaObjectInfoAxis::getStringY()
 {
     return stringFromAxis(getY());
 }
 
-VObjectInfoAxisDirrection VObjectInfoAxis::getY() const
+QScadaObjectInfoAxisDirrection QScadaObjectInfoAxis::getY() const
 {
     return mY;
 }
 
-void VObjectInfoAxis::setY(const VObjectInfoAxisDirrection &value)
+void QScadaObjectInfoAxis::setY(const QScadaObjectInfoAxisDirrection &value)
 {
     mY = value;
 }
 
-QString VObjectInfoAxis::getStringZ()
+QString QScadaObjectInfoAxis::getStringZ()
 {
     return stringFromAxis(getZ());
 }
 
-VObjectInfoAxisDirrection VObjectInfoAxis::getZ() const
+QScadaObjectInfoAxisDirrection QScadaObjectInfoAxis::getZ() const
 {
     return mZ;
 }
 
-void VObjectInfoAxis::setZ(const VObjectInfoAxisDirrection &value)
+void QScadaObjectInfoAxis::setZ(const QScadaObjectInfoAxisDirrection &value)
 {
     mZ = value;
 }

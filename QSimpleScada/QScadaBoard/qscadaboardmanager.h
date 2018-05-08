@@ -4,20 +4,20 @@
 #include <QObject>
 #include <QMap>
 
-class VBoard;
+class QScadaBoard;
 
-class VBoardManager : public QObject
+class QScadaBoardManager : public QObject
 {
     Q_OBJECT
 public:
-    explicit VBoardManager(QObject *parent = 0);
+    explicit QScadaBoardManager(QObject *parent = 0);
 
-    VBoard* getBoardForDeviceWithIp(QString);
+    QScadaBoard* getBoardForDeviceWithIp(QString);
 
-    QList<VBoard*> getBoardList();
+    QList<QScadaBoard*> getBoardList();
 
 private:
-    QMap<QString, VBoard*> mBoardMap;
+    QMap<QString, QScadaBoard*> mBoardMap;
 };
 
 #endif // VBOARDMANAGER_H

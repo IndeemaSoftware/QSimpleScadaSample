@@ -1,6 +1,6 @@
 #include "qscadadeviceinfo.h"
 
-void VDeviceInfo::init(VDeviceInfo *deviceInfo)
+void QScadaDeviceInfo::init(QScadaDeviceInfo *deviceInfo)
 {
     setName(deviceInfo->name());
     setType(deviceInfo->type());
@@ -10,118 +10,118 @@ void VDeviceInfo::init(VDeviceInfo *deviceInfo)
     setIpv6(deviceInfo->ipv6());
     setInterfaceIndex(deviceInfo->interfaceIndex());
     setPort(deviceInfo->port());
-    setDeviceStatus(VStatusGray);
+    setDeviceStatus(QScadaStatusGray);
     setUnitCount(0);
 }
 
-QString VDeviceInfo::name() const
+QString QScadaDeviceInfo::name() const
 {
     return mName;
 }
 
-void VDeviceInfo::setName(const QString &name)
+void QScadaDeviceInfo::setName(const QString &name)
 {
     mName = name;
 }
 
-QString VDeviceInfo::type() const
+QString QScadaDeviceInfo::type() const
 {
     return mType;
 }
 
-void VDeviceInfo::setType(const QString &type)
+void QScadaDeviceInfo::setType(const QString &type)
 {
     mType = type;
 }
 
-QString VDeviceInfo::domain() const
+QString QScadaDeviceInfo::domain() const
 {
     return mDomain;
 }
 
-void VDeviceInfo::setDomain(const QString &domain)
+void QScadaDeviceInfo::setDomain(const QString &domain)
 {
     mDomain = domain;
 }
 
-QString VDeviceInfo::host() const
+QString QScadaDeviceInfo::host() const
 {
     return mHost;
 }
 
-void VDeviceInfo::setHost(const QString &host)
+void QScadaDeviceInfo::setHost(const QString &host)
 {
     mHost = host;
 }
 
-QHostAddress VDeviceInfo::ip() const
+QHostAddress QScadaDeviceInfo::ip() const
 {
     return mIp;
 }
 
-void VDeviceInfo::setIp(const QHostAddress &ip)
+void QScadaDeviceInfo::setIp(const QHostAddress &ip)
 {
     mIp = ip;
 }
 
-QHostAddress VDeviceInfo::ipv6() const
+QHostAddress QScadaDeviceInfo::ipv6() const
 {
     return mIpv6;
 }
 
-void VDeviceInfo::setIpv6(const QHostAddress &ipv6)
+void QScadaDeviceInfo::setIpv6(const QHostAddress &ipv6)
 {
     mIpv6 = ipv6;
 }
 
-quint32 VDeviceInfo::interfaceIndex() const
+quint32 QScadaDeviceInfo::interfaceIndex() const
 {
     return mInterfaceIndex;
 }
 
-void VDeviceInfo::setInterfaceIndex(const quint32 &interfaceIndex)
+void QScadaDeviceInfo::setInterfaceIndex(const quint32 &interfaceIndex)
 {
     mInterfaceIndex = interfaceIndex;
 }
 
-quint16 VDeviceInfo::port() const
+quint16 QScadaDeviceInfo::port() const
 {
     return mPort;
 }
 
-void VDeviceInfo::setPort(const quint16 &port)
+void QScadaDeviceInfo::setPort(const quint16 &port)
 {
     mPort = port;
 }
 
-bool VDeviceInfo::operator ==(const VDeviceInfo &other)
+bool QScadaDeviceInfo::operator ==(const QScadaDeviceInfo &other)
 {
     return mName == other.mName && mType == other.mType && mHost == other.mHost &&
             mInterfaceIndex == other.mInterfaceIndex && mIp == other.mIp && mIpv6 == other.mIpv6 && mDomain == other.mDomain &&
             mHost == other.mHost && mDeviceStatus == other.mDeviceStatus && mUnitCount == other.mUnitCount;
 }
 
-VStatus VDeviceInfo::deviceStatus() const
+QScadaStatus QScadaDeviceInfo::deviceStatus() const
 {
     return mDeviceStatus;
 }
 
-void VDeviceInfo::setDeviceStatus(const VStatus &deviceStatus)
+void QScadaDeviceInfo::setDeviceStatus(const QScadaStatus &deviceStatus)
 {
     mDeviceStatus = deviceStatus;
 }
 
-int VDeviceInfo::unitCount() const
+int QScadaDeviceInfo::unitCount() const
 {
     return mUnitCount;
 }
 
-void VDeviceInfo::setUnitCount(int unitCount)
+void QScadaDeviceInfo::setUnitCount(int unitCount)
 {
     mUnitCount = unitCount;
 }
 
-bool VDeviceInfo::operator<(const VDeviceInfo &deviceInfo)
+bool QScadaDeviceInfo::operator<(const QScadaDeviceInfo &deviceInfo)
 {
     QString lName = name().remove(" ");
     QString rName = deviceInfo.name().remove(" ");

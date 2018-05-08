@@ -2,7 +2,7 @@
 
 #include <QDebug>
 
-VObjectInfo::VObjectInfo(QObject *parent) :
+QScadaObjectInfo::QScadaObjectInfo(QObject *parent) :
     QObject(parent),
     mIsDynamic{false},
     mTitle{"Noname"},
@@ -15,7 +15,7 @@ VObjectInfo::VObjectInfo(QObject *parent) :
     setGeometry(QRect(100, 100, 100, 100));
 }
 
-VObjectInfo::VObjectInfo(VObjectInfo *o):
+QScadaObjectInfo::QScadaObjectInfo(QScadaObjectInfo *o):
     mIsDynamic{o->isDynamic()},
     mGeometry{o->geometry()},
     mId{o->id()},
@@ -31,137 +31,137 @@ VObjectInfo::VObjectInfo(VObjectInfo *o):
 
 }
 
-int VObjectInfo::id() const
+int QScadaObjectInfo::id() const
 {
     return mId;
 }
 
-void VObjectInfo::setId(int id)
+void QScadaObjectInfo::setId(int id)
 {
     mId = id;
 }
 
-QString VObjectInfo::title() const
+QString QScadaObjectInfo::title() const
 {
     return mTitle;
 }
 
-void VObjectInfo::setTitle(const QString &title)
+void QScadaObjectInfo::setTitle(const QString &title)
 {
     mTitle = title;
 }
 
-VObjectInfoAxis VObjectInfo::axis()
+QScadaObjectInfoAxis QScadaObjectInfo::axis()
 {
     return mAxis;
 }
 
-void VObjectInfo::setAxis(const VObjectInfoAxis &axis)
+void QScadaObjectInfo::setAxis(const QScadaObjectInfoAxis &axis)
 {
     mAxis = axis;
 }
 
-bool VObjectInfo::axiesEnabled() const
+bool QScadaObjectInfo::axiesEnabled() const
 {
     return mAxiesEnabled;
 }
 
-void VObjectInfo::setAxiesEnabled(bool axiesEnabled)
+void QScadaObjectInfo::setAxiesEnabled(bool axiesEnabled)
 {
     mAxiesEnabled = axiesEnabled;
 }
 
-QRect VObjectInfo::geometry() const
+QRect QScadaObjectInfo::geometry() const
 {
     return mGeometry;
 }
 
-void VObjectInfo::setGeometry(const QRect &geometry)
+void QScadaObjectInfo::setGeometry(const QRect &geometry)
 {
     mGeometry = geometry;
     emit geometryChanged(this);
 }
 
-bool VObjectInfo::isDynamic() const
+bool QScadaObjectInfo::isDynamic() const
 {
     return mIsDynamic;
 }
 
-void VObjectInfo::setIsDynamic(bool isDynamic)
+void QScadaObjectInfo::setIsDynamic(bool isDynamic)
 {
     mIsDynamic = isDynamic;
 
     emit dynamicStatusChanged(this);
 }
 
-VObjectInfoImage VObjectInfo::infoImage()
+QScadaObjectInfoImage QScadaObjectInfo::infoImage()
 {
     return mImageName;
 }
 
-QString VObjectInfo::imageName(VObjectStatus status)
+QString QScadaObjectInfo::imageName(QScadaObjectStatus status)
 {
     return mImageName.getImageNameForStatus(status);
 }
 
-void VObjectInfo::setImageName(QString imageName, VObjectStatus status)
+void QScadaObjectInfo::setImageName(QString imageName, QScadaObjectStatus status)
 {
     mImageName.setImageNameForState(imageName, status);
 }
 
-bool VObjectInfo::showBackground() const
+bool QScadaObjectInfo::showBackground() const
 {
     return mShowBackground;
 }
 
-void VObjectInfo::setShowBackground(bool showBackground)
+void QScadaObjectInfo::setShowBackground(bool showBackground)
 {
     mShowBackground = showBackground;
 }
 
-bool VObjectInfo::showMarkers() const
+bool QScadaObjectInfo::showMarkers() const
 {
     return mShowMarkers;
 }
 
-void VObjectInfo::setShowMarkers(bool showMarkers)
+void QScadaObjectInfo::setShowMarkers(bool showMarkers)
 {
     mShowMarkers = showMarkers;
 }
 
-VObjectAxisPosition VObjectInfo::axisPosition() const
+QScadaObjectAxisPosition QScadaObjectInfo::axisPosition() const
 {
     return mAxisPosition;
 }
 
-void VObjectInfo::setAxisPosition(const VObjectAxisPosition &axisPosition)
+void QScadaObjectInfo::setAxisPosition(const QScadaObjectAxisPosition &axisPosition)
 {
     mAxisPosition = axisPosition;
 }
 
-QString VObjectInfo::backGroundImage() const
+QString QScadaObjectInfo::backGroundImage() const
 {
     return mBackGroundImage;
 }
 
-void VObjectInfo::setBackGroundImage(const QString &backGroundImage)
+void QScadaObjectInfo::setBackGroundImage(const QString &backGroundImage)
 {
     mBackGroundImage = backGroundImage;
 }
 
-bool VObjectInfo::showBackgroundImage() const
+bool QScadaObjectInfo::showBackgroundImage() const
 {
     return mShowBackgroundImage;
 }
 
-void VObjectInfo::setShowBackgroundImage(bool showBackgroundImage)
+void QScadaObjectInfo::setShowBackgroundImage(bool showBackgroundImage)
 {
     mShowBackgroundImage = showBackgroundImage;
 }
 
 //implementations for VObjectInfoImage
 
-QString VObjectInfoImage::getImageNameForStatus(VObjectStatus status)
+QString QScadaObjectInfoImage::getImageNameForStatus(QScadaObjectStatus status)
 {
     QString rValue;
     
@@ -183,7 +183,7 @@ QString VObjectInfoImage::getImageNameForStatus(VObjectStatus status)
     return rValue;
 }
 
-void VObjectInfoImage::setImageNameForState(QString name, VObjectStatus status)
+void QScadaObjectInfoImage::setImageNameForState(QString name, QScadaObjectStatus status)
 {
     switch(status) {
     case VObjectStatusNone:

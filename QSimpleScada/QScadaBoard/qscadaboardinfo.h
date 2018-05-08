@@ -4,19 +4,19 @@
 #include <QList>
 #include <QDebug>
 
-class VObjectInfo;
+class QScadaObjectInfo;
 
-class VBoardInfo
+class QScadaBoardInfo
 {
 public:
-    void appendObjectInfo(VObjectInfo* object){
+    void appendObjectInfo(QScadaObjectInfo* object){
         mObjectList.append(object);
     }
 
-    QList<VObjectInfo*> objectList() {
+    QList<QScadaObjectInfo*> objectList() {
         return mObjectList;
     }
 private:
-    QList<VObjectInfo*> mObjectList;
+    QList<QScadaObjectInfo*> mObjectList;
 };
 #endif // VBOARDINFO_H

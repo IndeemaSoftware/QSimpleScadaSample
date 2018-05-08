@@ -1,5 +1,5 @@
 #include "qscadabaseprefentity.h"
 
-VBasePrefEntity::VBasePrefEntity(QObject *parent) : QObject(parent) {
+QScadaBasePrefEntity::QScadaBasePrefEntity(QObject *parent) : QObject(parent) {
 
 }

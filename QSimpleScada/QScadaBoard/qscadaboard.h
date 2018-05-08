@@ -6,17 +6,17 @@
 #include <QWidget>
 #include <QList>
 
-class VObjectInfo;
+class QScadaObjectInfo;
 
-class VBoard : public QWidget
+class QScadaBoard : public QWidget
 {
     Q_OBJECT
 public:
-    explicit VBoard(QWidget *parent = 0);
-    ~VBoard();
+    explicit QScadaBoard(QWidget *parent = 0);
+    ~QScadaBoard();
 
     void createNewObject();
-    void createNewObject(VObjectInfo *);
+    void createNewObject(QScadaObjectInfo *);
     void createNewObject(int id);
 
     bool editable() const;
@@ -29,18 +29,18 @@ public:
     void setGrid(int grid);
 
     void deleteObjectWithId(int);
-    void deleteObject(VObject*);
+    void deleteObject(QScadaObject*);
     void updateObjectWithId(int);
-    void updateStatusWithId(int, VObjectStatus);
+    void updateStatusWithId(int, QScadaObjectStatus);
 
-    QList<VObject *> *objects() const;
+    QList<QScadaObject *> *objects() const;
 
-    QList<VObject*> getSeletedObjects();
+    QList<QScadaObject*> getSeletedObjects();
 
 public slots:
     //objects order
-    void bringToFront(VObject*);
-    void sendToBack(VObject*);
+    void bringToFront(QScadaObject*);
+    void sendToBack(QScadaObject*);
 
 protected:
     void mouseMoveEvent(QMouseEvent *event);
@@ -48,14 +48,14 @@ protected:
     void paintEvent(QPaintEvent *e);
 
 signals:
-    void objectDoubleClicked(VObject*);
-    void objectSelected(VObject *);
+    void objectDoubleClicked(QScadaObject*);
+    void objectSelected(QScadaObject *);
 
 private slots:
     void newObjectSelected(int id);
 
 private:
-    QList<VObject*> *mObjects;
+    QList<QScadaObject*> *mObjects;
     bool mEditable; //default value false
     bool mShowGrid; //default value true
     int mGrid; //default value 10

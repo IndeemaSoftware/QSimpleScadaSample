@@ -6,38 +6,38 @@
 
 #include "../QScadaObject/qscadaobject.h"
 
-class VBoard;
+class QScadaBoard;
 class QScadaObjectInfoDialog;
-class VObjectInfo;
-class VObject;
+class QScadaObjectInfo;
+class QScadaObject;
 class VUnitModel;
-class VBoardManager;
-class VBoardInfo;
+class QScadaBoardManager;
+class QScadaBoardInfo;
 
-class VBoardController : public QWidget
+class QScadaBoardController : public QWidget
 {
     Q_OBJECT
 public:
-    explicit VBoardController(QWidget *parent = 0);
-    ~VBoardController();
+    explicit QScadaBoardController(QWidget *parent = 0);
+    ~QScadaBoardController();
 
-    void initConnectedDevices(const QList<VBoardInfo*>list);
+    void initConnectedDevices(const QList<QScadaBoardInfo*>list);
 
-    void clearBoard(VBoard*);
+    void clearBoard(QScadaBoard*);
     void clearAllBoards();
 
     void initBoardForDeviceIp(QString);
     void updateBoardForDeviceIp(QString);
-    QList<VBoard*> getBoardList();
-    QList<VBoard*> getBoardListForDeviceIp(QString);
+    QList<QScadaBoard*> getBoardList();
+    QList<QScadaBoard*> getBoardListForDeviceIp(QString);
 
-    void updateStatus(QString device, int objectId, VObjectStatus status);
-    void updateStatus(QStringList device, QList<int> objectId, QList<VObjectStatus> status);
+    void updateStatus(QString device, int objectId, QScadaObjectStatus status);
+    void updateStatus(QStringList device, QList<int> objectId, QList<QScadaObjectStatus> status);
 
     void setEditingMode(bool);
 
 signals:
-    void objectDoubleClicked(VObject*);
+    void objectDoubleClicked(QScadaObject*);
 
 private slots:
     void showContextMenu(const QPoint&);
@@ -45,18 +45,18 @@ private slots:
     void bringToFront();
     void sendToBack();
     void showParameters();
-    void updateObjectInfoDialog(VObject *);
-    void deleteObject(VObjectInfo *);
-    void updateSavedObject(VObjectInfo *);
+    void updateObjectInfoDialog(QScadaObject *);
+    void deleteObject(QScadaObjectInfo *);
+    void updateSavedObject(QScadaObjectInfo *);
     void updateStatus();
-    void objectDoubleClickedHandler(VObject*);
+    void objectDoubleClickedHandler(QScadaObject*);
 
 protected:
     void resizeEvent(QResizeEvent *event);
 
 private:
-    VBoardManager *mBoardManager;
-    VBoard *mBoard;
+    QScadaBoardManager *mBoardManager;
+    QScadaBoard *mBoard;
     QScadaObjectInfoDialog *mParametersDialod;
     QList<int> mObjectIds;
 };

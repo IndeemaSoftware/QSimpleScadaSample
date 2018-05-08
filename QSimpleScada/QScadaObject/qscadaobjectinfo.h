@@ -12,37 +12,37 @@ typedef enum {
     VObjectActionNone,
     VObjectActionMove,
     VObjectActionResize
-} VObjectAction;
+} QScadaObjectAction;
 
 typedef enum {
     VObjectStatusNone,
     VObjectStatusRed,
     VObjectStatusYellow,
     VObjectStatusGreen
-} VObjectStatus;
+} QScadaObjectStatus;
 
 
 typedef enum {
     VObjectAxisPositionLeft,
     VObjectAxisPositionRight
-} VObjectAxisPosition;
+} QScadaObjectAxisPosition;
 
-struct VObjectInfoImage {
+struct QScadaObjectInfoImage {
     QString normal = ":/VSimpleScada/resources/grey_marker.png";
     QString green = ":/VSimpleScada/resources/green_marker.png";
     QString yellow = ":/VSimpleScada/resources/yellow_marker.png";
     QString red = ":/VSimpleScada/resources/yellow_marker.png";
 
-    QString getImageNameForStatus(VObjectStatus);
-    void setImageNameForState(QString, VObjectStatus);
+    QString getImageNameForStatus(QScadaObjectStatus);
+    void setImageNameForState(QString, QScadaObjectStatus);
 };
 
-class VObjectInfo : public QObject
+class QScadaObjectInfo : public QObject
 {
     Q_OBJECT
 public:
-    explicit VObjectInfo(QObject *parent = 0);
-    VObjectInfo(VObjectInfo*);
+    explicit QScadaObjectInfo(QObject *parent = 0);
+    QScadaObjectInfo(QScadaObjectInfo*);
 
     int id() const;
     void setId(int id);
@@ -50,8 +50,8 @@ public:
     QString title() const;
     void setTitle(const QString &title);
 
-    VObjectInfoAxis axis();
-    void setAxis(const VObjectInfoAxis &axis);
+    QScadaObjectInfoAxis axis();
+    void setAxis(const QScadaObjectInfoAxis &axis);
 
     bool axiesEnabled() const;
     void setAxiesEnabled(bool axiesEnabled);
@@ -62,9 +62,9 @@ public:
     bool isDynamic() const;
     void setIsDynamic(bool isDynamic);
 
-    VObjectInfoImage infoImage();
-    QString imageName(VObjectStatus);
-    void setImageName(QString imageName, VObjectStatus);
+    QScadaObjectInfoImage infoImage();
+    QString imageName(QScadaObjectStatus);
+    void setImageName(QString imageName, QScadaObjectStatus);
 
     bool showBackground() const;
     void setShowBackground(bool showBackground);
@@ -72,8 +72,8 @@ public:
     bool showMarkers() const;
     void setShowMarkers(bool showMarkers);
 
-    VObjectAxisPosition axisPosition() const;
-    void setAxisPosition(const VObjectAxisPosition &axisPosition);
+    QScadaObjectAxisPosition axisPosition() const;
+    void setAxisPosition(const QScadaObjectAxisPosition &axisPosition);
 
     QString backGroundImage() const;
     void setBackGroundImage(const QString &backGroundImage);
@@ -82,20 +82,20 @@ public:
     void setShowBackgroundImage(bool showBackgroundImage);
 
 signals:
-    void infoChanged(VObjectInfo *info);
-    void geometryChanged(VObjectInfo *info);
-    void dynamicStatusChanged(VObjectInfo *info);
+    void infoChanged(QScadaObjectInfo *info);
+    void geometryChanged(QScadaObjectInfo *info);
+    void dynamicStatusChanged(QScadaObjectInfo *info);
 
 private:
     bool mIsDynamic; //by default false
     QRect mGeometry;
     int mId;
     QString mTitle;
-    VObjectInfoAxis mAxis;
+    QScadaObjectInfoAxis mAxis;
     bool mAxiesEnabled;
-    VObjectAxisPosition mAxisPosition;
+    QScadaObjectAxisPosition mAxisPosition;
 
-    VObjectInfoImage mImageName;
+    QScadaObjectInfoImage mImageName;
     QString mBackGroundImage;
     bool mShowBackgroundImage;
     bool mShowBackground;

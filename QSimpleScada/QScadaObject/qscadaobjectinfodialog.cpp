@@ -20,16 +20,16 @@ QScadaObjectInfoDialog::~QScadaObjectInfoDialog()
     delete ui;
 }
 
-void QScadaObjectInfoDialog::updateWithObjectInfo(VObjectInfo *info)
+void QScadaObjectInfoDialog::updateWithObjectInfo(QScadaObjectInfo *info)
 {
     if (mLatestObject != nullptr) {
-        disconnect(mLatestObject, SIGNAL(geometryChanged(VObjectInfo*)), this, SLOT(geometryUpdated(VObjectInfo *)));
+        disconnect(mLatestObject, SIGNAL(geometryChanged(QScadaObjectInfo*)), this, SLOT(geometryUpdated(QScadaObjectInfo *)));
     }
     mLatestObject = info;
 
     if (mLatestObject != nullptr) {
         //General
-        connect(mLatestObject, SIGNAL(geometryChanged(VObjectInfo*)), this, SLOT(geometryUpdated(VObjectInfo *)));
+        connect(mLatestObject, SIGNAL(geometryChanged(QScadaObjectInfo*)), this, SLOT(geometryUpdated(QScadaObjectInfo *)));
         ui->lineEditName->setText(mLatestObject->title());
         ui->checkBoxDynamic->setChecked(info->isDynamic());
         ui->spinBoxId->setValue(info->id());
@@ -40,7 +40,7 @@ void QScadaObjectInfoDialog::updateWithObjectInfo(VObjectInfo *info)
         mMarkerImage = mLatestObject->backGroundImage();
 
         //axies
-        VObjectInfoAxis lAxis = mLatestObject->axis();
+        QScadaObjectInfoAxis lAxis = mLatestObject->axis();
         enableAxis(info->axiesEnabled());
         ui->comboBoxAxisPosition->setCurrentText(info->axisPosition() == VObjectAxisPositionLeft? "Left" : "Right");
         ui->comboBoxX->setCurrentText(lAxis.getStringX());
@@ -91,7 +91,7 @@ void QScadaObjectInfoDialog::initAxiesList()
     ui->comboBoxZ->addItems(lList);
 }
 
-void QScadaObjectInfoDialog::geometryUpdated(VObjectInfo *info)
+void QScadaObjectInfoDialog::geometryUpdated(QScadaObjectInfo *info)
 {
     ui->spinBoxX->setValue(info->geometry().x());
     ui->spinBoxY->setValue(info->geometry().y());
@@ -121,7 +121,7 @@ void QScadaObjectInfoDialog::on_pushButton_2_pressed()
 
         mLatestObject->setAxiesEnabled(ui->checkBoxAxis->isChecked());//status
         mLatestObject->setAxisPosition(ui->comboBoxAxisPosition->currentText() == "Left" ? VObjectAxisPositionLeft : VObjectAxisPositionRight);
-        VObjectInfoAxis lAxis;
+        QScadaObjectInfoAxis lAxis;
         lAxis.setX(lAxis.axisFromString(ui->comboBoxX->currentText()));
         lAxis.setY(lAxis.axisFromString(ui->comboBoxY->currentText()));
         lAxis.setZ(lAxis.axisFromString(ui->comboBoxZ->currentText()));

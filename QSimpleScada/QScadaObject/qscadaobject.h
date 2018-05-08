@@ -9,19 +9,19 @@
 
 class QGraphicsDropShadowEffect;
 
-class VObject : public QWidget
+class QScadaObject : public QWidget
 {
     Q_OBJECT
 public:
-    explicit VObject(QWidget *parent = 0);
-    ~VObject();
+    explicit QScadaObject(QWidget *parent = 0);
+    ~QScadaObject();
 
     void setGeometry(int x, int y, int width, int height);
     void setGeometry(const QRect &);
     QRect geometry();
 
-    VObjectInfo *info() const;
-    void setInfo(VObjectInfo *info);
+    QScadaObjectInfo *info() const;
+    void setInfo(QScadaObjectInfo *info);
 
     bool selected() const;
     void setSelected(bool selected);
@@ -31,12 +31,12 @@ public:
 
     void update();
 
-    VObjectStatus status() const;
-    void setStatus(const VObjectStatus &status);
+    QScadaObjectStatus status() const;
+    void setStatus(const QScadaObjectStatus &status);
 
 private:
-    VObjectAction action() const;
-    void setAction(const VObjectAction &action);
+    QScadaObjectAction action() const;
+    void setAction(const QScadaObjectAction &action);
 
     void move(int x, int y);
     void resize(int x, int y);
@@ -51,21 +51,21 @@ protected:
 
 signals:
     void objectSelected(int id);
-    void objectDoubleClicked(VObject*);
+    void objectDoubleClicked(QScadaObject*);
 
 private slots:
-    void dynamicStatusChanged(VObjectInfo*);
+    void dynamicStatusChanged(QScadaObjectInfo*);
 
 private:
     QPoint mPosition;
     bool mIsEditable;//if tru object could be moveable, if false it's static
 
-    VObjectAction mAction;
-    VObjectInfo *mInfo;
+    QScadaObjectAction mAction;
+    QScadaObjectInfo *mInfo;
     QGraphicsDropShadowEffect* mEffect;
     bool mSelected;
 
-    VObjectStatus mStatus;// default is VObjectStatusNone
+    QScadaObjectStatus mStatus;// default is VObjectStatusNone
 };
 
 #endif // VOBJECT_H

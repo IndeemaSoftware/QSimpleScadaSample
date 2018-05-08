@@ -3,26 +3,26 @@
 
 #define MIN_PAUSE_TIME 5
 
-enum VStatus {
-    VStatusDefault,
-    VStatusGray,
-    VStatusGreen,
-    VStatusYellow,
-    VStatusRed
+enum QScadaStatus {
+    QScadaStatusDefault,
+    QScadaStatusGray,
+    QScadaStatusGreen,
+    QScadaStatusYellow,
+    QScadaStatusRed
 };
 
-enum VIDAUnitStatus{
-    VIDAUnitStatusNotConfigured = -1,
-    VIDAUnitStatusConfigured,
-    VIDAUnitStatusNotConnected
+enum QScadaUnitStatus{
+    QScadaUnitStatusNotConfigured = -1,
+    QScadaUnitStatusConfigured,
+    QScadaUnitStatusNotConnected
 } ;
 
 typedef enum {
-    VMachineryClass1 = 1,
-    VMachineryClass2,
-    VMachineryClass3,
-    VMachineryClass4
-} VMachineryClass;
+    QScadaMachineryClass1 = 1,
+    QScadaMachineryClass2,
+    QScadaMachineryClass3,
+    QScadaMachineryClass4
+} QScadaMachineryClass;
 
 enum VUpdateMode {
     VUpdateModeFromTo,
@@ -30,10 +30,10 @@ enum VUpdateMode {
     VUpdateModeDaysCount
 };
 
-enum VTrendPaintMode {
-    VTrendPaintModeDefault,
-    VTrendPaintModeHours,
-    VTrendPaintModeDays
+enum QScadaTrendPaintMode {
+    QScadaTrendPaintModeDefault,
+    QScadaTrendPaintModeHours,
+    QScadaTrendPaintModeDays
 };
 
 inline double GetRealRecordingPeriod(QList<int>& recordingDurations, double&& pauseTime = 0, int&& totalRecordingTime = 0)

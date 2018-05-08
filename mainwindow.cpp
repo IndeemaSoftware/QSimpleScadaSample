@@ -18,10 +18,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     mBoard = ui->centralWidget;
     mBoard->setEditable(true);
-    connect(mBoard, SIGNAL(objectSelected(VObject *)), this, SLOT(updateObjectInfoDialog(VObject *)));
+    connect(mBoard, SIGNAL(objectSelected(QScadaObject *)), this, SLOT(updateObjectInfoDialog(QScadaObject *)));
 
-    connect(ui->widgetObjectParametrs, SIGNAL(deletePressed(VObjectInfo*)), this, SLOT(deleteObject(VObjectInfo *)));
-    connect(ui->widgetObjectParametrs, SIGNAL(savePressed(VObjectInfo*)), this, SLOT(updateSavedObject(VObjectInfo *)));
+    connect(ui->widgetObjectParametrs, SIGNAL(deletePressed(QScadaObjectInfo*)), this, SLOT(deleteObject(QScadaObjectInfo *)));
+    connect(ui->widgetObjectParametrs, SIGNAL(savePressed(QScadaObjectInfo*)), this, SLOT(updateSavedObject(QScadaObjectInfo *)));
 
     mObjectInfoDialog = ui->widgetObjectParametrs;
 
@@ -63,7 +63,7 @@ void MainWindow::showContextMenu(const QPoint &pos)
 void MainWindow::addNewObject()
 {
     if (mBoard->objects()->count() == 2) {
-            VObjectInfo *lInfo = new VObjectInfo();
+            QScadaObjectInfo *lInfo = new QScadaObjectInfo();
             lInfo->setId(2);
             lInfo->setBackGroundImage(":/resources/some_structure.png");
             lInfo->setShowBackgroundImage(true);
@@ -78,7 +78,7 @@ void MainWindow::addNewObject()
 void MainWindow::bringToFront()
 {
     if (!mBoard->getSeletedObjects().isEmpty()) {
-        VObject *lObject = mBoard->getSeletedObjects().first();
+        QScadaObject *lObject = mBoard->getSeletedObjects().first();
         mBoard->bringToFront(lObject);
     }
 }
@@ -86,12 +86,12 @@ void MainWindow::bringToFront()
 void MainWindow::sendToBack()
 {
     if (!mBoard->getSeletedObjects().isEmpty()) {
-        VObject *lObject = mBoard->getSeletedObjects().first();
+        QScadaObject *lObject = mBoard->getSeletedObjects().first();
         mBoard->sendToBack(lObject);
     }
 }
 
-void MainWindow::updateObjectInfoDialog(VObject *object)
+void MainWindow::updateObjectInfoDialog(QScadaObject *object)
 {
     if (object != nullptr) {
         mObjectInfoDialog->updateWithObjectInfo(object->info());
@@ -100,14 +100,14 @@ void MainWindow::updateObjectInfoDialog(VObject *object)
     }
 }
 
-void MainWindow::deleteObject(VObjectInfo *info)
+void MainWindow::deleteObject(QScadaObjectInfo *info)
 {
     if (info != nullptr) {
         mBoard->deleteObjectWithId(info->id());
     }
 }
 
-void MainWindow::updateSavedObject(VObjectInfo *info)
+void MainWindow::updateSavedObject(QScadaObjectInfo *info)
 {
     if (info != nullptr) {
         mBoard->updateObjectWithId(info->id());
@@ -119,9 +119,9 @@ void MainWindow::updateStatus()
 {
     int lNumber = 3;
     int lRandomValue = qrand() % lNumber;
-    mBoard->updateStatusWithId(0, (VObjectStatus)lRandomValue);
+    mBoard->updateStatusWithId(0, (QScadaObjectStatus)lRandomValue);
     lRandomValue = qrand() % lNumber;
-    mBoard->updateStatusWithId(1, (VObjectStatus)lRandomValue);
+    mBoard->updateStatusWithId(1, (QScadaObjectStatus)lRandomValue);
 }
 
 void MainWindow::save()
@@ -133,9 +133,9 @@ void MainWindow::save()
     lDialog.setWindowTitle(tr("Save Project"));
     lDialog.setNameFilter(tr("iReDS Project (*.irp)"));
 
-    VBoardInfo *lBoardInfo = new VBoardInfo();
-    VBoardController *lController = new VBoardController();
-    VDeviceInfo lDeviceInfo;
+    QScadaBoardInfo *lBoardInfo = new QScadaBoardInfo();
+    QScadaBoardController *lController = new QScadaBoardController();
+    QScadaDeviceInfo lDeviceInfo;
 
     if (lDialog.exec() == QDialog::Accepted) {
         QStringList lFiles = lDialog.selectedFiles();
@@ -145,17 +145,17 @@ void MainWindow::save()
                 lFileName.append(".irp");
             }
             QStringList lIps;
-            for (VObject *object :*mBoard->objects()) {
+            for (QScadaObject *object :*mBoard->objects()) {
                 lBoardInfo->appendObjectInfo(object->info());
             }
-            QList<VBoardInfo*> lBoardInfoList;
+            QList<QScadaBoardInfo*> lBoardInfoList;
             lBoardInfoList.append(lBoardInfo);
 
             lController->initConnectedDevices(lBoardInfoList);
 
             lDeviceInfo.setName("Test Device");
             lDeviceInfo.setIp(QHostAddress("127.0.0.0"));
-            QList<VDeviceInfo> lList;
+            QList<QScadaDeviceInfo> lList;
             lList.append(lDeviceInfo);
             QString lDevices = VConnectedDeviceInfo::XMLFromDeviceInfo(lList, lController);   //<----;
 
@@ -190,7 +190,7 @@ void MainWindow::open()
     if (!lFileName.isEmpty()) {
         mObjectInfoDialog->updateWithObjectInfo(nullptr);
 
-        for (VObject *object : *mBoard->objects()) {
+        for (QScadaObject *object : *mBoard->objects()) {
                 mBoard->deleteObject(object);
         }
 
@@ -206,10 +206,10 @@ void MainWindow::open()
             lConnectedDevceInfo->initFromXml(lRawData);
 
             for (int i = 0; i < lConnectedDevceInfo->connecteDeviceList.count(); ++i) {
-                for (VBoardInfo *boardInfo : lConnectedDevceInfo->connecteDeviceList.at(i)->boardList) {
+                for (QScadaBoardInfo *boardInfo : lConnectedDevceInfo->connecteDeviceList.at(i)->boardList) {
                     if (boardInfo != nullptr) {
                         mBoard->setEditable(false);
-                        for (VObjectInfo *info : boardInfo->objectList()) {
+                        for (QScadaObjectInfo *info : boardInfo->objectList()) {
                             mBoard->createNewObject(info);
                         }
                     }

@@ -5,9 +5,9 @@
 #include <QPen>
 #include <QDebug>
 
-VBoard::VBoard(QWidget *parent) :
+QScadaBoard::QScadaBoard(QWidget *parent) :
     QWidget(parent),
-    mObjects{new QList<VObject*>()},
+    mObjects{new QList<QScadaObject*>()},
     mEditable{false},
     mShowGrid{true},
     mGrid{10}
@@ -18,36 +18,36 @@ VBoard::VBoard(QWidget *parent) :
     setMouseTracking(true);//this not mouseMoveEven is called everytime mouse is moved
 }
 
-VBoard::~VBoard()
+QScadaBoard::~QScadaBoard()
 {
     qDeleteAll(*mObjects);
     delete mObjects;
 }
 
-void VBoard::createNewObject()
+void QScadaBoard::createNewObject()
 {
     createNewObject(mObjects->count());
 }
 
-void VBoard::createNewObject(VObjectInfo *info)
+void QScadaBoard::createNewObject(QScadaObjectInfo *info)
 {
-    VObject *lObject = new VObject(this);
+    QScadaObject *lObject = new QScadaObject(this);
     lObject->setInfo(info);
     //rize object if it's dynamic so general image will be on background
     if (info->isDynamic()) {
         bringToFront(lObject);
     }
     lObject->setIsEditable(mEditable);
-    connect(lObject, SIGNAL(objectDoubleClicked(VObject*)), this , SIGNAL(objectDoubleClicked(VObject*)));
+    connect(lObject, SIGNAL(objectDoubleClicked(QScadaObject*)), this , SIGNAL(objectDoubleClicked(QScadaObject*)));
     connect(lObject, SIGNAL(objectSelected(int)), this , SLOT(newObjectSelected(int)));
     lObject->show();
     lObject->update();
     mObjects->append(lObject);
 }
 
-void VBoard::createNewObject(int id)
+void QScadaBoard::createNewObject(int id)
 {
-    VObjectInfo *lInfo = new VObjectInfo();
+    QScadaObjectInfo *lInfo = new QScadaObjectInfo();
     lInfo->setId(id);
     lInfo->setShowMarkers(true);
     lInfo->setShowBackground(true);
@@ -57,13 +57,13 @@ void VBoard::createNewObject(int id)
     createNewObject(lInfo);
 }
 
-void VBoard::mouseMoveEvent(QMouseEvent *event)
+void QScadaBoard::mouseMoveEvent(QMouseEvent *event)
 {
     (void)event;
     QApplication::setOverrideCursor(Qt::ArrowCursor);
 }
 
-void VBoard::mousePressEvent(QMouseEvent *event)
+void QScadaBoard::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton) {
         newObjectSelected(-1);
@@ -71,7 +71,7 @@ void VBoard::mousePressEvent(QMouseEvent *event)
     }
 }
 
-void VBoard::paintEvent(QPaintEvent *e)
+void QScadaBoard::paintEvent(QPaintEvent *e)
 {
     if (mEditable && mShowGrid) {
         QPainter lPainter(this);
@@ -94,9 +94,9 @@ void VBoard::paintEvent(QPaintEvent *e)
     QWidget::paintEvent(e);
 }
 
-void VBoard::newObjectSelected(int id)
+void QScadaBoard::newObjectSelected(int id)
 {
-    for(VObject *object : *mObjects) {
+    for(QScadaObject *object : *mObjects) {
         if (id != object->info()->id()) {
             object->setSelected(false);
         } else {
@@ -105,16 +105,16 @@ void VBoard::newObjectSelected(int id)
     }
 }
 
-QList<VObject *> *VBoard::objects() const
+QList<QScadaObject *> *QScadaBoard::objects() const
 {
     return mObjects;
 }
 
-QList<VObject*> VBoard::getSeletedObjects()
+QList<QScadaObject*> QScadaBoard::getSeletedObjects()
 {
-    QList<VObject*> rList;
+    QList<QScadaObject*> rList;
 
-    for(VObject *object : *mObjects) {
+    for(QScadaObject *object : *mObjects) {
         if (object->selected()) {
             rList.append(object);
         }
@@ -123,29 +123,29 @@ QList<VObject*> VBoard::getSeletedObjects()
     return rList;
 }
 
-void VBoard::bringToFront(VObject *o)
+void QScadaBoard::bringToFront(QScadaObject *o)
 {
     o->raise();
 }
 
-void VBoard::sendToBack(VObject *o)
+void QScadaBoard::sendToBack(QScadaObject *o)
 {
     o->lower();
 }
 
-int VBoard::grid() const
+int QScadaBoard::grid() const
 {
     return mGrid;
 }
 
-void VBoard::setGrid(int grid)
+void QScadaBoard::setGrid(int grid)
 {
     mGrid = grid;
 }
 
-void VBoard::deleteObjectWithId(int id)
+void QScadaBoard::deleteObjectWithId(int id)
 {
-    for (VObject *object : *mObjects) {
+    for (QScadaObject *object : *mObjects) {
         if (id == object->info()->id()) {
             mObjects->removeOne(object);
             delete object;
@@ -154,23 +154,23 @@ void VBoard::deleteObjectWithId(int id)
     }
 }
 
-void VBoard::deleteObject(VObject *object)
+void QScadaBoard::deleteObject(QScadaObject *object)
 {
     deleteObjectWithId(object->info()->id());
 }
 
-void VBoard::updateObjectWithId(int id)
+void QScadaBoard::updateObjectWithId(int id)
 {
-    for (VObject *object : *mObjects) {
+    for (QScadaObject *object : *mObjects) {
         if (id == object->info()->id()) {
             object->update();
         }
     }
 }
 
-void VBoard::updateStatusWithId(int id, VObjectStatus status)
+void QScadaBoard::updateStatusWithId(int id, QScadaObjectStatus status)
 {
-    for (VObject *object : *mObjects) {
+    for (QScadaObject *object : *mObjects) {
         if (id == object->info()->id()) {
             object->setStatus(status);
             object->update();
@@ -178,13 +178,13 @@ void VBoard::updateStatusWithId(int id, VObjectStatus status)
     }
 }
 
-bool VBoard::showGrid() const
+bool QScadaBoard::showGrid() const
 {
     qDebug() << __FUNCTION__;
     return mShowGrid;
 }
 
-void VBoard::setShowGrid(bool showGrid)
+void QScadaBoard::setShowGrid(bool showGrid)
 {
     qDebug() << __FUNCTION__;
     mShowGrid = showGrid;
@@ -192,18 +192,18 @@ void VBoard::setShowGrid(bool showGrid)
     repaint();
 }
 
-bool VBoard::editable() const
+bool QScadaBoard::editable() const
 {
     qDebug() << __FUNCTION__;
     return mEditable;
 }
 
-void VBoard::setEditable(bool editable)
+void QScadaBoard::setEditable(bool editable)
 {
     qDebug() << __FUNCTION__;
     mEditable = editable;
 
-    for (VObject *object : *mObjects) {
+    for (QScadaObject *object : *mObjects) {
         object->setIsEditable(editable);
     }
 

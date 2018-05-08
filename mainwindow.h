@@ -7,9 +7,9 @@ namespace Ui {
 class MainWindow;
 }
 
-class VBoard;
-class VObjectInfo;
-class VObject;
+class QScadaBoard;
+class QScadaObjectInfo;
+class QScadaObject;
 class QScadaObjectInfoDialog;
 class QTimer;
 
@@ -26,9 +26,9 @@ private slots:
     void addNewObject();
     void bringToFront();
     void sendToBack();
-    void updateObjectInfoDialog(VObject *);
-    void deleteObject(VObjectInfo *);
-    void updateSavedObject(VObjectInfo *);
+    void updateObjectInfoDialog(QScadaObject *);
+    void deleteObject(QScadaObjectInfo *);
+    void updateSavedObject(QScadaObjectInfo *);
     void updateStatus();
 
     void save();
@@ -37,7 +37,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
 
-    VBoard *mBoard;
+    QScadaBoard *mBoard;
     QScadaObjectInfoDialog *mObjectInfoDialog;
     QTimer *mTimer;
 };

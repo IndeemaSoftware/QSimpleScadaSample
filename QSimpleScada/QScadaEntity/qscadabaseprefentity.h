@@ -4,11 +4,11 @@
 #include <QObject>
 #include <QXmlStreamReader>
 
-class VBasePrefEntity : public QObject
+class QScadaBasePrefEntity : public QObject
 {
     Q_OBJECT
 public:
-    explicit VBasePrefEntity(QObject *parent = 0);
+    explicit QScadaBasePrefEntity(QObject *parent = 0);
 
 signals:
 
