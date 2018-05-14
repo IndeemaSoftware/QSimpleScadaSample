@@ -10,12 +10,15 @@ QScadaBoard::QScadaBoard(QWidget *parent) :
     mObjects{new QList<QScadaObject*>()},
     mEditable{false},
     mShowGrid{true},
-    mGrid{10}
+    mGrid{10},
+    mPixmap{nullptr}
 {
     setPalette(QPalette(Qt::transparent));
     setAutoFillBackground(true);
 
     setMouseTracking(true);//this not mouseMoveEven is called everytime mouse is moved
+
+    resetGridPixmap();
 }
 
 QScadaBoard::~QScadaBoard()
@@ -75,24 +78,42 @@ void QScadaBoard::mousePressEvent(QMouseEvent *event)
 
 void QScadaBoard::paintEvent(QPaintEvent *e)
 {
-    qDebug() << "QScadaBoard:" << __FUNCTION__;
-    if (mEditable && mShowGrid) {
-        QPainter lPainter(this);
+    if (mPixmap == nullptr) {
+        resetGridPixmap();
+    }
+
+    if ((mPixmap->width() != this->width())
+            || (mPixmap->height() != this->height())) {
+        delete mPixmap;
+        resetGridPixmap();
+    }
+
+    if (mUpdateGridPixmap) {
+        QPainter lPainter(mPixmap);
+        mPixmap->fill(Qt::white);
         QPen lLinepen(Qt::darkGray);
         lLinepen.setCapStyle(Qt::RoundCap);
         lLinepen.setWidth(1);
         lPainter.setRenderHint(QPainter::Antialiasing,true);
         lPainter.setPen(lLinepen);
 
-        int lX = geometry().width();
-        int lY = geometry().height();
+        int lX = this->width();
+        int lY = this->height();
+
+        mPixmap->scaledToWidth(lX);
+        mPixmap->scaledToHeight(lY);
 
         for (int i=0; i<=lX; i++) {
             for (int j=1; j<=lY; j++) {
                 lPainter.drawPoint(QPoint(mGrid*i, mGrid*j));
             }
         }
+
+        mUpdateGridPixmap = false;
     }
+
+    QPainter lPainter(this);
+    lPainter.drawPixmap(0, 0, mPixmap->width(), mPixmap->height(), *mPixmap);
 
     QWidget::paintEvent(e);
 }
@@ -108,12 +129,12 @@ void QScadaBoard::newObjectSelected(int id)
     }
 }
 
-void QScadaBoard::objectMove(int x, int y)
+void QScadaBoard::objectMove(int, int)
 {
     update();
 }
 
-void QScadaBoard::objectResize(int x, int y)
+void QScadaBoard::objectResize(int, int)
 {
     update();
 }
@@ -134,6 +155,12 @@ QList<QScadaObject*> QScadaBoard::getSeletedObjects()
     }
 
     return rList;
+}
+
+void QScadaBoard::resetGridPixmap()
+{
+    mPixmap = new QPixmap(this->width(), this->height());
+    mUpdateGridPixmap = true;
 }
 
 void QScadaBoard::bringToFront(QScadaObject *o)
