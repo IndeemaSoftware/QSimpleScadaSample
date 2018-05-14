@@ -123,7 +123,6 @@ void QScadaObject::mouseDoubleClickEvent(QMouseEvent *e)
 
 void QScadaObject::paintEvent(QPaintEvent *e)
 {
-    qDebug() << "QScadaObject:" << __FUNCTION__;
     QPainter lPainter(this);
     QPixmap lMarkerPixmap(info()->imageName(mStatus));
     QPixmap lBackgroundPixmap(info()->backGroundImage());
