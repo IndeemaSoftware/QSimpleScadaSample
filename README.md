@@ -1,4 +1,4 @@
-# qtsimplescada
+# QSimpleScadaSample
 This is constructor for simple Scada UI. In order of any questions please conatact ask@indeema.com
 
 <a href="http://www.indeema.com">
