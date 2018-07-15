@@ -17,7 +17,7 @@ You can add any number of objects with any marker or background image for each s
 Preview
 <br>
 <br>
-  <img src="/resources/SampleScada.png" alt="Floating menu" width="800" height="410" />
+<img src="https://github.com/IndeemaSoftware/QSimpleScada/blob/Assets/qsimplescada.gif" />
 <br>
 In MainWindow class we have realisation on QSimpleScada usage. With window in edit mode and config panel at the left side.
 <br>
