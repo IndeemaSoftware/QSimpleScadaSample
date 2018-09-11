@@ -26,3 +26,5 @@ As a sample first two objects are created as dynamic with visible marker and the
 QScadaObject class is used to display marker or background view. It can be managed by updating setInfo, using container QScadaObjectInfo.
 <br>
 In resources path you can find sample.irp file. Open it with QSampleScada app to see sample
+
+To know more about us and our [IoT expertise](https://indeema.com/services/iot), visit our website http://indeema.com
