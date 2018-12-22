@@ -122,6 +122,10 @@ void MainWindow::updateStatus()
     mBoard->updateStatusWithId(0, (QScadaObjectStatus)lRandomValue);
     lRandomValue = qrand() % lNumber;
     mBoard->updateStatusWithId(1, (QScadaObjectStatus)lRandomValue);
+    lRandomValue = qrand() % lNumber;
+    mBoard->updateStatusWithId(3, (QScadaObjectStatus)lRandomValue);
+    lRandomValue = qrand() % lNumber;
+    mBoard->updateStatusWithId(4, (QScadaObjectStatus)lRandomValue);
 }
 
 void MainWindow::save()
