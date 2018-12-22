@@ -1,0 +1,25 @@
+{
+  "name": "com.indeema.QSimpleScadaSample",
+  "description": "",
+  "author": {
+    "name": "Indeema Software inc.",
+    "email": "support@indeema.com"
+  },
+  "repository": {
+    "type": "GITHUB",
+    "url": "https://github.com/IndeemaSoftware/QSimpleScadaSample.git"
+  },
+  "version": {
+    "label": "0.0.1",
+    "revision": "",
+    "fingerprint": ""
+  },
+  "dependencies": [
+    "com.indeema.QSimpleScada",
+    "com.indeema.QSimpleScada@0.5.0",
+    "com.indeema.QSimpleScada@0.5.0"
+  ],
+  "license": "MIT",
+  "pri_filename": "com_indeema_QSimpleScadaSample.pri",
+  "webpage": ""
+}

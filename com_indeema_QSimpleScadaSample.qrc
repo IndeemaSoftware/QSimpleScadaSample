@@ -1,0 +1,6 @@
+
+<RCC>
+    <qresource prefix="/com/indeema/QSimpleScadaSample">
+        <file>qmldir</file>
+    </qresource>
+</RCC>
