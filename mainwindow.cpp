@@ -3,12 +3,14 @@
 
 #include "QScadaObject/qscadaobject.h"
 #include "QScadaBoard/qscadaboardinfo.h"
+#include "QScadaBoard/qscadaboard.h"
 #include "QScadaEntity/qscadaconnecteddeviceinfo.h"
 
 #include <QDebug>
 #include <QFileDialog>
 #include <QTimer>
 #include <QMessageBox>
+#include <QGridLayout>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -16,14 +18,20 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    mBoard = ui->centralWidget;
-    mBoard->setEditable(true);
+    mController = new QScadaBoardController();
+    mController->initBoardForDeviceIp("127.0.0.0");
+    mController->setEditingMode(true);
+
+    mBoard = mController->getBoardListForDeviceIp("127.0.0.0").at(0);
     connect(mBoard, SIGNAL(objectSelected(QScadaObject *)), this, SLOT(updateObjectInfoDialog(QScadaObject *)));
+
+    QGridLayout *mainLayout = new QGridLayout(ui->centralWidget);
 
     connect(ui->widgetObjectParametrs, SIGNAL(deletePressed(QScadaObjectInfo*)), this, SLOT(deleteObject(QScadaObjectInfo *)));
     connect(ui->widgetObjectParametrs, SIGNAL(savePressed(QScadaObjectInfo*)), this, SLOT(updateSavedObject(QScadaObjectInfo *)));
 
     mObjectInfoDialog = ui->widgetObjectParametrs;
+    mainLayout->addWidget(mBoard);
 
     ui->centralWidget->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->centralWidget, SIGNAL(customContextMenuRequested(const QPoint&)),this, SLOT(showContextMenu(const QPoint&)));
@@ -40,6 +48,7 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete mTimer;
+    delete mController;
     delete ui;
 }
 
@@ -119,17 +128,26 @@ void MainWindow::updateStatus()
 {
     int lNumber = 3;
     int lRandomValue = qrand() % lNumber;
-    mBoard->updateStatusWithId(0, (QScadaObjectStatus)lRandomValue);
+    mBoard->updateStatusWithId(0, static_cast<QScadaObjectStatus>(lRandomValue));
     lRandomValue = qrand() % lNumber;
-    mBoard->updateStatusWithId(1, (QScadaObjectStatus)lRandomValue);
+    mBoard->updateStatusWithId(1, static_cast<QScadaObjectStatus>(lRandomValue));
     lRandomValue = qrand() % lNumber;
-    mBoard->updateStatusWithId(3, (QScadaObjectStatus)lRandomValue);
+    mBoard->updateStatusWithId(3, static_cast<QScadaObjectStatus>(lRandomValue));
     lRandomValue = qrand() % lNumber;
-    mBoard->updateStatusWithId(4, (QScadaObjectStatus)lRandomValue);
+    mBoard->updateStatusWithId(4, static_cast<QScadaObjectStatus>(lRandomValue));
 }
 
 void MainWindow::save()
 {
+    if (mBoard->objects()->count() == 0) {
+        QString lMessage(tr("Nothing to be saved"));
+
+        QMessageBox lMsgBox;
+        lMsgBox.setText(lMessage);
+        lMsgBox.exec();
+        return;
+    }
+
     QFileDialog lDialog(this);
     lDialog.setFileMode(QFileDialog::AnyFile);
     lDialog.setAcceptMode(QFileDialog::AcceptSave);
@@ -137,9 +155,11 @@ void MainWindow::save()
     lDialog.setWindowTitle(tr("Save Project"));
     lDialog.setNameFilter(tr("iReDS Project (*.irp)"));
 
-    QScadaBoardInfo *lBoardInfo = new QScadaBoardInfo();
-    QScadaBoardController *lController = new QScadaBoardController();
     QScadaDeviceInfo lDeviceInfo;
+    lDeviceInfo.setName("Test Device");
+    lDeviceInfo.setIp(QHostAddress("127.0.0.0"));
+    QList<QScadaDeviceInfo> lList;
+    lList.append(lDeviceInfo);
 
     if (lDialog.exec() == QDialog::Accepted) {
         QStringList lFiles = lDialog.selectedFiles();
@@ -148,20 +168,8 @@ void MainWindow::save()
             if (!lFileName.contains(".irp")) {
                 lFileName.append(".irp");
             }
-            QStringList lIps;
-            for (QScadaObject *object :*mBoard->objects()) {
-                lBoardInfo->appendObjectInfo(object->info());
-            }
-            QList<QScadaBoardInfo*> lBoardInfoList;
-            lBoardInfoList.append(lBoardInfo);
 
-            lController->initConnectedDevices(lBoardInfoList);
-
-            lDeviceInfo.setName("Test Device");
-            lDeviceInfo.setIp(QHostAddress("127.0.0.0"));
-            QList<QScadaDeviceInfo> lList;
-            lList.append(lDeviceInfo);
-            QString lDevices = VConnectedDeviceInfo::XMLFromDeviceInfo(lList, lController);   //<----;
+            QString lDevices = VConnectedDeviceInfo::XMLFromDeviceInfo(lList, mController);   //<----;
 
             //create xml for boards of each device
 
@@ -179,10 +187,9 @@ void MainWindow::save()
                 lMsgBox.exec();
             }
             lFile.close();
-            qDeleteAll(lBoardInfoList);
         }
     }
-    delete lController;
+
     mBoard->setEditable(true);
 }
 

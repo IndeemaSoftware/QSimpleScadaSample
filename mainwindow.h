@@ -8,6 +8,7 @@ class MainWindow;
 }
 
 class QScadaBoard;
+class QScadaBoardController;
 class QScadaObjectInfo;
 class QScadaObject;
 class QScadaObjectInfoDialog;
@@ -37,6 +38,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
 
+    QScadaBoardController *mController;
     QScadaBoard *mBoard;
     QScadaObjectInfoDialog *mObjectInfoDialog;
     QTimer *mTimer;

@@ -6,20 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>720</width>
+    <height>575</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
-  <widget class="QScadaBoard" name="centralWidget"/>
+  <widget class="QWidget" name="centralWidget"/>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>400</width>
+     <width>720</width>
      <height>22</height>
     </rect>
    </property>
@@ -67,12 +67,6 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
-  <customwidget>
-   <class>QScadaBoard</class>
-   <extends>QWidget</extends>
-   <header>QScadaBoard/qscadaboard.h</header>
-   <container>1</container>
-  </customwidget>
   <customwidget>
    <class>QScadaObjectInfoDialog</class>
    <extends>QWidget</extends>
