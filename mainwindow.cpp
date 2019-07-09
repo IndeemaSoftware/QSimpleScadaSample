@@ -216,16 +216,10 @@ void MainWindow::open()
 
             lConnectedDevceInfo->initFromXml(lRawData);
 
-            QScadaObjectInfo *info;
-            for (int i = 0; i < lConnectedDevceInfo->connecteDeviceList.count(); i++) {
+            for (int i = 0; i < lConnectedDevceInfo->connecteDeviceList.count(); ++i) {
                 for (QScadaBoardInfo *boardInfo : lConnectedDevceInfo->connecteDeviceList.at(i)->boardList) {
                     if (boardInfo != nullptr) {
-                        mBoard->setEditable(false);
-                        //reading all objects in reverce to have in correct layers
-                        for (int j = boardInfo->objectList().count()-1; j >=0; j--) {
-                            info = boardInfo->objectList().at(j);
-                            mBoard->createNewObject(info);
-                        }
+                        mBoard->initBoard(boardInfo);
                     }
                 }
             }
