@@ -66,7 +66,9 @@ void MainWindow::showContextMenu(const QPoint &pos)
         QMenu *lWidgetMenu = lAddWidget.addMenu(group.info.groupTitle);
 
         for (QString widget : group.widgets()) {
-            QAction *lWidgetAction = new QAction(widget.split(".").at(0));//remove qml from name
+            QString lWidgetTitle = widget.split(".").at(0);
+            QIcon lIcon(group.info.groupPath + lWidgetTitle +".png");
+            QAction *lWidgetAction = new QAction(lIcon, lWidgetTitle);//remove qml from name
             lWidgetAction->setData(QVariant::fromValue<QMLWidgetsConfig>(group));
 
             lWidgetMenu->addAction(lWidgetAction);
