@@ -5,12 +5,14 @@
 #include "QScadaBoard/qscadaboardinfo.h"
 #include "QScadaBoard/qscadaboard.h"
 #include "QScadaEntity/qscadaconnecteddeviceinfo.h"
+#include "qscadaconfig.h"
 
 #include <QDebug>
 #include <QFileDialog>
 #include <QTimer>
 #include <QMessageBox>
 #include <QGridLayout>
+#include <QVariant>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -57,7 +59,21 @@ void MainWindow::showContextMenu(const QPoint &pos)
     bool lShowOrder = (mBoard->getSeletedObjects().count() > 0);
     QMenu lContextMenu{this};
 
-    lContextMenu.addAction(tr("Add Object"), this, SLOT(addNewObject()));
+    QMenu lAddWidget(tr("Add Object"));
+    lContextMenu.addMenu(&lAddWidget);
+
+    for (QMLWidgetsConfig group : QMLConfig::instance().QMLWidgets()) {
+        QMenu *lWidgetMenu = lAddWidget.addMenu(group.info.groupTitle);
+
+        for (QString widget : group.widgets()) {
+            QAction *lWidgetAction = new QAction(widget.split(".").at(0));//remove qml from name
+            lWidgetAction->setData(QVariant::fromValue<QMLWidgetsConfig>(group));
+
+            lWidgetMenu->addAction(lWidgetAction);
+            connect(lWidgetAction, SIGNAL(triggered()), this, SLOT(addNewObject()));
+        }
+    }
+
     QMenu *lOrder = lContextMenu.addMenu("Order");
     lOrder->setEnabled(lShowOrder);
 
@@ -71,17 +87,12 @@ void MainWindow::showContextMenu(const QPoint &pos)
 
 void MainWindow::addNewObject()
 {
-    if (mBoard->objects()->count() == 2) {
-            QScadaObjectInfo *lInfo = new QScadaObjectInfo();
-            lInfo->setId(2);
-            lInfo->setBackGroundImage(":/resources/some_structure.png");
-            lInfo->setShowBackgroundImage(true);
-            lInfo->setShowMarkers(false);
+    QAction *lSender = static_cast<QAction*>(QObject::sender());
+    QMLWidgetsConfig lConfig = lSender->data().value<QMLWidgetsConfig>();
 
-            mBoard->createNewObject(lInfo);
-    } else {
-        mBoard->createNewObject();
-    }
+    QString lQMLFilePath = lConfig.info.groupPath + lSender->text() + ".qml";//add qml to name
+
+    mBoard->createQMLObject(lQMLFilePath);
 }
 
 void MainWindow::bringToFront()
@@ -126,15 +137,9 @@ void MainWindow::updateSavedObject(QScadaObjectInfo *info)
 //You can use it to update statuses ok markers.
 void MainWindow::updateStatus()
 {
-    int lNumber = 3;
-    int lRandomValue = qrand() % lNumber;
-    mBoard->updateStatusWithId(0, static_cast<QScadaObjectStatus>(lRandomValue));
-    lRandomValue = qrand() % lNumber;
-    mBoard->updateStatusWithId(1, static_cast<QScadaObjectStatus>(lRandomValue));
-    lRandomValue = qrand() % lNumber;
-    mBoard->updateStatusWithId(3, static_cast<QScadaObjectStatus>(lRandomValue));
-    lRandomValue = qrand() % lNumber;
-    mBoard->updateStatusWithId(4, static_cast<QScadaObjectStatus>(lRandomValue));
+    mBoard->updateValue(0, qrand() % 100);
+    mBoard->updateValue(1, qrand() % 100);
+    mBoard->updateValue(2, qrand() % 100);
 }
 
 void MainWindow::save()
