@@ -19,17 +19,10 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
+    explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
 private slots:
-    void showContextMenu(const QPoint&);
-    void addNewObject();
-    void bringToFront();
-    void sendToBack();
-    void updateObjectInfoDialog(QScadaObject *);
-    void deleteObject(QScadaObjectInfo *);
-    void updateSavedObject(QScadaObjectInfo *);
     void updateStatus();
 
     void save();
@@ -40,7 +33,6 @@ private:
 
     QScadaBoardController *mController;
     QScadaBoard *mBoard;
-    QScadaObjectInfoDialog *mObjectInfoDialog;
     QTimer *mTimer;
 };
 

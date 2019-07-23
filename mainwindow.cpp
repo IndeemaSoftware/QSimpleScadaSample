@@ -23,20 +23,13 @@ MainWindow::MainWindow(QWidget *parent) :
     mController = new QScadaBoardController();
     mController->initBoardForDeviceIp("127.0.0.0");
     mController->setEditingMode(true);
+    mController->setParametersDialod(ui->widgetObjectParametrs);
 
     mBoard = mController->getBoardListForDeviceIp("127.0.0.0").at(0);
-    connect(mBoard, SIGNAL(objectSelected(QScadaObject *)), this, SLOT(updateObjectInfoDialog(QScadaObject *)));
 
+    //adding controller to central widget
     QGridLayout *mainLayout = new QGridLayout(ui->centralWidget);
-
-    connect(ui->widgetObjectParametrs, SIGNAL(deletePressed(QScadaObjectInfo*)), this, SLOT(deleteObject(QScadaObjectInfo *)));
-    connect(ui->widgetObjectParametrs, SIGNAL(savePressed(QScadaObjectInfo*)), this, SLOT(updateSavedObject(QScadaObjectInfo *)));
-
-    mObjectInfoDialog = ui->widgetObjectParametrs;
-    mainLayout->addWidget(mBoard);
-
-    ui->centralWidget->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(ui->centralWidget, SIGNAL(customContextMenuRequested(const QPoint&)),this, SLOT(showContextMenu(const QPoint&)));
+    mainLayout->addWidget(mController);
 
     mTimer = new QTimer(this);
     connect(mTimer, SIGNAL(timeout()), this, SLOT(updateStatus()));
@@ -54,87 +47,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::showContextMenu(const QPoint &pos)
-{
-    bool lShowOrder = (mBoard->getSeletedObjects().count() > 0);
-    QMenu lContextMenu{this};
-
-    QMenu lAddWidget(tr("Add Object"));
-    lContextMenu.addMenu(&lAddWidget);
-
-    for (QMLWidgetsConfig group : QMLConfig::instance().QMLWidgets()) {
-        QMenu *lWidgetMenu = lAddWidget.addMenu(group.info.groupTitle);
-
-        for (QString widget : group.widgets()) {
-            QString lWidgetTitle = widget.split(".").at(0);
-            QIcon lIcon(group.info.groupPath + lWidgetTitle +".png");
-            QAction *lWidgetAction = new QAction(lIcon, lWidgetTitle);//remove qml from name
-            lWidgetAction->setData(QVariant::fromValue<QMLWidgetsConfig>(group));
-
-            lWidgetMenu->addAction(lWidgetAction);
-            connect(lWidgetAction, SIGNAL(triggered()), this, SLOT(addNewObject()));
-        }
-    }
-
-    QMenu *lOrder = lContextMenu.addMenu("Order");
-    lOrder->setEnabled(lShowOrder);
-
-    if (lShowOrder) {
-        lOrder->addAction(tr("Bring to front"), this, SLOT(bringToFront()));
-        lOrder->addAction(tr("Send to back"), this, SLOT(sendToBack()));
-    }
-
-    lContextMenu.exec(ui->centralWidget->mapToGlobal(pos));
-}
-
-void MainWindow::addNewObject()
-{
-    QAction *lSender = static_cast<QAction*>(QObject::sender());
-    QMLWidgetsConfig lConfig = lSender->data().value<QMLWidgetsConfig>();
-
-    QString lQMLFilePath = lConfig.info.groupPath + lSender->text() + ".qml";//add qml to name
-
-    mBoard->createQMLObject(lQMLFilePath);
-}
-
-void MainWindow::bringToFront()
-{
-    if (!mBoard->getSeletedObjects().isEmpty()) {
-        QScadaObject *lObject = mBoard->getSeletedObjects().first();
-        mBoard->bringToFront(lObject);
-    }
-}
-
-void MainWindow::sendToBack()
-{
-    if (!mBoard->getSeletedObjects().isEmpty()) {
-        QScadaObject *lObject = mBoard->getSeletedObjects().first();
-        mBoard->sendToBack(lObject);
-    }
-}
-
-void MainWindow::updateObjectInfoDialog(QScadaObject *object)
-{
-    if (object != nullptr) {
-        mObjectInfoDialog->updateWithObjectInfo(object->info());
-    } else {
-        mObjectInfoDialog->updateWithObjectInfo(nullptr);
-    }
-}
-
-void MainWindow::deleteObject(QScadaObjectInfo *info)
-{
-    if (info != nullptr) {
-        mBoard->deleteObjectWithId(info->id());
-    }
-}
-
-void MainWindow::updateSavedObject(QScadaObjectInfo *info)
-{
-    if (info != nullptr) {
-        mBoard->updateObjectWithId(info->id());
-    }
-}
 //this method is called with timer
 //You can use it to update statuses ok markers.
 void MainWindow::updateStatus()
@@ -206,7 +118,7 @@ void MainWindow::open()
         tr("Open Project"), QDir::currentPath(), tr("iReDS Project (*.irp)"));
 
     if (!lFileName.isEmpty()) {
-        mObjectInfoDialog->updateWithObjectInfo(nullptr);
+        mController->getParametersDialod()->updateWithObjectInfo(nullptr);
 
         for (QScadaObject *object : *mBoard->objects()) {
                 mBoard->deleteObject(object);
