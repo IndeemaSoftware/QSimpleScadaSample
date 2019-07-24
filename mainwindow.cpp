@@ -19,13 +19,17 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    //initializing device info
+    QScadaDeviceInfo *lDeviceInfo = new QScadaDeviceInfo();
+    lDeviceInfo->setName("Test Device");
+    lDeviceInfo->setIp(QHostAddress("127.0.0.1"));
 
     mController = new QScadaBoardController();
-    mController->initBoardForDeviceIp("127.0.0.0");
-    mController->setEditingMode(true);
+    mController->appendDevice(lDeviceInfo);
+    mController->initBoardForDeviceIp("127.0.0.1");
     mController->setParametersDialod(ui->widgetObjectParametrs);
 
-    mBoard = mController->getBoardListForDeviceIp("127.0.0.0").at(0);
+    mController->setEditingMode(true);
 
     //adding controller to central widget
     QGridLayout *mainLayout = new QGridLayout(ui->centralWidget);
@@ -51,22 +55,14 @@ MainWindow::~MainWindow()
 //You can use it to update statuses ok markers.
 void MainWindow::updateStatus()
 {
-    mBoard->updateValue(0, qrand() % 100);
-    mBoard->updateValue(1, qrand() % 100);
-    mBoard->updateValue(2, qrand() % 100);
+    mController->updateValue("127.0.0.1", 0, 0, qrand() % 100);
+    mController->updateValue("127.0.0.1", 0, 1, qrand() % 100);
+    mController->updateValue("127.0.0.1", 0, 2, qrand() % 100);
+    mController->updateValue("127.0.0.1", 0, 3, qrand() % 100);
 }
 
 void MainWindow::save()
 {
-    if (mBoard->objects()->count() == 0) {
-        QString lMessage(tr("Nothing to be saved"));
-
-        QMessageBox lMsgBox;
-        lMsgBox.setText(lMessage);
-        lMsgBox.exec();
-        return;
-    }
-
     QFileDialog lDialog(this);
     lDialog.setFileMode(QFileDialog::AnyFile);
     lDialog.setAcceptMode(QFileDialog::AcceptSave);
@@ -74,81 +70,20 @@ void MainWindow::save()
     lDialog.setWindowTitle(tr("Save Project"));
     lDialog.setNameFilter(tr("iReDS Project (*.irp)"));
 
-    QScadaDeviceInfo lDeviceInfo;
-    lDeviceInfo.setName("Test Device");
-    lDeviceInfo.setIp(QHostAddress("127.0.0.0"));
-    QList<QScadaDeviceInfo> lList;
-    lList.append(lDeviceInfo);
-
     if (lDialog.exec() == QDialog::Accepted) {
         QStringList lFiles = lDialog.selectedFiles();
         if (lFiles.count() > 0) {
             QString lFileName = lFiles.at(0);
-            if (!lFileName.contains(".irp")) {
-                lFileName.append(".irp");
-            }
-
-            QString lDevices = QConnectedDeviceInfo::XMLFromDeviceInfo(lList, mController);   //<----;
-
-            //create xml for boards of each device
-
-            QFile lFile(lFileName);
-            if (lFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-                QTextStream lOut(&lFile);
-                lOut.setCodec("UTF-8");
-                lOut << lDevices;
-            } else {
-                QString lMessage(tr("Something went wrong while trying to create file"));
-                lMessage.append(" ").append(lFileName);
-
-                QMessageBox lMsgBox;
-                lMsgBox.setText(lMessage);
-                lMsgBox.exec();
-            }
-            lFile.close();
+            mController->saveProject(lFileName);
         }
     }
-
-    mBoard->setEditable(true);
 }
 
 void MainWindow::open()
 {
     QString lFileName = QFileDialog::getOpenFileName(this,
-        tr("Open Project"), QDir::currentPath(), tr("iReDS Project (*.irp)"));
+        tr("Open Project"), QDir::currentPath(), tr("QSimpleScadaSample project (*.irp)"));
 
-    if (!lFileName.isEmpty()) {
-        mController->getParametersDialod()->updateWithObjectInfo(nullptr);
-
-        for (QScadaObject *object : *mBoard->objects()) {
-                mBoard->deleteObject(object);
-        }
-
-        QConnectedDeviceInfo* lConnectedDevceInfo = new QConnectedDeviceInfo();
-        QByteArray lRawData;
-        QFile lFile(lFileName);
-        if (lFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
-            QTextStream lStreamFileOut(&lFile);
-            lStreamFileOut.setCodec("UTF-8");
-            lRawData = lStreamFileOut.readAll().toUtf8();
-            lFile.close();
-
-            lConnectedDevceInfo->initFromXml(lRawData);
-
-            for (int i = 0; i < lConnectedDevceInfo->connecteDeviceList.count(); ++i) {
-                for (QScadaBoardInfo *boardInfo : lConnectedDevceInfo->connecteDeviceList.at(i)->boardList) {
-                    if (boardInfo != nullptr) {
-                        mBoard->initBoard(boardInfo);
-                    }
-                }
-            }
-
-            mBoard->update();
-            mBoard->setEditable(true);
-        } else {
-            qDebug() << "       - Error open preferences file -> " << lFile.fileName();
-        }
-
-        delete lConnectedDevceInfo;
-    }
+    mController->openProject(lFileName);
+    mController->setEditingMode(true);
 }

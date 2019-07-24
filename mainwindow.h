@@ -32,7 +32,6 @@ private:
     Ui::MainWindow *ui;
 
     QScadaBoardController *mController;
-    QScadaBoard *mBoard;
     QTimer *mTimer;
 };
 
