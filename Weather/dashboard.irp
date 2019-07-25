@@ -1,0 +1,102 @@
+<devices>
+	<device>
+		<name>Test Device</name>
+		<ip>127.0.0.1</ip>
+		<ip_v6></ip_v6>
+		<host></host>
+		<domain></domain>
+	</device>
+	<boards>
+		<board>
+			<board_id>0</board_id>
+			<object>
+				<id>2</id>
+				<show_background>0</show_background>
+				<geometry_x>53</geometry_x>
+				<geometry_y>287</geometry_y>
+				<geometry_width>200</geometry_width>
+				<geometry_height>200</geometry_height>
+				<order_level>2</order_level>
+				<tag_ui_resource>:/com/indeema/eeiot/EEIoT/WaterLevel.qml</tag_ui_resource>
+				<properties>
+					<color>#b3339eee</color>
+					<fontSize>20</fontSize>
+					<from>0</from>
+					<levelAsWave>true</levelAsWave>
+					<lineWidth>2</lineWidth>
+					<textColor>#074c80</textColor>
+					<title>Humidity %</title>
+					<titleFont>.SF NS Text</titleFont>
+					<titleFontColor>#80000000</titleFontColor>
+					<titleFontSize>18</titleFontSize>
+					<to>100</to>
+					<value>56</value>
+				</properties>
+			</object>
+			<object>
+				<id>1</id>
+				<show_background>0</show_background>
+				<geometry_x>46</geometry_x>
+				<geometry_y>31</geometry_y>
+				<geometry_width>200</geometry_width>
+				<geometry_height>200</geometry_height>
+				<order_level>1</order_level>
+				<tag_ui_resource>:/com/indeema/eeiot/EEIoT/Knob.qml</tag_ui_resource>
+				<properties>
+					<fontSize>20</fontSize>
+					<from>0</from>
+					<fromAngle>2.141592653589793</fromAngle>
+					<knobBackgroundColor>#19191919</knobBackgroundColor>
+					<knobColor>#ff0000</knobColor>
+					<lineWidth>10</lineWidth>
+					<reverse>false</reverse>
+					<title>Temperature °С</title>
+					<titleFont>.SF NS Text</titleFont>
+					<titleFontColor>#80000000</titleFontColor>
+					<titleFontSize>18</titleFontSize>
+					<to>100</to>
+					<toAngle>7.283185307179586</toAngle>
+					<value>4</value>
+				</properties>
+			</object>
+			<object>
+				<id>0</id>
+				<show_background>0</show_background>
+				<geometry_x>255</geometry_x>
+				<geometry_y>32</geometry_y>
+				<geometry_width>147</geometry_width>
+				<geometry_height>447</geometry_height>
+				<order_level>0</order_level>
+				<tag_ui_resource>:/com/indeema/eeiot/EEIoT/Linear.qml</tag_ui_resource>
+				<properties>
+					<barShift>10</barShift>
+					<barWidth>20</barWidth>
+					<dangerBackColor>#33ff0000</dangerBackColor>
+					<dangerStart>2500</dangerStart>
+					<dengerColor>#ff0000</dengerColor>
+					<fontSize>20</fontSize>
+					<from>0</from>
+					<labelFont>.SF NS Text,10,-1,5,75,0,0,0,0,0</labelFont>
+					<okBackColor>#3300ff00</okBackColor>
+					<okColor>#008000</okColor>
+					<pointerSize>5</pointerSize>
+					<scaleColor>#d3d3d3</scaleColor>
+                                        <scaleNum>6</scaleNum>
+					<shift>70</shift>
+					<startX>36</startX>
+					<startY>10</startY>
+					<title>Preassure Pa</title>
+					<titleFont>.SF NS Text</titleFont>
+					<titleFontColor>#80000000</titleFontColor>
+					<titleFontSize>18</titleFontSize>
+					<to>3000</to>
+					<value>18</value>
+					<warningBackColor>#33808000</warningBackColor>
+					<warningColor>#ffff00</warningColor>
+					<warningColor>#ffff00</warningColor>
+					<warningStart>2000</warningStart>
+				</properties>
+			</object>
+		</board>
+	</boards>
+</devices>
