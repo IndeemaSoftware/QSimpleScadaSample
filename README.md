@@ -10,8 +10,11 @@ This is constructor for simple Scada UI. In order of any questions please conata
 To test this sample install qpm (https://www.qpm.io) and run in project root qpm install. Or download QSimpleScada (https://github.com/IndeemaSoftware/QSimpleScada)
 
 <br>
-We created this simple qt Scada sdk to easily create UIs that shows some objects with their statuses. 
+We created these simples that are using qt Scada sdk to easily create UIs that shows some objects with their statuses. 
 You can add any number of objects with any marker or background image for each state.
+
+Builder - simple dashboard builder
+Weather - weather checking application that shows data od predeveloped dashboard
 <br>
 
 Preview
