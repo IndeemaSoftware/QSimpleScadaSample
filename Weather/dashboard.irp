@@ -80,12 +80,12 @@
 					<okBackColor>#3300ff00</okBackColor>
 					<okColor>#008000</okColor>
 					<pointerSize>5</pointerSize>
-					<scaleColor>#d3d3d3</scaleColor>
+                                        <scaleColor>#d3d3d3</scaleColor>
                                         <scaleNum>6</scaleNum>
 					<shift>70</shift>
 					<startX>36</startX>
 					<startY>10</startY>
-					<title>Preassure Pa</title>
+                                        <title>Pressure Pa</title>
 					<titleFont>.SF NS Text</titleFont>
 					<titleFontColor>#80000000</titleFontColor>
 					<titleFontSize>18</titleFontSize>

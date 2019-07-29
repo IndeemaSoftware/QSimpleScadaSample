@@ -55,10 +55,9 @@ MainWindow::~MainWindow()
 //You can use it to update statuses ok markers.
 void MainWindow::updateStatus()
 {
-    mController->updateValue("127.0.0.1", 0, 0, qrand() % 100);
+    mController->updateValue("127.0.0.1", 0, 0, qrand() % 3000);
     mController->updateValue("127.0.0.1", 0, 1, qrand() % 100);
     mController->updateValue("127.0.0.1", 0, 2, qrand() % 100);
-    mController->updateValue("127.0.0.1", 0, 3, qrand() % 3000);
 }
 
 void MainWindow::save()
