@@ -21,6 +21,8 @@ Preview
 <br>
 <br>
 <img src="https://github.com/IndeemaSoftware/QSimpleScada/blob/Assets/qsimplescada.gif" />
+
+<h1 align="center"><img src="https://github.com/IndeemaSoftware/EEIoT/blob/Assets/weather.png"/><br> Weather application</h1>
 <br>
 In MainWindow class we have realisation on QSimpleScada usage. With window in edit mode and config panel at the left side.
 <br>
