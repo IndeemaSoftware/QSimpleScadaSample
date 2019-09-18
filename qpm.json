@@ -15,7 +15,7 @@
     "fingerprint": ""
   },
   "dependencies": [
-    "com.indeema.QSimpleScada@0.9.1",
+    "com.indeema.qsimplescada@0.9.1",
     "com.indeema.eeiot@0.2.1",
   ],
   "license": "MIT",
