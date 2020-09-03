@@ -16,7 +16,7 @@
   },
   "dependencies": [
     "com.indeema.qsimplescada@0.9.1",
-    "com.indeema.eeiot@0.2.1",
+    "com.indeema.eeiot@0.2.1"
   ],
   "license": "MIT",
   "pri_filename": "com_indeema_QSimpleScadaSample.pri",
